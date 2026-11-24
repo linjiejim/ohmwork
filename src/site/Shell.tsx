@@ -9,6 +9,7 @@ import { useAppearance, type Appearance } from "@/lib/appearance"
 import { LESSONS, STAGES, chapterPath, lessonPath } from "@/curriculum/curriculum"
 import { useProgress } from "@/curriculum/progress"
 import { GLOSSARY } from "@/site/glossary-data"
+import { preloadWhenIdle } from "@/site/lesson-modules"
 
 export function BrandMark({ className }: { className?: string }) {
   return (
@@ -35,6 +36,13 @@ const PAGES = [
   { path: "/symbols", label: "符号速查", icon: Shapes, keywords: ["symbol", "原理图符号"] },
   { path: "/glossary", label: "术语表", icon: BookA, keywords: ["glossary", "名词", "缩写"] },
 ]
+
+/** An open chapter's lessons are the next clicks in the sidebar: fetch them while idle so switching shows no blank. */
+function PreloadChapter({ keys }: { keys: string[] }) {
+  const id = keys.join()
+  React.useEffect(() => preloadWhenIdle(id.split(",")), [id])
+  return null
+}
 
 function SideNav({ onSearch }: { onSearch: () => void }) {
   const { pathname } = useLocation()
@@ -67,6 +75,7 @@ function SideNav({ onSearch }: { onSearch: () => void }) {
                     </span>
                   }
                 />
+                {open && <PreloadChapter keys={chapter.lessons.map((l) => `${chapter.id}/${l.slug}`)} />}
                 {open && (
                   <li>
                     <ul className="my-0.5 ml-4 flex flex-col gap-px border-l pl-1.5">

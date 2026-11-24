@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { CircleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -80,25 +78,30 @@ export function Field({
           {info && <Info>{info}</Info>}
         </div>
         {children}
-        {note && (
-          <p
-            id={noteId}
-            aria-live={error ? "polite" : undefined}
-            className={cn(
-              "flex items-start gap-1 text-caption",
-              error ? "text-destructive" : "text-faint-foreground",
-            )}
-          >
-            {error && <CircleAlert className="mt-0.5 size-3.5" />}
+        {note && !error && (
+          <p id={noteId} className="flex items-start gap-1 text-caption text-faint-foreground">
             <span>{note}</span>
           </p>
         )}
+        {/* Always mounted so a new error is announced; sr-only (out of flow, no gap) while empty. */}
+        <p
+          id={error ? noteId : undefined}
+          aria-live="polite"
+          className={error ? "flex items-start gap-1 text-caption text-destructive" : "sr-only"}
+        >
+          {error && (
+            <>
+              <CircleAlert className="mt-0.5 size-3.5" />
+              <span>{error}</span>
+            </>
+          )}
+        </p>
       </div>
     </FieldContext.Provider>
   )
 }
 
-/** Vertical stack of fields; 16px between fields, 32px between groups. */
+/** Vertical stack of fields; --space-field (16) between fields, --space-section (32) between groups. */
 export function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("flex flex-col gap-4", className)} {...props} />
+  return <div className={cn("flex flex-col gap-(--space-field)", className)} {...props} />
 }

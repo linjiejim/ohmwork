@@ -1,21 +1,22 @@
-"use client"
-
 import * as React from "react"
 import { Switch as SwitchPrimitive } from "radix-ui"
 import { cn } from "@/lib/utils"
+import { useFieldControl } from "@/components/ui/field"
 
 /**
  * An on/off setting that takes effect immediately. If the change only applies
- * after a Save button, use a Checkbox instead.
+ * after a Save button, use a Checkbox instead. Inside a Field the field label names it.
  */
 export function Switch({ className, ...props }: React.ComponentProps<typeof SwitchPrimitive.Root>) {
+  const field = useFieldControl()
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
+      {...field}
       className={cn(
         "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full p-0.5",
         "bg-input transition-colors duration-(--duration-fast) data-[state=checked]:bg-primary",
-        "disabled:cursor-not-allowed disabled:opacity-50",
+        "disabled:cursor-not-allowed disabled:opacity-(--disabled-opacity)",
         "after:absolute after:-inset-1.5 pointer-coarse:after:-inset-3",
         className,
       )}
@@ -25,6 +26,7 @@ export function Switch({ className, ...props }: React.ComponentProps<typeof Swit
         className={cn(
           "block size-4 rounded-full bg-background shadow-popover transition-transform duration-(--duration-fast) ease-out",
           "data-[state=checked]:translate-x-4 data-[state=checked]:bg-primary-foreground",
+          // design-allow: in dark mode --input is too faint for an off track; muted-foreground keeps it visible
           "dark:data-[state=unchecked]:bg-muted-foreground",
         )}
       />

@@ -9,17 +9,26 @@ import { StateView } from "@/components/ui/state"
 import { LESSONS, chapterPath, findLesson, lessonPath, type Level } from "@/curriculum/curriculum"
 import { setLessonDone, useProgress } from "@/curriculum/progress"
 import { TocContext, mdxComponents } from "@/mdx/components"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useDelayedFlag } from "@/hooks/use-delayed-flag"
 import { cn } from "@/lib/utils"
+import { lessonComponent, preloadWhenIdle } from "./lesson-modules"
 
-// Every lesson is its own chunk, fetched when opened.
-const modules = import.meta.glob<{ default: React.ComponentType }>("/src/content/*/*.mdx")
-const lazyLessons = new Map<string, React.LazyExoticComponent<React.ComponentType>>()
-
-function lessonComponent(key: string) {
-  const load = modules[`/src/content/${key}.mdx`]
-  if (!load) return null
-  if (!lazyLessons.has(key)) lazyLessons.set(key, React.lazy(load))
-  return lazyLessons.get(key)!
+/** What the lesson body looks like while its chunk loads: paragraphs, then a widget card. Appears after 300ms. */
+function LessonSkeleton() {
+  const shown = useDelayedFlag(true)
+  if (!shown) return <div className="min-h-64" aria-busy="true" />
+  return (
+    <div aria-busy="true" aria-label="正在加载这节课" className="flex flex-col gap-3">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-11/12" />
+      <Skeleton className="h-4 w-4/5" />
+      <Skeleton className="mt-6 h-6 w-40" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+      <Skeleton className="mt-6 h-72 w-full rounded-lg" />
+    </div>
+  )
 }
 
 export const LEVEL_TONE: Record<Level, "success" | "info" | "warning"> = { 入门: "success", 基础: "info", 进阶: "warning" }
@@ -58,6 +67,13 @@ export function LessonPage() {
     [],
   )
 
+  // the lessons either side are the likely next clicks: fetch them while the reader reads
+  const at = ref?.index
+  React.useEffect(() => {
+    if (at == null) return
+    return preloadWhenIdle([LESSONS[at + 1]?.key, LESSONS[at - 1]?.key].filter((k): k is string => !!k))
+  }, [at])
+
   if (!ref) {
     return (
       <Page width="narrow">
@@ -73,8 +89,9 @@ export function LessonPage() {
   const done = progress.isDone(key)
 
   return (
-    <div className="flex">
-      <Page width="narrow" className="min-w-0">
+    // the article and its contents column centre as one group, so the column stays beside the text
+    <div className="flex justify-center">
+      <Page width="narrow" className="mx-0 min-w-0">
         <nav aria-label="位置" className="mb-3 text-small text-muted-foreground">
           <Link to={chapterPath(chapter.id)} className="hover:text-foreground">
             {chapter.title}
@@ -100,7 +117,7 @@ export function LessonPage() {
 
         {Content ? (
           <LessonBoundary resetKey={key}>
-            <React.Suspense fallback={<div className="h-64" aria-busy="true" />}>
+            <React.Suspense fallback={<LessonSkeleton />}>
               <TocContext.Provider value={tocApi}>
                 <MDXProvider components={mdxComponents}>
                   <article key={key} className="lesson">

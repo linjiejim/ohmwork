@@ -1,3 +1,4 @@
+import * as React from "react"
 import { Link } from "react-router-dom"
 import { ArrowRight, BookA, Calculator, Shapes } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -5,7 +6,10 @@ import { Page, Section } from "@/components/ui/page"
 import { Progress } from "@/components/ui/progress"
 import { LESSONS, STAGES, chapterPath, lessonPath } from "@/curriculum/curriculum"
 import { useProgress } from "@/curriculum/progress"
-import { OhmsLawLab } from "@/widgets/basics/OhmsLawLab"
+import { Skeleton } from "@/components/ui/skeleton"
+
+// The demo widget brings the lab toolkit and KaTeX with it; keep them out of the first download.
+const OhmsLawLab = React.lazy(() => import("@/widgets/basics/OhmsLawLab").then((m) => ({ default: m.OhmsLawLab })))
 
 const SHORTCUTS = [
   { to: "/tools", icon: Calculator, title: "工具箱", text: "色环、分压、限流电阻、滤波器……常用的计算器都在这里。" },
@@ -58,7 +62,9 @@ export function HomePage() {
             </dl>
           )}
         </div>
-        <OhmsLawLab compact />
+        <React.Suspense fallback={<Skeleton className="h-[380px] w-full rounded-lg" />}>
+          <OhmsLawLab compact />
+        </React.Suspense>
       </div>
 
       {STAGES.map((stage) => (

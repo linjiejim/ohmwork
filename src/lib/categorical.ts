@@ -1,3 +1,10 @@
+/**
+ * Categorical colours: a colour the user chose (tag, project, select option) or a chart series.
+ * Nine named pairs in the theme (--cat-<name> for text, dots and bars; --cat-<name>-subtle for
+ * the fill behind a tag), light and dark. They are data, not a second accent: never on buttons,
+ * links or navigation, and never the only signal — a tag still carries its name.
+ * Store the name ("blue"), never a hex; draw through catClass() so Tailwind sees whole class names.
+ */
 export const CATEGORICAL = ["gray", "red", "orange", "amber", "green", "teal", "blue", "purple", "pink"] as const
 
 export type Categorical = (typeof CATEGORICAL)[number]

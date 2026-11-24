@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Page, PageHeader } from "@/components/ui/page"
 import { StateView } from "@/components/ui/state"
 import { findChapter, lessonPath } from "@/curriculum/curriculum"
+import { preloadLesson } from "./lesson-modules"
 import { useProgress } from "@/curriculum/progress"
 import { LEVEL_TONE } from "@/site/LessonPage"
 
@@ -41,7 +42,7 @@ export function ChapterPage() {
           const isDone = progress.isDone(key)
           return (
             <li key={key} className="border-b last:border-b-0">
-              <Link to={lessonPath(key)} className="flex items-center gap-3 px-4 py-3 transition-colors duration-(--duration-fast) hover:bg-accent">
+              <Link to={lessonPath(key)} onPointerEnter={() => preloadLesson(key)} onFocus={() => preloadLesson(key)} className="flex items-center gap-3 px-4 py-3 transition-colors duration-(--duration-fast) hover:bg-accent">
                 <span
                   className={
                     isDone

@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { Slot } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -32,7 +34,7 @@ export const buttonVariants = cva(
         md: "h-(--control-md) px-3 text-body",
         lg: "h-(--control-lg) px-4 text-body",
         icon: "size-(--control-md)",
-        "icon-sm": "size-(--control-sm)",
+        "icon-sm": "size-(--control-sm) pointer-coarse:after:absolute pointer-coarse:after:-inset-1", // 36 on touch, hit area 44
       },
     },
     compoundVariants: [{ variant: "link", className: "h-auto px-0" }],
@@ -59,7 +61,8 @@ export function Button({ className, variant, size, asChild, loading, disabled, c
     >
       {loading && !asChild ? (
         <>
-          <span className="invisible inline-flex items-center gap-1.5">{children}</span>
+          {/* opacity, not visibility: the label keeps the width and stays the button's name */}
+          <span className="inline-flex items-center gap-1.5 opacity-0">{children}</span>
           <span className="absolute inset-0 grid place-items-center">
             <Spinner />
           </span>

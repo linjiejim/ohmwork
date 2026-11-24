@@ -1,6 +1,6 @@
 # 设计
 
-基于 jim-uiux 1.7.0（见 https://github.com/linjiejim/jim-uiux）。本文只记录与默认值不同的地方。
+基于 jim-uiux 1.10.1（见 https://github.com/linjiejim/jim-uiux）。本文只记录与默认值不同的地方。
 
 ## 旋钮
 
