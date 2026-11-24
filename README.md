@@ -17,6 +17,13 @@ npm test           # 课程冒烟测试 + 设计守卫
 版面检查（文字重叠、出界、横向溢出）在浏览器里跑：开着开发服务器，在控制台执行
 `(await import("/scripts/audit-layout.js")).audit()`，桌面和手机宽度各跑一次。
 
+## 部署
+
+线上地址 https://ohmwork.linjiejim.com ，托管在 GitHub Pages。推送到 `main` 后，`.github/workflows/deploy.yml` 会先跑测试、打包，再发布；拉取请求只跑检查，不发布。
+
+- **域名**：在仓库的 Pages 设置里绑定。DNS 在腾讯云 DNSPod，记录为 `CNAME ohmwork → linjiejim.github.io.`
+- **页面路由**：用的是路径式路由。打包时把 `index.html` 复制一份成 `404.html`，这样直接打开深层链接也能进站。
+
 ## 内容
 
 四个阶段、12 章、54 节课，目录在 `src/curriculum/curriculum.ts`：
