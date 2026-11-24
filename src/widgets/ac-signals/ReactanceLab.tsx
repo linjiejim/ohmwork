@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, TAU, clamp, formatSI, sig, trace } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, TAU, Tex, clamp, formatSI, sig, trace } from "@/lab"
 
 /** A plain resistor to compare against: its line is flat. */
 const R_REF = 1000
@@ -64,8 +64,8 @@ export function ReactanceLab() {
         <SliderField label="电感 L" value={ind} onChange={setInd} min={100e-6} max={100e-3} log snap="E12" unit="H" color={trace.third} />
       </LabControls>
       <LabReadouts>
-        <Readout label="容抗 Xc" value={ohms(xcNow)} sub="1 ÷ (2πfC)" color={trace.second} />
-        <Readout label="感抗 XL" value={ohms(xlNow)} sub="2πfL" color={trace.third} />
+        <Readout label="容抗 Xc" value={ohms(xcNow)} sub={<Tex>{String.raw`1/(2\pi fC)`}</Tex>} color={trace.second} />
+        <Readout label="感抗 XL" value={ohms(xlNow)} sub={<Tex>{String.raw`2\pi fL`}</Tex>} color={trace.third} />
         <Readout label="对比：电阻" value={ohms(R_REF)} sub="和频率无关" color={trace.ref} />
       </LabReadouts>
       <LabNote>{note}</LabNote>

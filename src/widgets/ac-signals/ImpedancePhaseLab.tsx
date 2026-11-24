@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, ControlField, Inductor, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Source, TAU, Wire, fixed, formatSI, trace } from "@/lab"
+import { Capacitor, ControlField, Inductor, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Source, TAU, Tex, Wire, fixed, formatSI, tex, trace } from "@/lab"
 
 type Kind = "r" | "c" | "l" | "rc"
 
@@ -44,7 +44,7 @@ export function ImpedancePhaseLab() {
   const phaseText = lead === 0 ? "同相" : `电流${lead > 0 ? "超前" : "滞后"} ${fixed(Math.abs(lead), kind === "rc" ? 1 : 0)}°`
   const nearShort = z < 5
 
-  let note: string
+  let note: React.ReactNode
   if (kind === "r") {
     note = `电阻：电流和电压同时到达波峰。不管频率怎么变，阻抗都是 ${ohms(R)}，电流峰值都是 ${amps}。`
   } else if (kind === "c") {
@@ -61,7 +61,11 @@ export function ImpedancePhaseLab() {
         ? `容抗 ${ohms(xc)} 比电阻大得多，总阻抗 ${ohms(z)} 主要由电容决定。电流超前 ${fixed(lead, 1)}°，整体更像一只电容。`
         : xc < R / 3
           ? `容抗只有 ${ohms(xc)}，比电阻小得多，总阻抗 ${ohms(z)} 几乎就是电阻。电流只超前 ${fixed(lead, 1)}°，整体更像一只电阻。`
-          : `串联后的阻抗是 √(R² + Xc²) = ${ohms(z)}，不是直接相加的 ${ohms(R + xc)}。电流超前 ${fixed(lead, 1)}°，落在电阻的 0° 和电容的 90° 之间。`
+          : (
+            <>
+              串联后的阻抗是 <Tex>{String.raw`\sqrt{R^2 + X_C^2} = ${tex.si(z, "Ω")}`}</Tex>，不是直接相加的 {ohms(R + xc)}。电流超前 {fixed(lead, 1)}°，落在电阻的 0° 和电容的 90° 之间。
+            </>
+          )
   }
 
   /*
@@ -162,8 +166,8 @@ export function ImpedancePhaseLab() {
         <SliderField label="频率 f" value={freq} onChange={setFreq} min={10} max={1e6} log unit="Hz" />
       </LabControls>
       <LabReadouts>
-        <Readout label="阻抗大小 |Z|" value={ohms(z)} sub={kind === "rc" ? "√(R² + Xc²)" : kind === "c" ? "容抗 Xc" : kind === "l" ? "感抗 XL" : "电阻 R"} />
-        <Readout label="电流峰值" value={amps} sub="1 V ÷ |Z|" color={trace.current} />
+        <Readout label="阻抗大小 |Z|" value={ohms(z)} sub={kind === "rc" ? <Tex>{String.raw`\sqrt{R^2 + X_C^2}`}</Tex> : kind === "c" ? "容抗 Xc" : kind === "l" ? "感抗 XL" : "电阻 R"} />
+        <Readout label="电流峰值" value={amps} sub={<Tex>{String.raw`1\,\mathrm{V} / |Z|`}</Tex>} color={trace.current} />
         <Readout label="相位" value={phaseText} sub={lead === 0 ? "波峰同时到" : lead > 0 ? "电流的波峰先到" : "电流的波峰后到"} />
       </LabReadouts>
       <LabNote tone={nearShort ? "warn" : "neutral"}>{note}</LabNote>

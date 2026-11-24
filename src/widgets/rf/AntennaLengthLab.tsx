@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, SliderField, formatSI, trace } from "@/lab"
+import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, SliderField, Tex, formatSI, trace } from "@/lab"
 import { C0, formatLength } from "./kit"
 
 /** A real wire resonates a little short of the free-space figure (end effect, finite thickness). */
@@ -77,8 +77,8 @@ export function AntennaLengthLab() {
       </LabControls>
       <LabReadouts>
         <Readout label="波长 λ" value={formatLength(wavelength)} />
-        <Readout label="半波偶极子总长" value={formatLength(dipole)} color={trace.voltage} sub="0.95 × λ/2" />
-        <Readout label="λ/4 单极子" value={formatLength(monopole)} color={trace.voltage} sub="0.95 × λ/4" />
+        <Readout label="半波偶极子总长" value={formatLength(dipole)} color={trace.voltage} sub={<Tex>{String.raw`0.95 \times \lambda/2`}</Tex>} />
+        <Readout label={<><Tex>{String.raw`\lambda/4`}</Tex> 单极子</>} value={formatLength(monopole)} color={trace.voltage} sub={<Tex>{String.raw`0.95 \times \lambda/4`}</Tex>} />
       </LabReadouts>
       <LabNote>{where}这是空气里一根细导线的长度；画在电路板上或包进塑料外壳后还要再短一些，最后以实测为准。</LabNote>
     </Lab>

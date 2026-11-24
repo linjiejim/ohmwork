@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, Ground, Inductor, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Port, Readout, Resistor, Schematic, SliderField, TAU, Wire, formatSI, percent, sig, trace } from "@/lab"
+import { Capacitor, Ground, Inductor, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Port, Readout, Resistor, Schematic, SliderField, TAU, Tex, Wire, formatSI, percent, sig, tex, trace } from "@/lab"
 
 /** About 5 cm of wire, and a pin plus a scope probe at the far end. */
 const L = 50e-9
@@ -61,7 +61,7 @@ export function RingingLab() {
   const rText = formatSI(r, "Ω")
 
   let tone: "good" | "warn" | "bad"
-  let note: string
+  let note: React.ReactNode
   if (overshoot > 0.3) {
     tone = "bad"
     note = `R = ${rText}，Q = ${sig(q, 2)}：电压一路冲到 ${formatSI(peak, "V")} 才回头，又来回振荡了好几个周期。3.3 V 芯片的引脚一般只允许到 ${V_LIMIT} V，超出的部分会灌进引脚的保护二极管。`
@@ -70,7 +70,12 @@ export function RingingLab() {
     note = `R = ${rText}：还有 ${percent(overshoot, 1)} 的过冲，峰值 ${formatSI(peak, "V")}，仍然高于 ${V_LIMIT} V。再加大一点电阻就能压住。`
   } else if (zeta <= 1.2) {
     tone = "good"
-    note = `R = ${rText}：${overshoot < 0.0005 ? "没有过冲" : `过冲只有 ${percent(overshoot, 1)}`}，边沿干净，上升时间 ${riseText}。电阻到 2√(L/C) = ${formatSI(2 * Z0, "Ω")} 时，刚好不再振荡。`
+    note = (
+      <>
+        R = {rText}：{overshoot < 0.0005 ? "没有过冲" : `过冲只有 ${percent(overshoot, 1)}`}，边沿干净，上升时间 {riseText}。电阻到{" "}
+        <Tex>{String.raw`2\sqrt{L/C} = ${tex.si(2 * Z0, "Ω")}`}</Tex> 时，刚好不再振荡。
+      </>
+    )
   } else {
     tone = "warn"
     note = `R = ${rText}：振铃没有了，但边沿被拖慢到 ${riseText}。电阻再大，高速信号的电平还没到位，下一位数据就来了。`
@@ -148,7 +153,7 @@ export function RingingLab() {
       </LabControls>
       <LabReadouts>
         <Readout label="峰值电压" value={formatSI(peak, "V")} sub={`过冲 ${percent(overshoot, 1)}`} color={trace.voltage} />
-        <Readout label="Q 值" value={sig(q, 2)} sub="√(L/C) ÷ R" />
+        <Readout label="Q 值" value={sig(q, 2)} sub={<Tex>{String.raw`\sqrt{L/C}/R`}</Tex>} />
         <Readout label="振铃频率" value={ringing ? formatSI(F0 * Math.sqrt(1 - zeta * zeta), "Hz") : "不振荡"} sub={ringing ? `LC 的谐振频率 ${formatSI(F0, "Hz")}` : "阻尼足够大"} />
         <Readout label="上升时间" value={riseText} sub="从 10% 到 90%" />
       </LabReadouts>

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, Segmented, Select, formatSI } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, Segmented, Select, Tex, formatSI, tex } from "@/lab"
 
 type ColorKey = "black" | "brown" | "red" | "orange" | "yellow" | "green" | "blue" | "violet" | "grey" | "white" | "gold" | "silver"
 
@@ -114,7 +114,7 @@ export function ColorCodeLab() {
   const below = [...series.values].reverse().find((v) => v < sig3) ?? series.values[0]
   const above = series.values.find((v) => v > sig3) ?? series.values[series.values.length - 1]
 
-  const sum = `${digits} × ${MULT_TEXT[exp]} = ${formatSI(value, "Ω")}`
+  const sum = <Tex>{String.raw`${digits} \times ${MULT_TEXT[exp].replace(/ (\w)$/, String.raw`\,\mathrm{$1}`)} = ${tex.si(value, "Ω")}`}</Tex>
 
   return (
     <Lab

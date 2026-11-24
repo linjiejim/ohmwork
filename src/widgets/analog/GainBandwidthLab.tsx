@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, dbV, fixed, formatSI, sig, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, Tex, dbV, fixed, formatSI, sig, tex, trace } from "@/lab"
 
 const A0 = 1e5 // open-loop gain at DC: 100 dB, typical for all three parts
 
@@ -72,9 +72,14 @@ export function GainBandwidthLab() {
         <Readout label="20 kHz 处的实际增益" value={`${sig(at20k)} 倍`} />
       </LabReadouts>
       <LabNote tone={audioOk ? "neutral" : "warn"}>
-        {audioOk
-          ? `${sig(gain)} 倍 × ${formatSI(fc, "Hz")} ≈ ${formatSI(gbw, "Hz")}：增益和带宽的乘积基本不变。带宽内增益是平的，过了带宽就沿着开环增益那条线往下掉。`
-          : `带宽只剩 ${formatSI(fc, "Hz")}，够不到 20 kHz：音频的高音到这里只被放大 ${sig(at20k)} 倍，而不是 ${sig(gain)} 倍。换一只 GBW 更高的运放，或者分成两级放大。`}
+        {audioOk ? (
+          <>
+            <Tex>{String.raw`${tex.num(sig(gain))} \times ${tex.si(fc, "Hz")} \approx ${tex.si(gbw, "Hz")}`}</Tex>
+            ：增益和带宽的乘积基本不变。带宽内增益是平的，过了带宽就沿着开环增益那条线往下掉。
+          </>
+        ) : (
+          `带宽只剩 ${formatSI(fc, "Hz")}，够不到 20 kHz：音频的高音到这里只被放大 ${sig(at20k)} 倍，而不是 ${sig(gain)} 倍。换一只 GBW 更高的运放，或者分成两级放大。`
+        )}
       </LabNote>
     </Lab>
   )

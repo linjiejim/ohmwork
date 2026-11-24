@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, formatSI, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, Tex, formatSI, trace } from "@/lab"
 
 const VDD = 3.3
 /** The I²C spec measures rise time from 30 % to 70 % of VDD: t = RC · ln(0.7 / 0.3) ≈ 0.8473 · RC. */
@@ -88,7 +88,7 @@ export function I2cPullupLab() {
         </ControlField>
       </LabControls>
       <LabReadouts>
-        <Readout label="上升时间 ≈ 0.8473 RC" value={formatSI(rise * 1e-9, "s")} color={trace.voltage} />
+        <Readout label={<>上升时间 <Tex>{String.raw`\approx 0.8473\,RC`}</Tex></>} value={formatSI(rise * 1e-9, "s")} color={trace.voltage} />
         <Readout label={`${name}上限`} value={`${limit} ns`} color={slow ? trace.power : trace.good} sub={slow ? "超了" : "满足"} />
         <Readout label="拉低时的灌电流" value={formatSI(sink, "A")} color={trace.current} sub={overload ? "超过 3 mA" : "上限 3 mA"} />
       </LabReadouts>

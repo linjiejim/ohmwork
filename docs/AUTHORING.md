@@ -233,6 +233,23 @@ export function OhmsLawLab() {
 
 `formatSI(0.0047, "A")` → `4.7 mA`；`sig(x, 3)`、`fixed(x, 2)`、`percent(0.25)`；`clamp`、`lerp`、`linspace`、`logspace`、`parallel(r1, r2)`、`dbV(ratio)`、`dbP(ratio)`、`nearestE(value, "E12")`、`rk4(f, t, y, h)`、`diodeCurrent(v)`、`solveDiodeLoop(vs, r)`、`TAU`。
 
+### 公式：`<Tex>`
+
+组件里的公式和正文一样用 KaTeX 排，不写成「I = V ÷ R」这样的纯文本：
+
+```tsx
+<LabNote>
+  <Tex>{`I = \\frac{V}{R} = \\frac{${tex.si(v, "V")}}{${tex.si(r, "Ω")}} = ${tex.si(i, "A")}`}</Tex>
+</LabNote>
+<Readout label={<>电流 <Tex>{"I = V/R"}</Tex></>} value={formatSI(i, "A")} />
+```
+
+- `tex.si(value, unit)` 把实时数值变成公式里的「4.17 mA」，μ、Ω、° 都处理好了。
+- `LabNote` 里用 `\frac`；`Readout` 的标签和小字地方小，用斜杠 `V/R`。
+- 中文留在公式外面。只有文字没有符号的（「续航 = 容量 ÷ 电流」）照写纯文本。
+- SVG 里（`Plot`、`Schematic` 的标签）不能用，KaTeX 是 HTML。
+- 课程冒烟测试会检查每节课没有 `.katex-error`。
+
 ### 颜色
 
 颜色有固定含义，全站一致：

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Bjt, Capacitor, Chip, ControlField, Crystal, Diode, Ground, Inductor, Junction, Lab, LabControls, LabStage, Label, Mosfet, Port, Rail, Resistor, Schematic, Select, Switch, Wire, chipPins, type ChipSpec } from "@/lab"
+import { Bjt, Capacitor, Chip, ControlField, Crystal, Diode, Ground, Inductor, Junction, Lab, LabControls, LabStage, Label, Mosfet, Port, Rail, Resistor, Schematic, Select, Switch, Tex, Wire, chipPins, type ChipSpec } from "@/lab"
 
 /*
  * Eight building blocks that turn up on nearly every board. Each one is a small
@@ -45,9 +45,9 @@ interface Block {
   width: number
   height: number
   draw: React.ReactNode
-  why: string
+  why: React.ReactNode
   without: string
-  values: [string, string][]
+  values: [string, React.ReactNode][]
 }
 
 const BLOCKS: Block[] = [
@@ -100,7 +100,11 @@ const BLOCKS: Block[] = [
         parallel={<Switch x={150} y={120} rot={90} label="SW1" value="复位键" />}
       />
     ),
-    why: "上电时电容从 0 V 开始充电，NRST 先保持一段低电平（τ = RC = 1 ms），等电源稳了才放开复位。按下按键把电容短路，就是手动复位。",
+    why: (
+      <>
+        上电时电容从 0 V 开始充电，NRST 先保持一段低电平（<Tex>{String.raw`\tau = RC = 1\,\mathrm{ms}`}</Tex>），等电源稳了才放开复位。按下按键把电容短路，就是手动复位。
+      </>
+    ),
     without: "电源上升得慢时，芯片可能在电压还不够的时候就开始跑，偶尔上电不启动。",
     values: [
       ["R", "10 kΩ（很多单片机内部已有上拉，可以省掉）"],
@@ -141,7 +145,12 @@ const BLOCKS: Block[] = [
     without: "负载电容不对，频率会偏，起振慢甚至不起振。不接外部晶振也能用芯片内部的 RC 振荡器，但它的精度一般只有 1% 左右，USB 和精确计时不够用。",
     values: [
       ["晶振", "8 MHz、12 MHz 常见；32.768 kHz 给实时时钟"],
-      ["负载电容", "C ≈ 2 × (CL − Cs)，常见 10–22 pF"],
+      [
+        "负载电容",
+        <>
+          <Tex>{String.raw`C \approx 2 \times (C_L - C_s)`}</Tex>，常见 10–22 pF
+        </>,
+      ],
       ["布局", "晶振和电容紧贴芯片，下面不走别的线"],
     ],
   },
@@ -215,7 +224,11 @@ const BLOCKS: Block[] = [
         </Label>
       </>
     ),
-    why: "电源接反时把后面的电路断开。串二极管最简单；P-MOS 正接时先由体二极管导通，栅源电压随即把管子打开，压降只剩 I × RDS(on)；接反时管子和体二极管都不通。",
+    why: (
+      <>
+        电源接反时把后面的电路断开。串二极管最简单；P-MOS 正接时先由体二极管导通，栅源电压随即把管子打开，压降只剩 <Tex>{String.raw`I \times R_{DS(on)}`}</Tex>；接反时管子和体二极管都不通。
+      </>
+    ),
     without: "电池或适配器一插反，芯片和电解电容直接损坏。",
     values: [
       ["二极管", "SS34 肖特基，压降 0.3–0.5 V"],
@@ -282,9 +295,14 @@ const BLOCKS: Block[] = [
     why: "单片机的 ADC 量程到 3.3 V 为止，测不了 4.2 V 的锂电池。两只相同的电阻分掉一半，电池电压等于读数乘 2。",
     without: "直接接上，超出量程的部分读不出来，还可能损坏引脚。",
     values: [
-      ["电阻", "两只 100 kΩ，一直耗电 4.2 V ÷ 200 kΩ = 21 μA"],
+      [
+        "电阻",
+        <>
+          两只 100 kΩ，一直耗电 <Tex>{String.raw`4.2\,\mathrm{V} / 200\,\mathrm{k\Omega} = 21\,\mathrm{\mu A}`}</Tex>
+        </>,
+      ],
       ["电容", "100 nF，ADC 采样时由它就近供电荷"],
-      ["换算", "VBAT = VADC × (R1 + R2) ÷ R2"],
+      ["换算", <Tex>{String.raw`V_{\mathrm{BAT}} = V_{\mathrm{ADC}} \times \frac{R_1 + R_2}{R_2}`}</Tex>],
     ],
   },
   {

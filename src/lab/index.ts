@@ -10,6 +10,7 @@ export * from "./math"
 export * from "./Plot"
 export * from "./Quiz"
 export * from "./schematic"
+export * from "./Tex"
 export * from "./Timing"
 // controls from the design kit that widgets use directly
 export { Segmented } from "@/components/ui/segmented"

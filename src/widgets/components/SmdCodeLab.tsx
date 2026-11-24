@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, ControlField, Input, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, formatSI } from "@/lab"
+import { Button, ControlField, Input, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, Tex, formatSI, tex } from "@/lab"
 
 /* A chip resistor seen from above: black body, white print, tinned end caps. Real-part colours, so they are data. */
 const CHIP = {
@@ -10,7 +10,7 @@ const CHIP = {
 
 const PRESETS = ["103", "472", "100", "4R7", "1002", "000"]
 
-type Parsed = { ok: true; value: number; style: string; tolerance: string; explain: string; caution?: boolean } | { ok: false; explain: string }
+type Parsed = { ok: true; value: number; style: string; tolerance: string; explain: React.ReactNode; caution?: boolean } | { ok: false; explain: string }
 
 /** Decode a chip-resistor marking: three or four digits, or an R standing in for the decimal point. Never returns NaN. */
 function parseSmd(raw: string): Parsed {
@@ -47,7 +47,11 @@ function parseSmd(raw: string): Parsed {
       explain:
         zeros === 0
           ? `${head}表示后面一个零也不加：${s} 是 ${formatSI(value, "Ω")}，不是 ${s} Ω。这是最容易读错的一种。`
-          : `${head}表示后面再加 ${zeros} 个零：${sig} × 10^${zeros} Ω = ${formatSI(value, "Ω")}。`,
+          : (
+              <>
+                {head}表示后面再加 {zeros} 个零：<Tex>{String.raw`${sig} \times 10^{${zeros}}\,\Omega = ${tex.si(value, "Ω")}`}</Tex>。
+              </>
+            ),
     }
   }
 

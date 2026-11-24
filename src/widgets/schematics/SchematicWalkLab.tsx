@@ -1,6 +1,6 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button, Capacitor, Chip, ControlField, Ground, Junction, Lab, LabControls, LabNote, LabStage, Label, Led, Rail, Resistor, Schematic, Segmented, Switch, Wire, chipPins, trace, type ChipSpec } from "@/lab"
+import { Button, Capacitor, Chip, ControlField, Ground, Junction, Lab, LabControls, LabNote, LabStage, Label, Led, Rail, Resistor, Schematic, Segmented, Switch, Tex, Wire, chipPins, trace, type ChipSpec } from "@/lab"
 import { NetFlag, NoConnect } from "./kit"
 
 /*
@@ -41,7 +41,7 @@ type Group = "power" | "ground" | "mcu" | "input" | "output" | "comm"
 type Net = "3V3" | "GND" | "SDA" | "SCL"
 type Tag = Group | Net
 
-const STEPS: { name: string; tags: Tag[]; note: string }[] = [
+const STEPS: { name: string; tags: Tag[]; note: React.ReactNode }[] = [
   {
     name: "全图",
     tags: [],
@@ -70,7 +70,12 @@ const STEPS: { name: string; tags: Tag[]; note: string }[] = [
   {
     name: "看输出",
     tags: ["output"],
-    note: "PC4 挂着标号 LED，右上角有一个同名标号，接 R4 和 D1。PC4 输出高电平时 LED 亮，R4 限流：(3.3 − 2) V ÷ 1 kΩ ≈ 1.3 mA。",
+    note: (
+      <>
+        PC4 挂着标号 LED，右上角有一个同名标号，接 R4 和 D1。PC4 输出高电平时 LED 亮，R4 限流：
+        <Tex>{String.raw`(3.3 - 2)\,\mathrm{V} / 1\,\mathrm{k\Omega} \approx 1.3\,\mathrm{mA}`}</Tex>。
+      </>
+    ),
   },
   {
     name: "看通信",

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Battery, ControlField, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Resistor, Schematic, Segmented, SliderField, SwitchField, Wire, formatSI, parallel, percent, trace } from "@/lab"
+import { Battery, ControlField, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Resistor, Schematic, Segmented, SliderField, SwitchField, Tex, Wire, formatSI, parallel, percent, tex, trace } from "@/lab"
 
 type Mode = "series" | "parallel"
 
@@ -32,13 +32,19 @@ export function SeriesParallelLab() {
   const smallest = parts.reduce((a, b) => (b.r < a.r ? b : a))
   const allEqual = biggest.r === smallest.r
   const count = three ? "三" : "两"
-  const sumText = parts.map((p) => formatSI(p.r, "Ω")).join(" + ")
+  const sum = <Tex>{`${parts.map((p) => tex.si(p.r, "Ω")).join(" + ")} = ${tex.si(req, "Ω")}`}</Tex>
 
-  let note: string
+  let note: React.ReactNode
   if (series) {
-    note = allEqual
-      ? `串联：同一股 ${formatSI(total, "A")} 的电流依次流过每只电阻。${count}只电阻一样大，6 V 被平分，每只 ${formatSI(p1.v, "V")}。等效电阻 ${sumText} = ${formatSI(req, "Ω")}。`
-      : `串联：同一股 ${formatSI(total, "A")} 的电流依次流过每只电阻。${biggest.name} 最大，分到的电压最多（${formatSI(biggest.v, "V")}）。等效电阻 ${sumText} = ${formatSI(req, "Ω")}。`
+    note = allEqual ? (
+      <>
+        串联：同一股 {formatSI(total, "A")} 的电流依次流过每只电阻。{count}只电阻一样大，6 V 被平分，每只 {formatSI(p1.v, "V")}。等效电阻 {sum}。
+      </>
+    ) : (
+      <>
+        串联：同一股 {formatSI(total, "A")} 的电流依次流过每只电阻。{biggest.name} 最大，分到的电压最多（{formatSI(biggest.v, "V")}）。等效电阻 {sum}。
+      </>
+    )
   } else {
     note = allEqual
       ? `并联：每只电阻两端都是 6 V。${count}只相同的电阻并联，电流平分，等效电阻 ${formatSI(req, "Ω")} 正好是单只的${three ? "三分之一" : "一半"}。`

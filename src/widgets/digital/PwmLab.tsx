@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Led, Plot, Port, Readout, Resistor, Schematic, SliderField, SwitchField, Wire, fixed, formatSI, prefersReducedMotion, trace, useTime } from "@/lab"
+import { Capacitor, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Led, Plot, Port, Readout, Resistor, Schematic, SliderField, SwitchField, Tex, Wire, fixed, formatSI, prefersReducedMotion, trace, useTime } from "@/lab"
 
 /** High level of the PWM pin. */
 const VH = 5
@@ -150,7 +150,7 @@ export function PwmLab() {
         <SwitchField label="加 RC 低通滤波" checked={rc} onChange={setRc} hint="10 kΩ + 1 μF，时间常数 10 ms" />
       </LabControls>
       <LabReadouts>
-        <Readout label="平均电压" value={`${fixed(vAvg, 2)} V`} sub={`${dutyPct}% × ${VH} V`} color={trace.good} />
+        <Readout label="平均电压" value={`${fixed(vAvg, 2)} V`} sub={<Tex>{String.raw`${dutyPct}\% \times ${VH}\,\mathrm{V}`}</Tex>} color={trace.good} />
         <Readout label="周期" value={formatSI(period, "s")} />
         <Readout label="高电平时间" value={formatSI(tOn, "s")} color={trace.voltage} />
         {rc && <Readout label="滤波后的纹波" value={formatSI(ripple, "V")} sub="峰峰值" color={trace.second} />}

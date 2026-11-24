@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Arrow, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Port, Readout, Schematic, SliderField, Wire, formatSI, trace } from "@/lab"
+import { Arrow, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Port, Readout, Schematic, SliderField, Tex, Wire, formatSI, trace } from "@/lab"
 
 /** Current that reads as "fast" on the wires. The sliders stop at 10 mA. */
 const SCALE = 0.005
@@ -66,7 +66,7 @@ export function KclNodeLab() {
       <LabReadouts>
         <Readout label="I1（流入）" value={formatSI(i1, "A")} color={trace.current} />
         <Readout label="I2（流出）" value={formatSI(i2, "A")} color={trace.current} />
-        <Readout label="I3 = I1 − I2" value={formatSI(i3, "A")} color={trace.current} sub={reversed ? "负号：实际是流入" : "流出"} />
+        <Readout label={<Tex>{"I_3 = I_1 - I_2"}</Tex>} value={formatSI(i3, "A")} color={trace.current} sub={reversed ? "负号：实际是流入" : "流出"} />
       </LabReadouts>
       <LabNote tone={reversed ? "warn" : "neutral"}>{note}</LabNote>
     </Lab>

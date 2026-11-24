@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Plot, Readout, Schematic, SliderField, clamp, fixed, trace, usePlayback, useTime, useWidth } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Plot, Readout, Schematic, SliderField, Tex, clamp, fixed, trace, usePlayback, useTime, useWidth } from "@/lab"
 
 /** Right edge of the scene, in cm. The module is rated for 2…400 cm. */
 const MAX_CM = 450
@@ -125,7 +125,12 @@ export function UltrasonicLab() {
       ? "超过 4 m：回波太弱，模块收不到，Echo 一直高到约 38 ms 才超时。程序要把这么长的脉冲当成「没测到」，不能算成 6.5 m。"
       : tempOff
         ? `气温 ${fixed(airTemp, 0)} °C 时声速是 ${fixed(vSound, 0)} m/s，程序却按 343 m/s 算，结果${error > 0 ? "偏大" : "偏小"}了 ${fixed(Math.abs(error), 1)} cm。要测得准，就量一下气温再修正声速。`
-        : `声音走了一个来回，共 ${2 * dist} cm，用时 ${fixed(tEcho, 2)} ms。距离 = 343 m/s × ${fixed(tEcho, 2)} ms ÷ 2 = ${fixed(computed, 1)} cm。`
+        : (
+          <>
+            声音走了一个来回，共 {2 * dist} cm，用时 {fixed(tEcho, 2)} ms。距离{" "}
+            <Tex>{String.raw`= \frac{343\,\mathrm{m/s} \times ${fixed(tEcho, 2)}\,\mathrm{ms}}{2} = ${fixed(computed, 1)}\,\mathrm{cm}`}</Tex>。
+          </>
+        )
 
   return (
     <Lab

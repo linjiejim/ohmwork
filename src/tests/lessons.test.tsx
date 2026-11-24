@@ -15,6 +15,8 @@ import { mdxComponents } from "@/mdx/components"
 const modules = import.meta.glob<{ default: React.ComponentType }>("/src/content/*/*.mdx")
 
 const BROKEN = /NaN|undefined|\[object Object\]/
+/** KaTeX renders a formula it cannot parse as red source text in a .katex-error span. */
+const texErrors = (root: HTMLElement) => [...root.querySelectorAll(".katex-error")].map((e) => e.getAttribute("title") ?? e.textContent)
 
 describe("lessons", () => {
   for (const { key } of LESSONS) {
@@ -36,6 +38,7 @@ describe("lessons", () => {
       expect(container.querySelectorAll("[data-lab]").length, "a lesson has at least one <Lab> widget").toBeGreaterThan(0)
       expect(container.querySelectorAll("[role=radiogroup]").length, "a lesson has at least one <Quiz>").toBeGreaterThan(0)
       expect(container.textContent).not.toMatch(BROKEN)
+      expect(texErrors(container), "formulas KaTeX could not parse").toEqual([])
 
       // push every slider to both ends
       for (const input of container.querySelectorAll<HTMLInputElement>("[data-lab] input[type=range]")) {
@@ -44,6 +47,7 @@ describe("lessons", () => {
             fireEvent.change(input, { target: { value } })
           })
           expect(container.textContent, `slider at ${value}`).not.toMatch(BROKEN)
+          expect(texErrors(container), `formulas KaTeX could not parse, slider at ${value}`).toEqual([])
         }
       }
       // flip every switch, press every option and button inside the widgets
@@ -52,6 +56,7 @@ describe("lessons", () => {
           fireEvent.click(el)
         })
         expect(container.textContent, `after clicking ${el.getAttribute("aria-label") ?? el.textContent}`).not.toMatch(BROKEN)
+        expect(texErrors(container), `formulas KaTeX could not parse, after clicking ${el.getAttribute("aria-label") ?? el.textContent}`).toEqual([])
       }
       // nothing in the pictures may be drawn at NaN coordinates
       const bad = [...container.querySelectorAll("svg *")].filter((n) => [...n.attributes].some((a) => /NaN|undefined/.test(a.value)))

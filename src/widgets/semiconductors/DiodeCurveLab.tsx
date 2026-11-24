@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Battery, ControlField, Diode, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Wire, diodeCurrent, fixed, formatSI, sig, solveDiodeLoop, trace } from "@/lab"
+import { Battery, ControlField, Diode, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Tex, Wire, diodeCurrent, fixed, formatSI, sig, solveDiodeLoop, tex, trace } from "@/lab"
 
 type Kind = "si" | "schottky"
 
@@ -35,7 +35,7 @@ export function DiodeCurveLab() {
   const hotResistor = pr > 0.25
 
   let tone: "neutral" | "good" | "warn" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (vs === 0) {
     note = "电源电压是 0，回路里没有电流。往右拖是正向，往左拖是反向。"
   } else if (vs < 0) {
@@ -47,11 +47,14 @@ export function DiodeCurveLab() {
     note = `二极管两端只有 ${fixed(vd, 2)} V，还在门槛下面，电流只有 ${formatSI(id, "A")}，基本不导通。`
   } else {
     tone = "good"
-    note = `正向导通：二极管上掉 ${fixed(vd, 2)} V，剩下的 ${fixed(vr, 2)} V 落在电阻上。电流由电阻决定：(${fixed(vs, 1)} − ${fixed(vd, 2)}) ÷ ${formatSI(r, "Ω")} = ${formatSI(id, "A")}。`
-    if (hotResistor) {
-      tone = "warn"
-      note += `注意电阻要耗 ${formatSI(pr, "W")}，普通的 1/4 W 电阻会烧。`
-    }
+    note = (
+      <>
+        正向导通：二极管上掉 {fixed(vd, 2)} V，剩下的 {fixed(vr, 2)} V 落在电阻上。电流由电阻决定：
+        <Tex>{String.raw`\frac{${fixed(vs, 1)}\,\mathrm{V} - ${fixed(vd, 2)}\,\mathrm{V}}{${tex.si(r, "Ω")}} = ${tex.si(id, "A")}`}</Tex>。
+        {hotResistor && `注意电阻要耗 ${formatSI(pr, "W")}，普通的 1/4 W 电阻会烧。`}
+      </>
+    )
+    if (hotResistor) tone = "warn"
   }
 
   return (

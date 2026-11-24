@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Bjt, Capacitor, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Port, Rail, Readout, Resistor, Schematic, SliderField, TAU, Wire, fixed, formatSI, sig, trace } from "@/lab"
+import { Bjt, Capacitor, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Port, Rail, Readout, Resistor, Schematic, SliderField, TAU, Tex, Wire, fixed, formatSI, sig, trace } from "@/lab"
 
 const VCC = 12
 const RC = 4700
@@ -216,7 +216,7 @@ export function CommonEmitterLab() {
       <LabReadouts>
         <Readout label="静态 IC" value={formatSI(q.ic, "A")} color={trace.current} />
         <Readout label="静态 VCE" value={volts(qVce)} sub={q.sat ? "已饱和" : qCut ? "已截止" : "放大区"} />
-        <Readout label="电压增益" value={q.sat || qCut ? "—" : `${fixed(gain, 1)} 倍`} sub={q.sat || qCut ? "不再放大" : "≈ −Rc ÷ Re = −10"} />
+        <Readout label="电压增益" value={q.sat || qCut ? "—" : `${fixed(gain, 1)} 倍`} sub={q.sat || qCut ? "不再放大" : <Tex>{String.raw`\approx -R_c / R_e = -10`}</Tex>} />
         <Readout label="输出峰峰值" value={formatSI(vpp, "V")} color={trace.voltage} sub={clipped ? "已削波" : undefined} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>

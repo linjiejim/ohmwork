@@ -18,8 +18,10 @@ import {
   SliderField,
   Switch,
   SwitchField,
+  Tex,
   Wire,
   formatSI,
+  tex,
   trace,
   useFrame,
   usePlayback,
@@ -256,21 +258,23 @@ export function InductorKickLab() {
         />
       </LabControls>
       <LabReadouts>
-        <Readout label="时间常数 τ = L ÷ R" value={formatSI(tau, "s")} />
-        <Readout label="稳态电流 V ÷ R" value={formatSI(VS / r, "A")} />
+        <Readout label={<>时间常数 <Tex>{String.raw`\tau = L/R`}</Tex></>} value={formatSI(tau, "s")} />
+        <Readout label={<>稳态电流 <Tex>{"V/R"}</Tex></>} value={formatSI(VS / r, "A")} />
         <Readout label="线圈电流" value={formatSI(iNow, "A")} color={trace.current} />
         <Readout label="开关两端电压" value={formatSI(vNow, "V")} color={trace.voltage} />
-        <Readout label="线圈储能 ½LI²" value={formatSI(0.5 * l * iNow * iNow, "J")} />
+        <Readout label={<>线圈储能 <Tex>{String.raw`\tfrac{1}{2}LI^2`}</Tex></>} value={formatSI(0.5 * l * iNow * iNow, "J")} />
       </LabReadouts>
       {closed ? (
         <LabNote>
-          开关合上：电流不会一步到位，按 τ = L ÷ R = {formatSI(tau, "s")} 往上爬，大约 5τ 后稳定在 V ÷ R = {formatSI(VS / r, "A")}。电感越大、线圈电阻越小，爬得越慢。
+          开关合上：电流不会一步到位，按 <Tex>{String.raw`\tau = \frac{L}{R} = ${tex.si(tau, "s")}`}</Tex> 往上爬，大约 <Tex>{String.raw`5\tau`}</Tex> 后稳定在{" "}
+          <Tex>{String.raw`\frac{V}{R} = ${tex.si(VS / r, "A")}`}</Tex>。电感越大、线圈电阻越小，爬得越慢。
         </LabNote>
       ) : !kicked ? (
         <LabNote>断开的时候线圈里还没有电流，所以什么也没发生。先合上开关，等电流升上去再断开。</LabNote>
       ) : diode ? (
         <LabNote tone="good">
-          有续流二极管：{formatSI(i0, "A")} 的电流改道走二极管，在线圈里绕圈，用 {formatSI(wave.tEnd, "s")} 慢慢耗尽。开关两端只比电源高一个二极管压降：{VS} V + {VF} V = {formatSI(VS + VF, "V")}。
+          有续流二极管：{formatSI(i0, "A")} 的电流改道走二极管，在线圈里绕圈，用 {formatSI(wave.tEnd, "s")} 慢慢耗尽。开关两端只比电源高一个二极管压降：
+          <Tex>{String.raw`${VS}\,\mathrm{V} + ${VF}\,\mathrm{V} = ${tex.si(VS + VF, "V")}`}</Tex>。
         </LabNote>
       ) : (
         <LabNote tone="bad">

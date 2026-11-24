@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, ControlField, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Port, Readout, Resistor, Schematic, Segmented, SliderField, TAU, Wire, dbV, fixed, formatSI, percent, sig, trace } from "@/lab"
+import { Capacitor, ControlField, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Port, Readout, Resistor, Schematic, Segmented, SliderField, TAU, Tex, Wire, dbV, fixed, formatSI, percent, sig, trace } from "@/lab"
 
 type Kind = "lp" | "hp"
 
@@ -170,7 +170,7 @@ export function RcFilterLab() {
         />
       </LabStage>
       <LabReadouts>
-        <Readout label="截止频率 fc" value={fcText} sub="1 ÷ (2πRC)" />
+        <Readout label="截止频率 fc" value={fcText} sub={<Tex>{String.raw`1/(2\pi RC)`}</Tex>} />
         <Readout label="增益" value={times} sub={`${fixed(dbShown, 1)} dB`} color={trace.voltage} />
         <Readout label="相移" value={`${fixed(phaseShown, 1)}°`} sub={phaseShown === 0 ? "几乎同步" : phaseShown < 0 ? "输出滞后于输入" : "输出超前于输入"} />
         <Readout label="时间常数 RC" value={formatSI(r * c, "s")} />

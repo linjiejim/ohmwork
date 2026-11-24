@@ -1,7 +1,7 @@
 import * as React from "react"
 import { CircleCheck, CircleX, TriangleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Readout, Segmented, SliderField, fixed, formatSI, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Readout, Segmented, SliderField, Tex, fixed, formatSI, trace } from "@/lab"
 
 /*
  * A made-up LDO for teaching, "OW1117-3.3". Its numbers are modelled on the
@@ -56,7 +56,7 @@ export function DatasheetCheckLab() {
   const r = evaluate(vin, iout, ta, basis)
   const worst = evaluate(vin, iout, ta, "max")
 
-  const checks: { title: string; status: Status; detail: string }[] = [
+  const checks: { title: string; status: Status; detail: React.ReactNode }[] = [
     {
       title: "输入电压 ≤ 极限参数 15 V",
       status: vin > SPEC.absVinMax ? "fail" : "pass",
@@ -93,9 +93,12 @@ export function DatasheetCheckLab() {
     {
       title: "结温 ≤ 推荐的 125 °C",
       status: r.tj > SPEC.absTjMax ? "fail" : r.tj > SPEC.recTjMax ? "warn" : "pass",
-      detail: `TJ = ${fixed(ta, 0)} °C + ${fixed(r.p, 2)} W × 90 °C/W ≈ ${fixed(r.tj, 0)} °C。${
-        r.tj > SPEC.absTjMax ? "超过极限参数里的 150 °C：会触发过热保护，甚至损坏。" : r.tj > SPEC.recTjMax ? "超出推荐范围，寿命缩短，离极限很近。" : `余量 ${fixed(SPEC.recTjMax - r.tj, 0)} °C。`
-      }`,
+      detail: (
+        <>
+          <Tex>{String.raw`T_J = ${fixed(ta, 0)}\,{}^{\circ}\mathrm{C} + ${fixed(r.p, 2)}\,\mathrm{W} \times 90\,{}^{\circ}\mathrm{C/W} \approx ${fixed(r.tj, 0)}\,{}^{\circ}\mathrm{C}`}</Tex>。
+          {r.tj > SPEC.absTjMax ? "超过极限参数里的 150 °C：会触发过热保护，甚至损坏。" : r.tj > SPEC.recTjMax ? "超出推荐范围，寿命缩短，离极限很近。" : `余量 ${fixed(SPEC.recTjMax - r.tj, 0)} °C。`}
+        </>
+      ),
     },
   ]
 
@@ -197,7 +200,7 @@ export function DatasheetCheckLab() {
         ))}
       </ul>
       <LabReadouts>
-        <Readout label="稳压器发热 P" value={formatSI(r.p, "W")} color={trace.power} sub="(VIN − VOUT) × IOUT + VIN × IQ" />
+        <Readout label="稳压器发热 P" value={formatSI(r.p, "W")} color={trace.power} sub={<Tex>{String.raw`(V_{\mathrm{IN}} - V_{\mathrm{OUT}}) \times I_{\mathrm{OUT}} + V_{\mathrm{IN}} \times I_Q`}</Tex>} />
         <Readout label="结温 TJ" value={`${fixed(r.tj, 0)} °C`} color={trace.power} />
         <Readout label="压差余量" value={`${fixed(r.headroom, 2)} V`} sub={`压差按 ${fixed(r.vdo, 2)} V 算`} />
       </LabReadouts>

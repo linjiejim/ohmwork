@@ -36,7 +36,8 @@ function check(lab, title, issues) {
   }
   for (const el of lab.querySelectorAll("*")) {
     const r = el.getBoundingClientRect()
-    if (r.width && r.right > lr.right + 2 && !el.closest(".overflow-x-auto")) {
+    // KaTeX draws a root's tail as a very long SVG path clipped by its own .hide-tail span: not a real overflow
+    if (r.width && r.right > lr.right + 2 && !el.closest(".overflow-x-auto, .katex .hide-tail")) {
       issues.add(`[${title}] overflows card: <${el.tagName.toLowerCase()}>`)
       break
     }

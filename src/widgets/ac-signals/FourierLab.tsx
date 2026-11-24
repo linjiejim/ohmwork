@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, TAU, dbV, formatSI, percent, sig, trace, useWidth } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, TAU, Tex, dbV, formatSI, percent, sig, trace, useWidth } from "@/lab"
 
 type Shape = "square" | "saw" | "triangle"
 type Scale = "linear" | "db"
@@ -158,17 +158,32 @@ export function FourierLab() {
   const error = Math.sqrt(Math.max(0, MEAN_SQUARE[shape] - power) / MEAN_SQUARE[shape])
   const listed = included.length <= 4 ? `第 ${included.join("、")} 次` : `第 ${included.slice(0, 3).join("、")} … ${last} 次`
 
-  let note: string
+  let note: React.ReactNode
   if (shape === "square") {
-    if (included.length === 1) note = "只有基波：一个幅度约 1.27（4/π）的正弦波。它和方波频率相同，但一点棱角都没有。"
+    if (included.length === 1)
+      note = (
+        <>
+          只有基波：一个幅度约 1.27（<Tex>{String.raw`4/\pi`}</Tex>）的正弦波。它和方波频率相同，但一点棱角都没有。
+        </>
+      )
     else if (last < 10) note = `加到第 ${last} 次谐波：边沿变陡了，平顶还在起伏。方波只有奇次谐波，偶数那几格是空的。`
     else note = `加到第 ${last} 次谐波：已经很像方波。跳变两侧的小尖峰大约是跳变高度的 9%，谐波再多它也不会消失，只会变窄。`
   } else if (shape === "saw") {
-    if (included.length === 1) note = "只有基波。锯齿波的奇次、偶次谐波都有，幅度按 1/n 递减。"
+    if (included.length === 1)
+      note = (
+        <>
+          只有基波。锯齿波的奇次、偶次谐波都有，幅度按 <Tex>{"1/n"}</Tex> 递减。
+        </>
+      )
     else if (last < 10) note = `加到第 ${last} 次谐波：斜坡成形了，但跳变的地方还很圆。跳变越陡，需要的高次谐波越多。`
     else note = `加到第 ${last} 次谐波：斜坡已经很直。和方波一样，跳变两侧的小尖峰不会随着谐波增多而消失。`
   } else {
-    if (included.length === 1) note = `只用基波就很像三角波了，差距只有 ${percent(error)}。三角波没有跳变，谐波按 1/n² 衰减，高次谐波非常弱。`
+    if (included.length === 1)
+      note = (
+        <>
+          只用基波就很像三角波了，差距只有 {percent(error)}。三角波没有跳变，谐波按 <Tex>{"1/n^2"}</Tex> 衰减，高次谐波非常弱。
+        </>
+      )
     else note = `加到第 ${last} 次谐波，差距只剩 ${percent(error, 1)}。三角波只有尖角、没有跳变，几个谐波就够了。`
   }
 

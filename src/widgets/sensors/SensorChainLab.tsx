@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Arrow, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, fixed, formatSI, percent, sig, trace } from "@/lab"
+import { Arrow, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, Tex, fixed, formatSI, percent, sig, tex, trace } from "@/lab"
 
 /** LM35: 10 mV per °C, 0 V at 0 °C. */
 const SENSITIVITY = 0.01
@@ -124,7 +124,7 @@ export function SensorChainLab() {
         <Readout label="传感器输出" value={formatSI(vSensor, "V")} color={trace.second} />
         <Readout label="放大后" value={formatSI(vAdc, "V")} color={trace.voltage} sub={clipped ? "已饱和" : undefined} />
         <Readout label="ADC 读数" value={String(code)} sub={`最大 ${levels - 1}`} />
-        <Readout label="1 格（1 LSB）代表" value={`${sig(degPerLsb, 2)} °C`} sub={`${formatSI(lsb, "V")} ÷ ${sig(SENSITIVITY * gain * 1000)} mV/°C`} />
+        <Readout label="1 格（1 LSB）代表" value={`${sig(degPerLsb, 2)} °C`} sub={<Tex>{String.raw`${tex.si(lsb, "V")} / ${tex.num(sig(SENSITIVITY * gain * 1000))}\,\mathrm{mV/{}^{\circ}C}`}</Tex>} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>
     </Lab>

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Bjt, Ground, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Lamp, Plot, Port, Rail, Readout, Resistor, Schematic, SliderField, Wire, clamp, fixed, formatSI, sig, trace } from "@/lab"
+import { Bjt, Ground, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Lamp, Plot, Port, Rail, Readout, Resistor, Schematic, SliderField, Tex, Wire, clamp, fixed, formatSI, sig, tex, trace } from "@/lab"
 
 /*
  * NPN low-side switch, the hand-calculation model: Vbe is a fixed 0.7 V once
@@ -34,12 +34,17 @@ export function BjtSwitchLab() {
   const brightness = (ic / IC_SAT) ** 2
 
   let tone: "neutral" | "good" | "warn" | "bad" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (region === "cutoff") {
     note = `截止：控制电压没超过 0.7 V，基极没有电流，集电极也就没有电流。三极管像一只断开的开关，12 V 全压在它身上，灯不亮。`
   } else if (region === "active") {
     tone = pq > P_MAX * 0.5 ? "bad" : "warn"
-    note = `放大区：Ic = β × Ib = ${beta} × ${formatSI(ib, "A")} = ${formatSI(ic, "A")}，灯没全亮。三极管自己扛着 ${fixed(vce, 1)} V，发热 ${formatSI(pq, "W")}${pq > P_MAX * 0.5 ? "，贴片 S8050 的上限才 300 mW" : ""}。当开关用要避开这个状态：把基极电阻减小。`
+    note = (
+      <>
+        放大区：<Tex>{String.raw`I_C = \beta I_B = ${beta} \times ${tex.si(ib, "A")} = ${tex.si(ic, "A")}`}</Tex>，灯没全亮。三极管自己扛着 {fixed(vce, 1)} V，发热 {formatSI(pq, "W")}
+        {pq > P_MAX * 0.5 ? "，贴片 S8050 的上限才 300 mW" : ""}。当开关用要避开这个状态：把基极电阻减小。
+      </>
+    )
   } else if (overdrive < 2) {
     tone = "warn"
     note = `刚好饱和：基极电流只比最低要求多 ${fixed((overdrive - 1) * 100, 0)}%。换一只 β 小一点的管子、天气冷一点，就会掉回放大区。基极电阻还要再小。`
@@ -47,10 +52,19 @@ export function BjtSwitchLab() {
     tone = "warn"
     note = `饱和了，但基极电流有 ${formatSI(ib, "A")}，多数单片机引脚出不了这么多（一般不超过 20 mA）。基极电阻不用这么小。`
   } else if (ic / ib > 30) {
-    note = `饱和，但余量不算多：Ic ÷ Ib ≈ ${sig(ic / ib, 2)}。β 是 ${beta} 的这只管子没问题，换一只 β 低于 ${sig(ic / ib, 2)} 的就会掉回放大区。经验做法是把 Ic ÷ Ib 压到 10–20。`
+    note = (
+      <>
+        饱和，但余量不算多：<Tex>{String.raw`I_C / I_B \approx ${tex.num(sig(ic / ib, 2))}`}</Tex>。β 是 {beta} 的这只管子没问题，换一只 β 低于 {sig(ic / ib, 2)} 的就会掉回放大区。经验做法是把{" "}
+        <Tex>{"I_C / I_B"}</Tex> 压到 10–20。
+      </>
+    )
   } else {
     tone = "good"
-    note = `深度饱和：Ic ÷ Ib ≈ ${sig(ic / ib, 2)}，基极电流是最低要求的 ${sig(overdrive, 2)} 倍，就算换一只 β 只有 50 的管子也照样导通。Vce 只剩 ${fixed(vce, 1)} V，灯全亮，三极管只耗 ${formatSI(pq, "W")}。`
+    note = (
+      <>
+        深度饱和：<Tex>{String.raw`I_C / I_B \approx ${tex.num(sig(ic / ib, 2))}`}</Tex>，基极电流是最低要求的 {sig(overdrive, 2)} 倍，就算换一只 β 只有 50 的管子也照样导通。Vce 只剩 {fixed(vce, 1)} V，灯全亮，三极管只耗 {formatSI(pq, "W")}。
+      </>
+    )
   }
 
   // the plot is log–log: keep the operating point on the frame even when the currents are tiny or zero

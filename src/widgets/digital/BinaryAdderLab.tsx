@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Gate, Junction, Lab, LabNote, LabReadouts, LabStage, Label, Port, Readout, Schematic, Wire, trace } from "@/lab"
+import { Gate, Junction, Lab, LabNote, LabReadouts, LabStage, Label, Port, Readout, Schematic, Tex, Wire, trace } from "@/lab"
 
 const bitOf = (n: number, i: number) => (n >> i) & 1
 const bin = (n: number, width: number) => n.toString(2).padStart(width, "0")
@@ -201,9 +201,10 @@ export function BinaryAdderLab() {
         <Readout label="A + B" value={sum} sub={`${bin(sum, 5)}₂ · ${hex(sum)}`} color={trace.voltage} />
       </LabReadouts>
       <LabNote tone={overflow ? "warn" : "neutral"}>
+        <Tex>{`${a} + ${b} = ${sum}`}</Tex>
         {overflow
-          ? `${a} + ${b} = ${sum}，超过了 4 位能表示的最大值 15。最高位的进位如果没有地方放，只剩下低 4 位 ${bin(sum & 15, 4)}（${sum & 15}），这就是溢出。`
-          : `${a} + ${b} = ${sum}。每一位都是一个全加器：把本位的两个数和低位送来的进位加起来，得到本位的和，再把进位交给高一位。`}
+          ? `，超过了 4 位能表示的最大值 15。最高位的进位如果没有地方放，只剩下低 4 位 ${bin(sum & 15, 4)}（${sum & 15}），这就是溢出。`
+          : "。每一位都是一个全加器：把本位的两个数和低位送来的进位加起来，得到本位的和，再把进位交给高一位。"}
       </LabNote>
     </Lab>
   )

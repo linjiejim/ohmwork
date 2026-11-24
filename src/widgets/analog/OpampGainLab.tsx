@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, OpAmp, Plot, Port, Readout, Resistor, Schematic, Segmented, SliderField, TAU, Wire, clamp, dbV, fixed, formatSI, sig, trace } from "@/lab"
+import { ControlField, Ground, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, OpAmp, Plot, Port, Readout, Resistor, Schematic, Segmented, SliderField, TAU, Tex, Wire, clamp, dbV, fixed, formatSI, sig, tex, trace } from "@/lab"
 
 const RAIL = 5 // ±5 V supply, output swings rail to rail
 const WINDOW = 2 // ms: two periods of a 1 kHz sine
@@ -34,17 +34,27 @@ export function OpampGainLab() {
   }, [gain, amp])
 
   let tone: "neutral" | "bad" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (clipping) {
     tone = "bad"
     note = `输出本该摆到 ±${formatSI(ideal, "V")}，可电源只有 ±5 V：超出的部分被削平了（削顶失真）。减小输入幅度，或者把增益调低。`
   } else if (mode === "inv") {
     note =
-      rf < rin
-        ? `增益 = −Rf / Rin = ${sig(gain)}：Rf 比 Rin 小，输出比输入还小。反相放大器也能当衰减器用。`
-        : `增益 = −Rf / Rin = −${formatSI(rf, "Ω")} ÷ ${formatSI(rin, "Ω")} = ${sig(gain)}：输出是输入的 ${sig(-gain)} 倍，而且上下颠倒。`
+      rf < rin ? (
+        <>
+          增益 <Tex>{String.raw`= -\frac{R_f}{R_{\mathrm{in}}} = ${tex.num(sig(gain))}`}</Tex>：Rf 比 Rin 小，输出比输入还小。反相放大器也能当衰减器用。
+        </>
+      ) : (
+        <>
+          增益 <Tex>{String.raw`= -\frac{R_f}{R_{\mathrm{in}}} = -\frac{${tex.si(rf, "Ω")}}{${tex.si(rin, "Ω")}} = ${tex.num(sig(gain))}`}</Tex>：输出是输入的 {sig(-gain)} 倍，而且上下颠倒。
+        </>
+      )
   } else if (mode === "non") {
-    note = `增益 = 1 + Rf / Rin = 1 + ${formatSI(rf, "Ω")} ÷ ${formatSI(rin, "Ω")} = ${sig(gain)}：输出和输入同相，增益最小也是 1。`
+    note = (
+      <>
+        增益 <Tex>{String.raw`= 1 + \frac{R_f}{R_{\mathrm{in}}} = 1 + \frac{${tex.si(rf, "Ω")}}{${tex.si(rin, "Ω")}} = ${tex.num(sig(gain))}`}</Tex>：输出和输入同相，增益最小也是 1。
+      </>
+    )
   } else {
     note = "输出原样跟着输入走：增益是 1，不放大电压，只负责替信号源出电流。Rf 和 Rin 在这个电路里用不上。"
   }

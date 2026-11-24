@@ -19,9 +19,11 @@ import {
   SliderField,
   Source,
   TAU,
+  Tex,
   Wire,
   formatSI,
   percent,
+  tex,
   trace,
   usePlayback,
   useTime,
@@ -280,7 +282,17 @@ export function RectifierLab() {
         <Readout
           label="纹波峰峰值"
           value={formatSI(ripple, "V")}
-          sub={!hasCap ? "没有电容，全幅波动" : estimate < sim.max ? `估算 I ÷ (f·C) ≈ ${formatSI(estimate, "V")}` : "电容太小，估算公式不适用"}
+          sub={
+            !hasCap ? (
+              "没有电容，全幅波动"
+            ) : estimate < sim.max ? (
+              <>
+                估算 <Tex>{String.raw`I/(fC) \approx ${tex.si(estimate, "V")}`}</Tex>
+              </>
+            ) : (
+              "电容太小，估算公式不适用"
+            )
+          }
         />
         <Readout label="谷底电压" value={formatSI(sim.min, "V")} />
         <Readout label="平均负载电流" value={formatSI(iAvg, "A")} color={trace.current} />

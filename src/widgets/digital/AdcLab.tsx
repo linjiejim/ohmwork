@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, TAU, clamp, formatSI, sig, trace } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, TAU, Tex, clamp, formatSI, sig, trace } from "@/lab"
 
 const VREF = 3.3
 /** The input: a sine centred in the ADC's range, 0.15 V … 3.15 V. */
@@ -86,7 +86,7 @@ export function AdcLab() {
       </LabControls>
       <LabReadouts>
         <Readout label="台阶数" value={levels} sub={`2 的 ${bits} 次方`} />
-        <Readout label="每级台阶（LSB）" value={lsbText} sub={`${VREF} V ÷ ${levels}`} />
+        <Readout label="每级台阶（LSB）" value={lsbText} sub={<Tex>{String.raw`${VREF}\,\mathrm{V} / ${levels}`}</Tex>} />
         <Readout label="奈奎斯特频率" value={formatSI(nyquist, "Hz")} sub="采样率的一半" />
         <Readout label="每个周期采样" value={`${sig(perCycle, 3)} 点`} />
       </LabReadouts>

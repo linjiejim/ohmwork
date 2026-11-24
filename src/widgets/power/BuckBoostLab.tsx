@@ -20,12 +20,14 @@ import {
   SliderField,
   Source,
   Switch,
+  Tex,
   Wire,
   clamp,
   fixed,
   formatSI,
   percent,
   sig,
+  tex,
   trace,
   usePlayback,
   useTime,
@@ -172,13 +174,17 @@ export function BuckBoostLab() {
   }[phase]
 
   let tone: "neutral" | "good" | "warn" | "bad" = "good"
-  let note: string
+  let note: React.ReactNode
   if (!op.ccm) {
     const runaway = !buck && op.vout > 4 * op.ideal
     tone = runaway ? "bad" : "warn"
-    note = `负载电流太小，电感电流每个周期都掉到 0，进入断续模式。输出不再是${buck ? " D × Vin" : " Vin ÷ (1 − D)"} = ${formatSI(op.ideal, "V")}，而是升到 ${formatSI(op.vout, "V")}。${
-      runaway ? "没有反馈的 Boost 在轻载时输出会一路飙升，直到击穿开关管和电容。" : "真实芯片靠反馈自动把占空比调小，输出才稳得住。"
-    }`
+    note = (
+      <>
+        负载电流太小，电感电流每个周期都掉到 0，进入断续模式。输出不再是{" "}
+        <Tex>{`${buck ? String.raw`D \times V_{\mathrm{in}}` : String.raw`\frac{V_{\mathrm{in}}}{1 - D}`} = ${tex.si(op.ideal, "V")}`}</Tex>，而是升到 {formatSI(op.vout, "V")}。
+        {runaway ? "没有反馈的 Boost 在轻载时输出会一路飙升，直到击穿开关管和电容。" : "真实芯片靠反馈自动把占空比调小，输出才稳得住。"}
+      </>
+    )
   } else if (!buck && d > 0.75) {
     tone = "warn"
     note = `升压 ${sig(1 / (1 - d), 2)} 倍。公式里没算损耗：实际电路升到 4 倍以上效率就明显下降，而且电感电流 ${formatSI(op.iAvg, "A")} 远大于输出电流 ${formatSI(iOut, "A")}。`
@@ -322,7 +328,15 @@ export function BuckBoostLab() {
           label="输出电压"
           value={formatSI(op.vout, "V")}
           color={trace.voltage}
-          sub={!op.ccm ? `理想公式给出 ${formatSI(op.ideal, "V")}` : buck ? `D × Vin = ${percent(d)} × ${formatSI(vin, "V")}` : `Vin ÷ (1 − D) = ${formatSI(vin, "V")} ÷ ${fixed(1 - d, 2)}`}
+          sub={
+            !op.ccm ? (
+              `理想公式给出 ${formatSI(op.ideal, "V")}`
+            ) : buck ? (
+              <Tex>{String.raw`D \times V_{\mathrm{in}} = ${percent(d).replace("%", String.raw`\%`)} \times ${tex.si(vin, "V")}`}</Tex>
+            ) : (
+              <Tex>{String.raw`V_{\mathrm{in}} / (1 - D) = ${tex.si(vin, "V")} / ${tex.num(fixed(1 - d, 2))}`}</Tex>
+            )
+          }
         />
         <Readout label="电感纹波电流 ΔI" value={formatSI(ripple, "A")} color={trace.current} sub={`平均电流 ${formatSI(op.iAvg, "A")}`} />
         <Readout label="电感峰值电流" value={formatSI(op.iPeak, "A")} />

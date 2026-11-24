@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Readout, Segmented, SliderField, TAU, fixed, formatSI, percent, trace, usePlayback, useTime } from "@/lab"
+import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Readout, Segmented, SliderField, TAU, Tex, fixed, formatSI, percent, trace, usePlayback, useTime } from "@/lab"
 import { Canvas, formatDb } from "./kit"
 
 const Z0 = 50
@@ -189,8 +189,8 @@ export function ReflectionLab() {
         </ControlField>
       </LabControls>
       <LabReadouts>
-        <Readout label="反射系数 Γ" value={gammaText} color={trace.voltage} sub="(ZL − Z₀) ÷ (ZL + Z₀)" />
-        <Readout label="驻波比 VSWR" value={Number.isFinite(vswr) ? fixed(vswr, 2) : "∞"} sub="(1 + |Γ|) ÷ (1 − |Γ|)" />
+        <Readout label="反射系数 Γ" value={gammaText} color={trace.voltage} sub={<Tex>{String.raw`(Z_L - Z_0)/(Z_L + Z_0)`}</Tex>} />
+        <Readout label="驻波比 VSWR" value={Number.isFinite(vswr) ? fixed(vswr, 2) : "∞"} sub={<Tex>{String.raw`(1 + |\Gamma|)/(1 - |\Gamma|)`}</Tex>} />
         <Readout label="回波损耗" value={formatDb(returnLoss)} sub="−20 · log|Γ|" />
         <Readout label="送到负载的功率" value={percent(1 - reflected, 1)} sub={`反射 ${percent(reflected, 1)}`} />
       </LabReadouts>

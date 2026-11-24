@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Battery, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, SliderField, Switch, SwitchField, Wire, formatSI, parallel, percent, sig, trace } from "@/lab"
+import { Battery, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, SliderField, Switch, SwitchField, Tex, Wire, formatSI, parallel, percent, sig, tex, trace } from "@/lab"
 
 /** Current that reads as "fast": the starting divider draws 167 μA unloaded and 300 μA loaded. */
 const SCALE = 0.0005
@@ -35,9 +35,15 @@ export function VoltageDividerLab() {
   const hot = p1 > RATED || p2 > RATED
 
   let tone: "neutral" | "good" | "warn" | "bad" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (!load) {
-    note = `空载：Vout = ${formatSI(vin, "V")} × ${formatSI(r2, "Ω")} ÷ (${formatSI(r1, "Ω")} + ${formatSI(r2, "Ω")}) = ${formatSI(vOpen, "V")}。打开「接上负载」，看它还稳不稳。`
+    note = (
+      <>
+        空载：
+        <Tex>{`V_{\\mathrm{out}} = ${tex.si(vin, "V")} \\times \\frac{${tex.si(r2, "Ω")}}{${tex.si(r1, "Ω")} + ${tex.si(r2, "Ω")}} = ${tex.si(vOpen, "V")}`}</Tex>
+        。打开「接上负载」，看它还稳不稳。
+      </>
+    )
   } else if (dropShare <= 0.1) {
     // RL ≥ 10·R2 always lands here (the sag is then at most 1/11); so does a small R1, whatever R2 is
     tone = "good"
@@ -56,7 +62,11 @@ export function VoltageDividerLab() {
   }
   if (hot) {
     tone = "bad"
-    note += `另外，${p1 >= p2 ? "R1" : "R2"} 自己要耗掉 ${formatSI(Math.max(p1, p2), "W")}，超过常见电阻的 1/4 W：阻值取得太小了。`
+    note = (
+      <>
+        {note}另外，{p1 >= p2 ? "R1" : "R2"} 自己要耗掉 {formatSI(Math.max(p1, p2), "W")}，超过常见电阻的 1/4 W：阻值取得太小了。
+      </>
+    )
   }
 
   return (
@@ -140,7 +150,7 @@ export function VoltageDividerLab() {
         <Readout label="空载 Vout" value={formatSI(vOpen, "V")} color={trace.ref} sub={`Vin 的 ${percent(openRatio, 1)}`} />
         <Readout label="带载 Vout" value={load ? formatSI(vOut, "V") : "未接负载"} color={trace.voltage} sub={load ? `Vin 的 ${percent(ratio, 1)}` : undefined} />
         <Readout label="被负载拉低" value={load ? formatSI(drop, "V") : "0 V"} sub={load ? (dropShare < 0.001 ? "不到 0.1%" : `少了 ${percent(dropShare, 1)}`) : undefined} />
-        <Readout label="电源电流 I1 = I2 + IL" value={formatSI(i1, "A")} color={trace.current} sub={`${formatSI(i2, "A")} + ${formatSI(iL, "A")}`} />
+        <Readout label={<>电源电流 <Tex>{"I_1 = I_2 + I_L"}</Tex></>} value={formatSI(i1, "A")} color={trace.current} sub={`${formatSI(i2, "A")} + ${formatSI(iL, "A")}`} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>
     </Lab>

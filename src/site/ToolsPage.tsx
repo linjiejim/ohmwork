@@ -6,6 +6,7 @@ import { Page, PageHeader, Section } from "@/components/ui/page"
 import { Segmented } from "@/components/ui/segmented"
 import { fixed, formatSI, parseSI, sig } from "@/lab/format"
 import { nearestE, parallel } from "@/lab/math"
+import { Tex } from "@/lab/Tex"
 
 interface InputDef {
   key: string
@@ -17,6 +18,8 @@ interface InputDef {
 
 interface Result {
   label: string
+  /** A symbol or formula set after the label, as TeX. */
+  tex?: string
   value: string
 }
 
@@ -30,7 +33,7 @@ interface Variant {
 interface CalcDef {
   id: string
   title: string
-  formula: string
+  formula: React.ReactNode
   lesson?: { to: string; label: string }
   variants: Variant[]
 }
@@ -48,7 +51,11 @@ const CALCS: CalcDef[] = [
   {
     id: "ohm",
     title: "欧姆定律与功率",
-    formula: "I = V / R，P = V × I",
+    formula: (
+      <>
+        <Tex>{"I = V/R"}</Tex>，<Tex>{"P = VI"}</Tex>
+      </>
+    ),
     lesson: { to: "/learn/basics/ohms-law", label: "欧姆定律" },
     variants: [
       {
@@ -92,7 +99,7 @@ const CALCS: CalcDef[] = [
   {
     id: "led",
     title: "LED 限流电阻",
-    formula: "R = (Vs − Vf) / If",
+    formula: <Tex>{"R = (V_s - V_f)/I_f"}</Tex>,
     lesson: { to: "/learn/semiconductors/leds-zeners", label: "LED 与稳压二极管" },
     variants: [
       {
@@ -121,7 +128,7 @@ const CALCS: CalcDef[] = [
   {
     id: "divider",
     title: "分压器",
-    formula: "Vout = Vin × R2 / (R1 + R2)",
+    formula: <Tex>{String.raw`V_{\mathrm{out}} = V_{\mathrm{in}} \times R_2/(R_1 + R_2)`}</Tex>,
     lesson: { to: "/learn/basics/voltage-divider", label: "分压器与基尔霍夫定律" },
     variants: [
       {
@@ -162,7 +169,11 @@ const CALCS: CalcDef[] = [
   {
     id: "rc",
     title: "RC 时间常数与截止频率",
-    formula: "τ = R × C，fc = 1 / (2πRC)",
+    formula: (
+      <>
+        <Tex>{String.raw`\tau = RC`}</Tex>，<Tex>{String.raw`f_c = 1/(2\pi RC)`}</Tex>
+      </>
+    ),
     lesson: { to: "/learn/ac-signals/rc-filters", label: "RC 滤波器" },
     variants: [
       {
@@ -183,7 +194,7 @@ const CALCS: CalcDef[] = [
   {
     id: "lc",
     title: "LC 谐振频率",
-    formula: "f₀ = 1 / (2π√(LC))",
+    formula: <Tex>{String.raw`f_0 = 1/(2\pi\sqrt{LC})`}</Tex>,
     lesson: { to: "/learn/ac-signals/resonance", label: "LC 谐振" },
     variants: [
       {
@@ -195,7 +206,7 @@ const CALCS: CalcDef[] = [
         ],
         compute: ({ l, c }) => [
           { label: "谐振频率", value: formatSI(1 / (2 * Math.PI * Math.sqrt(l * c)), "Hz") },
-          { label: "特性阻抗 √(L/C)", value: formatSI(Math.sqrt(l / c), "Ω") },
+          { label: "特性阻抗", tex: String.raw`\sqrt{L/C}`, value: formatSI(Math.sqrt(l / c), "Ω") },
         ],
       },
     ],
@@ -203,7 +214,11 @@ const CALCS: CalcDef[] = [
   {
     id: "combine",
     title: "电阻串联与并联",
-    formula: "串联相加；并联 1/R = 1/R1 + 1/R2",
+    formula: (
+      <>
+        串联相加；并联 <Tex>{"1/R = 1/R_1 + 1/R_2"}</Tex>
+      </>
+    ),
     lesson: { to: "/learn/basics/series-parallel", label: "串联与并联" },
     variants: [
       {
@@ -247,7 +262,11 @@ const CALCS: CalcDef[] = [
   {
     id: "db",
     title: "分贝换算",
-    formula: "电压比 20·log，功率比 10·log；0 dBm = 1 mW",
+    formula: (
+      <>
+        电压比 <Tex>{String.raw`20\log`}</Tex>，功率比 <Tex>{String.raw`10\log`}</Tex>；<Tex>{String.raw`0\,\mathrm{dBm} = 1\,\mathrm{mW}`}</Tex>
+      </>
+    ),
     lesson: { to: "/learn/ac-signals/spectrum", label: "频谱与分贝" },
     variants: [
       {
@@ -285,7 +304,7 @@ const CALCS: CalcDef[] = [
   {
     id: "wave",
     title: "频率与波长",
-    formula: "λ = c / f",
+    formula: <Tex>{String.raw`\lambda = c/f`}</Tex>,
     lesson: { to: "/learn/rf/em-waves", label: "电磁波与无线电频谱" },
     variants: [
       {
@@ -303,7 +322,7 @@ const CALCS: CalcDef[] = [
   {
     id: "adc",
     title: "ADC 分辨率",
-    formula: "1 LSB = Vref / 2ᴺ",
+    formula: <Tex>{String.raw`1\,\mathrm{LSB} = V_{\mathrm{ref}}/2^N`}</Tex>,
     lesson: { to: "/learn/digital/adc-dac", label: "ADC 与 DAC" },
     variants: [
       {
@@ -326,7 +345,7 @@ const CALCS: CalcDef[] = [
   {
     id: "555",
     title: "555 无稳态振荡",
-    formula: "f = 1.44 / ((RA + 2·RB) × C)",
+    formula: <Tex>{String.raw`f = 1.44/\big((R_A + 2R_B) \times C\big)`}</Tex>,
     lesson: { to: "/learn/analog/oscillators-555", label: "振荡器与 555 定时器" },
     variants: [
       {
@@ -390,7 +409,15 @@ function Calc({ def }: { def: CalcDef }) {
       <dl aria-live="polite" className="flex flex-col gap-1.5 border-t px-4 py-3">
         {(results ?? variant.compute(Object.fromEntries(variant.inputs.map((i) => [i.key, parseSI(i.initial)]))).map((r) => ({ ...r, value: "—" }))).map((r) => (
           <div key={r.label} className="flex items-baseline justify-between gap-4">
-            <dt className="text-small text-muted-foreground">{r.label}</dt>
+            <dt className="text-small text-muted-foreground">
+              {r.label}
+              {r.tex && (
+                <>
+                  {" "}
+                  <Tex>{r.tex}</Tex>
+                </>
+              )}
+            </dt>
             <dd className="tabular text-body font-semibold">{r.value}</dd>
           </div>
         ))}

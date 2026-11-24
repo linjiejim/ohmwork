@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Battery, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, SliderField, Wire, formatSI, trace } from "@/lab"
+import { Battery, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, SliderField, Tex, Wire, formatSI, tex, trace } from "@/lab"
 
 /** Battery + resistor loop beside its I–V line: change V or R, watch the current and the operating point move. */
 export function OhmsLawLab({ compact }: { /** Shorter version for the home page. */ compact?: boolean }) {
@@ -41,13 +41,13 @@ export function OhmsLawLab({ compact }: { /** Shorter version for the home page.
       </LabControls>
       {compact ? (
         <LabNote>
-          I = V ÷ R = {formatSI(v, "V")} ÷ {formatSI(r, "Ω")} = {formatSI(i, "A")}
+          <Tex>{`I = \\frac{V}{R} = \\frac{${tex.si(v, "V")}}{${tex.si(r, "Ω")}} = ${tex.si(i, "A")}`}</Tex>
         </LabNote>
       ) : (
         <LabReadouts>
           <Readout label="电压 V" value={formatSI(v, "V")} color={trace.voltage} />
           <Readout label="电阻 R" value={formatSI(r, "Ω")} />
-          <Readout label="电流 I = V ÷ R" value={formatSI(i, "A")} color={trace.current} />
+          <Readout label={<>电流 <Tex>{"I = V/R"}</Tex></>} value={formatSI(i, "A")} color={trace.current} />
         </LabReadouts>
       )}
     </Lab>

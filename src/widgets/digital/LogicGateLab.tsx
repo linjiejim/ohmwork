@@ -1,20 +1,19 @@
 import * as React from "react"
 import { catVar } from "@/lib/categorical"
 import { cn } from "@/lib/utils"
-import { ControlField, Gate, Ground, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Led, Readout, Resistor, Schematic, Select, SwitchField, Wire, trace } from "@/lab"
+import { ControlField, Gate, Ground, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Led, Readout, Resistor, Schematic, Select, SwitchField, Tex, Wire, trace } from "@/lab"
 
 type Kind = "and" | "or" | "not" | "nand" | "nor" | "xor" | "xnor"
 
-const bar = (text: string) => <span className="overline">{text}</span>
-
-const GATES: Record<Kind, { name: string; english: string; expr: React.ReactNode; chip: string; rule: string; fn: (a: boolean, b: boolean) => boolean }> = {
-  and: { name: "与门", english: "AND", expr: "A · B", chip: "74HC08", rule: "两个输入都是 1，输出才是 1", fn: (a, b) => a && b },
+/** The Boolean expression of each gate is TeX: \overline is the "NOT" bar. */
+const GATES: Record<Kind, { name: string; english: string; expr: string; chip: string; rule: string; fn: (a: boolean, b: boolean) => boolean }> = {
+  and: { name: "与门", english: "AND", expr: String.raw`A \cdot B`, chip: "74HC08", rule: "两个输入都是 1，输出才是 1", fn: (a, b) => a && b },
   or: { name: "或门", english: "OR", expr: "A + B", chip: "74HC32", rule: "只要有一个输入是 1，输出就是 1", fn: (a, b) => a || b },
-  not: { name: "非门", english: "NOT", expr: bar("A"), chip: "74HC04", rule: "输出总是和输入相反", fn: (a) => !a },
-  nand: { name: "与非门", english: "NAND", expr: bar("A · B"), chip: "74HC00", rule: "与门的结果再取反：只有两个输入都是 1 时输出 0", fn: (a, b) => !(a && b) },
-  nor: { name: "或非门", english: "NOR", expr: bar("A + B"), chip: "74HC02", rule: "或门的结果再取反：只有两个输入都是 0 时输出 1", fn: (a, b) => !(a || b) },
-  xor: { name: "异或门", english: "XOR", expr: "A ⊕ B", chip: "74HC86", rule: "两个输入不一样时输出 1", fn: (a, b) => a !== b },
-  xnor: { name: "同或门", english: "XNOR", expr: bar("A ⊕ B"), chip: "74HC7266", rule: "两个输入一样时输出 1", fn: (a, b) => a === b },
+  not: { name: "非门", english: "NOT", expr: String.raw`\overline{A}`, chip: "74HC04", rule: "输出总是和输入相反", fn: (a) => !a },
+  nand: { name: "与非门", english: "NAND", expr: String.raw`\overline{A \cdot B}`, chip: "74HC00", rule: "与门的结果再取反：只有两个输入都是 1 时输出 0", fn: (a, b) => !(a && b) },
+  nor: { name: "或非门", english: "NOR", expr: String.raw`\overline{A + B}`, chip: "74HC02", rule: "或门的结果再取反：只有两个输入都是 0 时输出 1", fn: (a, b) => !(a || b) },
+  xor: { name: "异或门", english: "XOR", expr: String.raw`A \oplus B`, chip: "74HC86", rule: "两个输入不一样时输出 1", fn: (a, b) => a !== b },
+  xnor: { name: "同或门", english: "XNOR", expr: String.raw`\overline{A \oplus B}`, chip: "74HC7266", rule: "两个输入一样时输出 1", fn: (a, b) => a === b },
 }
 
 const OPTIONS = (Object.keys(GATES) as Kind[]).map((k) => ({ value: k, label: `${GATES[k].name} ${GATES[k].english}` }))
@@ -149,7 +148,7 @@ export function LogicGateLab() {
         {!single && <SwitchField label="输入 B" checked={b} onChange={setB} hint={b ? "高电平（1）" : "低电平（0）"} />}
       </LabControls>
       <LabReadouts>
-        <Readout label="表达式" value={<>Y = {g.expr}</>} />
+        <Readout label="表达式" value={<Tex>{`Y = ${g.expr}`}</Tex>} />
         <Readout label="输出 Y" value={`${bit(y)}（${y ? "高" : "低"}电平）`} color={y ? trace.voltage : undefined} />
         <Readout label="74HC 系列型号" value={g.chip} />
       </LabReadouts>

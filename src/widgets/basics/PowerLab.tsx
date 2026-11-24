@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Battery, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Wire, clamp, formatSI, percent, sig, trace } from "@/lab"
+import { Battery, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Resistor, Schematic, Segmented, SliderField, Tex, Wire, clamp, formatSI, percent, sig, trace } from "@/lab"
 
 /** Rated power of the resistor on the bench: the three sizes the lesson's table talks about. */
 const RATINGS = [
@@ -98,8 +98,8 @@ export function PowerLab() {
         </ControlField>
       </LabControls>
       <LabReadouts>
-        <Readout label="电流 I = V ÷ R" value={formatSI(i, "A")} color={trace.current} />
-        <Readout label="功率 P = V × I" value={formatSI(p, "W")} color={trace.power} />
+        <Readout label={<>电流 <Tex>{"I = V/R"}</Tex></>} value={formatSI(i, "A")} color={trace.current} />
+        <Readout label={<>功率 <Tex>{"P = VI"}</Tex></>} value={formatSI(p, "W")} color={trace.power} />
         <Readout label="占额定功率" value={percent(ratio)} sub={`额定 ${rating.name}`} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>

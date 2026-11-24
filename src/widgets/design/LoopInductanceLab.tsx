@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, Wire, formatSI, percent, sig, trace } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, Tex, Wire, formatSI, percent, sig, trace } from "@/lab"
 
 /*
  * A decoupling capacitor at distance d from a chip's supply pin.
@@ -119,7 +119,7 @@ export function LoopInductanceLab() {
       </LabControls>
       <LabReadouts>
         <Readout label="回路电感（粗估）" value={`约 ${sig(lNh, 3)} nH`} />
-        <Readout label="电流变化率" value={`${sig((DI / tr) * 1000, 3)} A/μs`} sub={`100 mA ÷ ${tr} ns`} color={trace.current} />
+        <Readout label="电流变化率" value={`${sig((DI / tr) * 1000, 3)} A/μs`} sub={<Tex>{String.raw`100\,\mathrm{mA} / ${tr}\,\mathrm{ns}`}</Tex>} color={trace.current} />
         <Readout label="电源脚上的尖峰" value={formatSI(v, "V")} sub={`3.3 V 的 ${percent(ratio, ratio < 0.1 ? 1 : 0)}`} color={trace.voltage} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>

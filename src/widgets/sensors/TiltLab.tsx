@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Plot, Readout, Schematic, SliderField, SwitchField, fixed, trace, usePlayback, useTime } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Plot, Readout, Schematic, SliderField, SwitchField, Tex, fixed, tex, trace, usePlayback, useTime } from "@/lab"
 import { gaussianNoise } from "./noise"
 
 /** Vibration added to each axis when the switch is on, in g (standard deviation). */
@@ -94,10 +94,19 @@ export function TiltLab() {
   const note = shake
     ? `加上 ${VIBRATION} g 的振动，算出的角度就在真实值附近乱跳，抖动约 ±${fixed(jitter, 0)}°。加速度计分不清重力和振动，所以还要陀螺仪来帮忙。`
     : theta === 0
-      ? "平放：重力全压在 Z 轴上，az = 1 g，ax = 0。"
+      ? (
+          <>
+            平放：重力全压在 Z 轴上，<Tex>{String.raw`a_z = 1\,\mathrm{g}`}</Tex>，<Tex>{"a_x = 0"}</Tex>。
+          </>
+        )
       : Math.abs(theta) === 90
         ? "竖起来了：重力全落在 X 轴上，Z 轴读数是 0。"
-        : `板子倾斜 ${fixed(theta, 0)}°：X 轴分到 sin θ = ${tidy(sin, 2)} g，Z 轴分到 cos θ = ${tidy(cos, 2)} g。atan2(ax, az) 把角度原样算了回来。`
+        : (
+          <>
+            板子倾斜 {fixed(theta, 0)}°：X 轴分到 <Tex>{String.raw`\sin\theta = ${tex.num(tidy(sin, 2))}\,\mathrm{g}`}</Tex>，Z 轴分到{" "}
+            <Tex>{String.raw`\cos\theta = ${tex.num(tidy(cos, 2))}\,\mathrm{g}`}</Tex>。<Tex>{String.raw`\operatorname{atan2}(a_x, a_z)`}</Tex> 把角度原样算了回来。
+          </>
+        )
 
   return (
     <Lab

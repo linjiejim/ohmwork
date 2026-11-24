@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, clamp, fixed, sig, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, Tex, clamp, fixed, sig, tex, trace } from "@/lab"
 
 type Kind = "voltage" | "power"
 
@@ -96,7 +96,7 @@ export function DecibelLab() {
         />
       </LabControls>
       <LabReadouts>
-        <Readout label="分贝值" value={signedDb(db)} sub={`${k} × lg(${sig(ratio, 3)})`} />
+        <Readout label="分贝值" value={signedDb(db)} sub={<Tex>{String.raw`${k} \lg ${tex.num(sig(ratio, 3))}`}</Tex>} />
         <Readout label="相当于电压" value={times(vRatio)} color={trace.voltage} />
         <Readout label="相当于功率" value={times(pRatio)} color={trace.power} />
       </LabReadouts>

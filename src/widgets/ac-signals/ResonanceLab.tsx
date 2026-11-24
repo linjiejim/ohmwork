@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, Inductor, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Resistor, Schematic, SliderField, Source, TAU, Wire, formatSI, logspace, sig, trace } from "@/lab"
+import { Capacitor, Inductor, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Resistor, Schematic, SliderField, Source, TAU, Tex, Wire, formatSI, logspace, sig, trace } from "@/lab"
 
 const F_MIN = 1e3
 const F_MAX = 1e6
@@ -131,9 +131,9 @@ export function ResonanceLab() {
         <SliderField label="电阻 R" value={r} onChange={setR} min={1} max={1000} log snap="E12" unit="Ω" />
       </LabControls>
       <LabReadouts>
-        <Readout label="谐振频率 f₀" value={formatSI(f0, "Hz")} sub="1 ÷ (2π√(LC))" />
-        <Readout label="Q 值" value={qText} sub="√(L/C) ÷ R" />
-        <Readout label="带宽" value={formatSI(bw, "Hz")} sub="f₀ ÷ Q" color={trace.second} />
+        <Readout label="谐振频率 f₀" value={formatSI(f0, "Hz")} sub={<Tex>{String.raw`1/(2\pi\sqrt{LC})`}</Tex>} />
+        <Readout label="Q 值" value={qText} sub={<Tex>{String.raw`\sqrt{L/C}/R`}</Tex>} />
+        <Readout label="带宽" value={formatSI(bw, "Hz")} sub={<Tex>{"f_0/Q"}</Tex>} color={trace.second} />
         <Readout label="谐振时 C 上的电压" value={formatSI(q, "V")} sub="输入 1 V 的 Q 倍" />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>

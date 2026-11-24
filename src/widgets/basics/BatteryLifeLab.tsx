@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, formatSI, sig, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, Tex, formatSI, sig, tex, trace } from "@/lab"
 
 /** Typical cells, same numbers as the table in the lesson. */
 const PRESETS = [
@@ -11,13 +11,14 @@ const PRESETS = [
 
 const HOURS_PER_YEAR = 8760
 
-/** Hours as the unit a person would say: 分钟, 小时, 天 or 年. */
-function duration(hours: number): string {
-  if (hours < 1) return `${sig(hours * 60, 3)} 分钟`
-  if (hours < 48) return `${sig(hours, 3)} 小时`
-  if (hours < HOURS_PER_YEAR) return `${sig(hours / 24, 3)} 天`
-  return `${sig(hours / HOURS_PER_YEAR, 3)} 年`
+/** Hours as the unit a person would say, as [number, unit]: 分钟, 小时, 天 or 年. */
+function durationParts(hours: number): [string, string] {
+  if (hours < 1) return [sig(hours * 60, 3), "分钟"]
+  if (hours < 48) return [sig(hours, 3), "小时"]
+  if (hours < HOURS_PER_YEAR) return [sig(hours / 24, 3), "天"]
+  return [sig(hours / HOURS_PER_YEAR, 3), "年"]
 }
+const duration = (hours: number) => durationParts(hours).join(" ")
 
 /** The time axis is logarithmic; its ticks sit on durations people know by heart. */
 const TIME_TICKS: [number, string][] = [
@@ -41,22 +42,43 @@ export function BatteryLifeLab() {
   const energy = (cap / 1000) * volt // Wh
   const power = volt * load // W
   const preset = PRESETS.find((b) => b.cap === cap && b.volt === volt)
-  const sum = `${sig(cap, 3)} mAh ÷ ${formatSI(load, "A")} = ${duration(hours)}`
+  const [n, unit] = durationParts(hours)
+  const sum = (
+    <>
+      <Tex>{`\\frac{${tex.num(sig(cap, 3))}\\,\\mathrm{mAh}}{${tex.si(load, "A")}} = ${tex.num(n)}`}</Tex> {unit}
+    </>
+  )
 
   let tone: "neutral" | "warn" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (preset?.value === "cr2032" && load > 0.003) {
     // the ideal formula is furthest from the truth here: a coin cell's internal resistance is far too high for this
     tone = "warn"
-    note = `${sum}，但这只是照公式算的。纽扣电池内阻大，只适合平均电流很小（几 mA 以内）的负载。电流这么大，电压会被拉低，实际放出的容量远小于标称值。`
+    note = (
+      <>
+        {sum}，但这只是照公式算的。纽扣电池内阻大，只适合平均电流很小（几 mA 以内）的负载。电流这么大，电压会被拉低，实际放出的容量远小于标称值。
+      </>
+    )
   } else if (hours < 1) {
     tone = "warn"
-    note = `${sum}。不到 1 小时就放完。放电这么急，多数电池实际能放出的容量比标称值少，还会明显发热。`
+    note = (
+      <>
+        {sum}。不到 1 小时就放完。放电这么急，多数电池实际能放出的容量比标称值少，还会明显发热。
+      </>
+    )
   } else if (hours > 5 * HOURS_PER_YEAR) {
     tone = "warn"
-    note = `${sum}。这只是算出来的数：电池放着不用也会慢慢掉电（自放电），实际撑不了这么久。`
+    note = (
+      <>
+        {sum}。这只是算出来的数：电池放着不用也会慢慢掉电（自放电），实际撑不了这么久。
+      </>
+    )
   } else {
-    note = `${sum}。电池里一共存着 ${formatSI(energy, "Wh")} 的能量，负载每小时用掉 ${formatSI(power, "Wh")}。`
+    note = (
+      <>
+        {sum}。电池里一共存着 {formatSI(energy, "Wh")} 的能量，负载每小时用掉 {formatSI(power, "Wh")}。
+      </>
+    )
   }
 
   return (

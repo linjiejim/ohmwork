@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, TAU, formatSI, sig, trace } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, Segmented, SliderField, TAU, Tex, formatSI, sig, tex, trace } from "@/lab"
 
 type Shape = "sine" | "square" | "triangle"
 
@@ -68,7 +68,7 @@ export function WaveformLab() {
             : "方波：等于幅度"
 
   let tone: "neutral" | "good" = "neutral"
-  let note: string
+  let note: React.ReactNode
   if (amp === 0) {
     note = `幅度是 0，波形成了一条平线：这就是 ${volts(offset)} 的直流，电压不再随时间变化。`
   } else if (unipolar && vmax <= 3.3 + 1e-9) {
@@ -81,9 +81,17 @@ export function WaveformLab() {
   } else if (offset !== 0) {
     note = `波形以 ${volts(offset)} 为中心上下摆动，平均值就是这个偏置。有效值 ${volts(rms)} 由直流和交流两部分合成。`
   } else if (shape === "sine") {
-    note = `正弦波的有效值是幅度的 0.707 倍：${volts(amp)} × 0.707 = ${volts(rms)}。它让电阻发的热，和 ${volts(rms)} 的直流一样多。`
+    note = (
+      <>
+        正弦波的有效值是幅度的 0.707 倍：<Tex>{String.raw`${tex.si(amp, "V")} \times 0.707 = ${tex.si(rms, "V")}`}</Tex>。它让电阻发的热，和 {volts(rms)} 的直流一样多。
+      </>
+    )
   } else {
-    note = `三角波的有效值是幅度的 0.577 倍：${volts(amp)} × 0.577 = ${volts(rms)}。幅度相同时，它发的热比正弦波少。`
+    note = (
+      <>
+        三角波的有效值是幅度的 0.577 倍：<Tex>{String.raw`${tex.si(amp, "V")} \times 0.577 = ${tex.si(rms, "V")}`}</Tex>。幅度相同时，它发的热比正弦波少。
+      </>
+    )
   }
 
   return (
@@ -140,7 +148,7 @@ export function WaveformLab() {
       <LabReadouts>
         <Readout label="峰峰值" value={volts(2 * amp)} sub={`${volts(vmin)} 到 ${volts(vmax)}`} color={trace.voltage} />
         <Readout label="有效值" value={volts(rms)} sub={rmsHint} />
-        <Readout label="周期" value={formatSI(period, "s")} sub={`1 ÷ ${formatSI(freq, "Hz")}`} />
+        <Readout label="周期" value={formatSI(period, "s")} sub={<Tex>{`1/${tex.si(freq, "Hz")}`}</Tex>} />
         <Readout label="平均值" value={volts(mean)} sub={shape === "square" ? "随占空比变化" : "等于直流偏置"} color={trace.second} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>

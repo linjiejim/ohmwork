@@ -14,10 +14,12 @@ import {
   Segmented,
   SliderField,
   Source,
+  Tex,
   Wire,
   fixed,
   formatSI,
   percent,
+  tex,
   trace,
 } from "@/lab"
 
@@ -170,9 +172,9 @@ export function LdoLab() {
       </LabControls>
       <LabReadouts>
         <Readout label="输出电压" value={formatSI(vout, "V")} color={trace.voltage} />
-        <Readout label="发热 (Vin − Vout) × I" value={formatSI(heat, "W")} color={trace.power} sub={`调整管等效 ${formatSI(rPass, "Ω")}`} />
-        <Readout label="效率 ≈ Vout ÷ Vin" value={percent(efficiency, 1)} />
-        <Readout label="结温估算" value={temp(tj)} sub={`${AMBIENT} °C + ${formatSI(heat, "W")} × ${theta} °C/W`} />
+        <Readout label={<>发热 <Tex>{String.raw`(V_{\mathrm{in}} - V_{\mathrm{out}}) \times I`}</Tex></>} value={formatSI(heat, "W")} color={trace.power} sub={`调整管等效 ${formatSI(rPass, "Ω")}`} />
+        <Readout label={<>效率 <Tex>{String.raw`\approx V_{\mathrm{out}} / V_{\mathrm{in}}`}</Tex></>} value={percent(efficiency, 1)} />
+        <Readout label="结温估算" value={temp(tj)} sub={<Tex>{`${AMBIENT}\\,{}^{\\circ}\\mathrm{C} + ${tex.si(heat, "W")} \\times ${theta}\\,{}^{\\circ}\\mathrm{C/W}`}</Tex>} />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>
     </Lab>

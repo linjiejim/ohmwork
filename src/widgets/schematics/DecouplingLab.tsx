@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Capacitor, Inductor, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, Source, Wire, formatSI, percent, rk4, trace } from "@/lab"
+import { Capacitor, Inductor, Junction, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Plot, Readout, Schematic, SliderField, Source, Tex, Wire, formatSI, percent, rk4, tex, trace } from "@/lab"
 
 /*
  * Simplified model of a chip's supply pin.
@@ -146,8 +146,8 @@ export function DecouplingLab() {
       <LabReadouts>
         <Readout label="最低电压" value={formatSI(min, "V")} color={trace.voltage} />
         <Readout label="最大跌落" value={formatSI(drop, "V")} sub={`3.3 V 的 ${percent(share, 1)}`} />
-        <Readout label="一次抽走的电荷 Q" value={formatSI(charge, "C")} sub={`${formatSI(amp, "A")} × 42 ns`} />
-        <Readout label="粗估 Q ÷ C" value={none ? "没有电容" : formatSI(charge / c, "V")} sub="只靠电容供电时的跌落" />
+        <Readout label="一次抽走的电荷 Q" value={formatSI(charge, "C")} sub={<Tex>{String.raw`${tex.si(amp, "A")} \times 42\,\mathrm{ns}`}</Tex>} />
+        <Readout label={<>粗估 <Tex>{"Q/C"}</Tex></>} value={none ? "没有电容" : formatSI(charge / c, "V")} sub="只靠电容供电时的跌落" />
       </LabReadouts>
       <LabNote tone={tone}>{note}</LabNote>
     </Lab>

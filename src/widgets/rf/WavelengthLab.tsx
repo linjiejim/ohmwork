@@ -1,6 +1,6 @@
 import * as React from "react"
 import { catVar } from "@/lib/categorical"
-import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Readout, SliderField, TAU, formatSI, trace, usePlayback, useTime } from "@/lab"
+import { Button, ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, PlayButton, Readout, SliderField, TAU, Tex, formatSI, trace, usePlayback, useTime } from "@/lab"
 import { C0, Canvas, formatLength } from "./kit"
 
 const F_MIN = 1e5
@@ -329,9 +329,9 @@ export function WavelengthLab() {
         </ControlField>
       </LabControls>
       <LabReadouts>
-        <Readout label="波长 λ = c ÷ f" value={formatLength(wavelength)} color={trace.voltage} />
-        <Readout label="λ/4 天线" value={formatLength(wavelength / 4)} sub={antennaSize(wavelength / 4)} />
-        <Readout label="λ/10" value={formatLength(wavelength / 10)} sub="导线比这长就按射频对待" />
+        <Readout label={<>波长 <Tex>{String.raw`\lambda = c/f`}</Tex></>} value={formatLength(wavelength)} color={trace.voltage} />
+        <Readout label={<><Tex>{String.raw`\lambda/4`}</Tex> 天线</>} value={formatLength(wavelength / 4)} sub={antennaSize(wavelength / 4)} />
+        <Readout label={<Tex>{String.raw`\lambda/10`}</Tex>} value={formatLength(wavelength / 10)} sub="导线比这长就按射频对待" />
         <Readout label="所在频段" value={itu.code} sub={itu.name} />
       </LabReadouts>
       <LabNote>{hit ? `${hit.inside ? "" : "当前频率紧挨着这一段。"}${hit.band.note}` : itu.note}</LabNote>

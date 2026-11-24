@@ -17,11 +17,13 @@ import {
   Schematic,
   Segmented,
   SliderField,
+  Tex,
   Wire,
   clamp,
   fixed,
   formatSI,
   percent,
+  tex,
   trace,
   useFrame,
   usePlayback,
@@ -79,11 +81,15 @@ export function RcChargeLab() {
   const traced: [number, number][] = shown > 0 ? Array.from({ length: 121 }, (_, k) => [(shown * k) / 120, curve((shown * k) / 120)]) : [[0, v0]]
   const done = elapsed >= 5 * tau
   const slow = tau > 1.0001
-  const pace = slow
-    ? `τ = ${formatSI(tau, "s")}，要等 5τ ≈ ${formatSI(5 * tau, "s", 2)} 才算${charging ? "充满" : "放完"}，这张图只画前 ${WINDOW} 秒。`
-    : tau < 0.05
-      ? `τ 只有 ${formatSI(tau, "s")}，对肉眼来说就是一瞬间。`
-      : ""
+  const pace = slow ? (
+    <>
+      <Tex>{String.raw`\tau = ${tex.si(tau, "s")}`}</Tex>，要等 <Tex>{String.raw`5\tau \approx ${tex.si(5 * tau, "s", 2)}`}</Tex> 才算{charging ? "充满" : "放完"}，这张图只画前 {WINDOW} 秒。
+    </>
+  ) : tau < 0.05 ? (
+    `τ 只有 ${formatSI(tau, "s")}，对肉眼来说就是一瞬间。`
+  ) : (
+    ""
+  )
 
   return (
     <Lab
@@ -207,7 +213,7 @@ export function RcChargeLab() {
         </ControlField>
       </LabControls>
       <LabReadouts>
-        <Readout label="时间常数 τ = RC" value={formatSI(tau, "s")} />
+        <Readout label={<>时间常数 <Tex>{String.raw`\tau = RC`}</Tex></>} value={formatSI(tau, "s")} />
         <Readout label="已过时间" value={`${fixed(elapsed, 1)} s`} sub={`${fixed(elapsed / tau, 1)} 个 τ`} />
         <Readout label="电容电压" value={`${fixed(vc, 2)} V`} sub={`电源的 ${percent(vc / VS)}`} color={trace.voltage} />
         <Readout label={charging ? "充电电流" : "放电电流"} value={formatSI(Math.abs(i), "A")} color={trace.current} />
@@ -216,10 +222,10 @@ export function RcChargeLab() {
         {charging
           ? done
             ? "过了 5τ，电容电压和电源相差不到 1%，可以当它充满了：电流几乎为 0，电容对直流相当于断开。"
-            : `正在充电。电容电压越接近电源，电阻两端的压差越小，电流也越小，所以曲线越走越平。${pace}`
+            : <>正在充电。电容电压越接近电源，电阻两端的压差越小，电流也越小，所以曲线越走越平。{pace}</>
           : done
             ? "放完了：电容电压回到 0，电流也停了。"
-            : `正在放电。电容电压从拨开关那一刻的值往下掉，不会跳变；电压越低，放电电流越小。${pace}`}
+            : <>正在放电。电容电压从拨开关那一刻的值往下掉，不会跳变；电压越低，放电电流越小。{pace}</>}
       </LabNote>
     </Lab>
   )

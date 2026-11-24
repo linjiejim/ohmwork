@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, fixed, percent, trace } from "@/lab"
+import { Lab, LabControls, LabNote, LabReadouts, LabStage, Plot, Readout, SliderField, Tex, fixed, percent, trace } from "@/lab"
 import { gaussianNoise, stdDev } from "./noise"
 
 /** Samples drawn on screen. */
@@ -64,7 +64,11 @@ export function AveragingLab() {
       ? "噪声调到了 0：这时平均没有任何好处，只剩下「反应变慢」这一个代价。"
       : n === 1
         ? "没有做平均：每次读数都带着全部噪声，但真实温度一变，读数马上跟上。"
-        : `${n} 次平均把抖动压到原来的 ${percent(ratio)}（理论值 1/√${n} = ${percent(theory)}）。代价是反应变慢：第 ${STEP_AT} 次采样时温度突然升了 2 °C，平均值要再过 ${n} 次采样才完全跟上。`
+        : (
+          <>
+            {n} 次平均把抖动压到原来的 {percent(ratio)}（理论值 <Tex>{String.raw`1/\sqrt{${n}} = ${percent(theory).replace("%", String.raw`\%`)}`}</Tex>）。代价是反应变慢：第 {STEP_AT} 次采样时温度突然升了 2 °C，平均值要再过 {n} 次采样才完全跟上。
+          </>
+        )
 
   return (
     <Lab
@@ -104,7 +108,11 @@ export function AveragingLab() {
       <LabReadouts>
         <Readout label="原始读数的抖动" value={`±${fixed(rawJitter, 2)} °C`} color={trace.second} />
         <Readout label="平均后的抖动" value={`±${fixed(avgJitter, 2)} °C`} color={trace.voltage} />
-        <Readout label="降到原来的" value={percent(ratio)} sub={`理论 1/√${n} = ${percent(theory)}`} />
+        <Readout label="降到原来的" value={percent(ratio)} sub={
+            <>
+              理论 <Tex>{String.raw`1/\sqrt{${n}} = ${percent(theory).replace("%", String.raw`\%`)}`}</Tex>
+            </>
+          } />
         <Readout label="跟上变化需要" value={`${n} 次采样`} />
       </LabReadouts>
       <LabNote tone={n >= 32 && sigma > 0 ? "warn" : "neutral"}>{note}</LabNote>
