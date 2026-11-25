@@ -30,7 +30,7 @@ export function App() {
         <Route index element={<HomePage />} />
         <Route path="learn/:chapterId" element={<ChapterPage />} />
         <Route path="learn/:chapterId/:lessonSlug" element={<LessonPage />} />
-        <Route path="tools" element={later(<ToolsPage />)} />
+        <Route path="tools/:toolId?" element={later(<ToolsPage />)} />
         <Route path="symbols" element={later(<SymbolsPage />)} />
         <Route path="glossary" element={later(<GlossaryPage />)} />
         <Route path="*" element={<NotFound />} />

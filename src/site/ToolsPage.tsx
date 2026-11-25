@@ -1,12 +1,27 @@
 import * as React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { ArrowLeft, ChevronRight, CircleAlert, RotateCcw } from "lucide-react"
+import { Button, IconButton } from "@/components/ui/button"
 import { Field } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Page, PageHeader, Section } from "@/components/ui/page"
+import { Page, PageHeader } from "@/components/ui/page"
 import { Segmented } from "@/components/ui/segmented"
+import { StateView } from "@/components/ui/state"
+import { LESSONS, lessonPath } from "@/curriculum/curriculum"
 import { fixed, formatSI, parseSI, sig } from "@/lab/format"
+import { useKeptState } from "@/lab/hooks"
 import { nearestE, parallel } from "@/lab/math"
 import { Tex } from "@/lab/Tex"
+import { cn } from "@/lib/utils"
+import { TOOL_GROUPS, TOOLS, toolPath, type ToolMeta } from "@/site/tools"
+import { ColorCodeLab } from "@/widgets/components/ColorCodeLab"
+
+/*
+ * The toolbox as a list–detail page: the tools on the left, one tool on the right. At lg and up the
+ * page is exactly the window's height and each column scrolls on its own; every tool is laid out to
+ * fit a 1280 × 720 window without scrolling. Below lg it is one column: the list, or one tool with
+ * a back button. Each tool has its own URL (/tools/<id>) and keeps what you set for the rest of the visit.
+ */
 
 interface InputDef {
   key: string
@@ -27,14 +42,12 @@ interface Variant {
   id: string
   label: string
   inputs: InputDef[]
-  compute: (v: Record<string, number>) => Result[]
+  /** The results, or one sentence saying why these inputs can't work. */
+  compute: (v: Record<string, number>) => Result[] | string
 }
 
 interface CalcDef {
-  id: string
-  title: string
   formula: React.ReactNode
-  lesson?: { to: string; label: string }
   variants: Variant[]
 }
 
@@ -47,16 +60,14 @@ function ceilE24(value: number) {
 
 const C0 = 299_792_458
 
-const CALCS: CalcDef[] = [
-  {
-    id: "ohm",
-    title: "欧姆定律与功率",
+/** The calculators, by tool id (see tools.ts for names and order). */
+const CALCS: Record<string, CalcDef> = {
+  ohm: {
     formula: (
       <>
         <Tex>{"I = V/R"}</Tex>，<Tex>{"P = VI"}</Tex>
       </>
     ),
-    lesson: { to: "/learn/basics/ohms-law", label: "欧姆定律" },
     variants: [
       {
         id: "i",
@@ -96,11 +107,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "led",
-    title: "LED 限流电阻",
+  led: {
     formula: <Tex>{"R = (V_s - V_f)/I_f"}</Tex>,
-    lesson: { to: "/learn/semiconductors/leds-zeners", label: "LED 与稳压二极管" },
     variants: [
       {
         id: "led",
@@ -111,7 +119,7 @@ const CALCS: CalcDef[] = [
           { key: "i", label: "目标电流", initial: "10m" },
         ],
         compute: ({ vs, vf, i }) => {
-          if (vs <= vf) return [{ label: "结果", value: "电源电压要高于 LED 压降" }]
+          if (vs <= vf) return "电源电压要高于 LED 压降"
           const exact = (vs - vf) / i
           const std = ceilE24(exact)
           const actual = (vs - vf) / std
@@ -125,11 +133,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "divider",
-    title: "分压器",
+  divider: {
     formula: <Tex>{String.raw`V_{\mathrm{out}} = V_{\mathrm{in}} \times R_2/(R_1 + R_2)`}</Tex>,
-    lesson: { to: "/learn/basics/voltage-divider", label: "分压器与基尔霍夫定律" },
     variants: [
       {
         id: "out",
@@ -154,7 +159,7 @@ const CALCS: CalcDef[] = [
           { key: "r2", label: "下电阻 R2", initial: "10k" },
         ],
         compute: ({ vin, vout, r2 }) => {
-          if (vout >= vin) return [{ label: "结果", value: "分压器只能降压，输出要低于输入" }]
+          if (vout >= vin) return "分压器只能降压，输出要低于输入"
           const exact = r2 * (vin / vout - 1)
           const std = nearestE(exact, "E24")
           return [
@@ -166,15 +171,12 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "rc",
-    title: "RC 时间常数与截止频率",
+  rc: {
     formula: (
       <>
         <Tex>{String.raw`\tau = RC`}</Tex>，<Tex>{String.raw`f_c = 1/(2\pi RC)`}</Tex>
       </>
     ),
-    lesson: { to: "/learn/ac-signals/rc-filters", label: "RC 滤波器" },
     variants: [
       {
         id: "rc",
@@ -191,11 +193,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "lc",
-    title: "LC 谐振频率",
+  lc: {
     formula: <Tex>{String.raw`f_0 = 1/(2\pi\sqrt{LC})`}</Tex>,
-    lesson: { to: "/learn/ac-signals/resonance", label: "LC 谐振" },
     variants: [
       {
         id: "lc",
@@ -211,15 +210,12 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "combine",
-    title: "电阻串联与并联",
+  "series-parallel": {
     formula: (
       <>
         串联相加；并联 <Tex>{"1/R = 1/R_1 + 1/R_2"}</Tex>
       </>
     ),
-    lesson: { to: "/learn/basics/series-parallel", label: "串联与并联" },
     variants: [
       {
         id: "combine",
@@ -235,11 +231,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "battery",
-    title: "电池续航",
+  battery: {
     formula: "时间 = 容量 / 平均电流",
-    lesson: { to: "/learn/basics/power-energy", label: "功率与能量" },
     variants: [
       {
         id: "battery",
@@ -259,15 +252,12 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "db",
-    title: "分贝换算",
+  decibel: {
     formula: (
       <>
         电压比 <Tex>{String.raw`20\log`}</Tex>，功率比 <Tex>{String.raw`10\log`}</Tex>；<Tex>{String.raw`0\,\mathrm{dBm} = 1\,\mathrm{mW}`}</Tex>
       </>
     ),
-    lesson: { to: "/learn/ac-signals/spectrum", label: "频谱与分贝" },
     variants: [
       {
         id: "ratio",
@@ -301,11 +291,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "wave",
-    title: "频率与波长",
+  wavelength: {
     formula: <Tex>{String.raw`\lambda = c/f`}</Tex>,
-    lesson: { to: "/learn/rf/em-waves", label: "电磁波与无线电频谱" },
     variants: [
       {
         id: "wave",
@@ -319,11 +306,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "adc",
-    title: "ADC 分辨率",
+  adc: {
     formula: <Tex>{String.raw`1\,\mathrm{LSB} = V_{\mathrm{ref}}/2^N`}</Tex>,
-    lesson: { to: "/learn/digital/adc-dac", label: "ADC 与 DAC" },
     variants: [
       {
         id: "adc",
@@ -342,11 +326,8 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-  {
-    id: "555",
-    title: "555 无稳态振荡",
+  "555": {
     formula: <Tex>{String.raw`f = 1.44/\big((R_A + 2R_B) \times C\big)`}</Tex>,
-    lesson: { to: "/learn/analog/oscillators-555", label: "振荡器与 555 定时器" },
     variants: [
       {
         id: "555",
@@ -369,91 +350,281 @@ const CALCS: CalcDef[] = [
       },
     ],
   },
-]
+}
 
-function Calc({ def }: { def: CalcDef }) {
-  const [variantId, setVariantId] = React.useState(def.variants[0].id)
-  const variant = def.variants.find((v) => v.id === variantId) ?? def.variants[0]
-  const [text, setText] = React.useState<Record<string, string>>(() => Object.fromEntries(def.variants.flatMap((v) => v.inputs.map((i) => [`${v.id}.${i.key}`, i.initial]))))
-  const parsed = variant.inputs.map((input) => {
-    const value = parseSI(text[`${variant.id}.${input.key}`] ?? "")
-    const bad = !Number.isFinite(value) || (!input.anySign && value <= 0)
-    return { input, value, bad }
-  })
-  const results = parsed.some((p) => p.bad) ? null : variant.compute(Object.fromEntries(parsed.map((p) => [p.input.key, p.value])))
+/** Tools that are a lesson widget rather than a calculator. They take a key to keep their state under. */
+const WIDGETS: Record<string, React.ComponentType<{ keepAs?: string }>> = {
+  "color-code": ColorCodeLab,
+}
+
+const SHORTHAND = "输入框认识工程写法：4.7k、100n、2.4G、20mA、4k7 都可以。"
+
+interface CalcState {
+  variant: string
+  /** What is typed in each field, by "variant.input". */
+  text: Record<string, string>
+}
+
+const startState = (def: CalcDef): CalcState => ({
+  variant: def.variants[0].id,
+  text: Object.fromEntries(def.variants.flatMap((v) => v.inputs.map((i) => [`${v.id}.${i.key}`, i.initial]))),
+})
+
+/** The result labels with no values, for while an input can't be read. */
+function blankResults(v: Variant): Result[] {
+  const r = v.compute(Object.fromEntries(v.inputs.map((i) => [i.key, parseSI(i.initial)])))
+  return Array.isArray(r) ? r.map((x) => ({ ...x, value: "—" })) : []
+}
+
+/** Tool name as the page title; below lg, a back button to the list sits left of it. */
+function ToolHeader({ tool, info, actions }: { tool: ToolMeta; info?: React.ReactNode; actions?: React.ReactNode }) {
+  const navigate = useNavigate()
   return (
-    <section aria-labelledby={`calc-${def.id}`} className="flex flex-col rounded-lg border">
-      <header className="px-4 pt-3">
-        <h3 id={`calc-${def.id}`} className="text-heading font-semibold">
-          {def.title}
-        </h3>
-        <p className="mt-0.5 text-small text-muted-foreground">{def.formula}</p>
-      </header>
-      <div className="flex flex-1 flex-col gap-3 px-4 py-3">
-        {def.variants.length > 1 && <Segmented size="sm" aria-label="计算方式" className="self-start" value={variant.id} onValueChange={setVariantId} options={def.variants.map((v) => ({ value: v.id, label: v.label }))} />}
-        <div className="grid grid-cols-2 gap-3">
-          {parsed.map(({ input, bad }) => (
-            <Field key={`${variant.id}.${input.key}`} label={input.label} error={bad ? (input.anySign ? "填一个数字" : "填一个大于 0 的数，例如 4.7k") : undefined}>
-              <Input
-                inputMode="text"
-                autoComplete="off"
-                spellCheck={false}
-                className="tabular"
-                value={text[`${variant.id}.${input.key}`] ?? ""}
-                onChange={(e) => setText((t) => ({ ...t, [`${variant.id}.${input.key}`]: e.target.value }))}
-              />
-            </Field>
-          ))}
-        </div>
-      </div>
-      <dl aria-live="polite" className="flex flex-col gap-1.5 border-t px-4 py-3">
-        {(results ?? variant.compute(Object.fromEntries(variant.inputs.map((i) => [i.key, parseSI(i.initial)]))).map((r) => ({ ...r, value: "—" }))).map((r) => (
-          <div key={r.label} className="flex items-baseline justify-between gap-4">
-            <dt className="text-small text-muted-foreground">
-              {r.label}
-              {r.tex && (
-                <>
-                  {" "}
-                  <Tex>{r.tex}</Tex>
-                </>
-              )}
-            </dt>
-            <dd className="tabular text-body font-semibold">{r.value}</dd>
-          </div>
-        ))}
-      </dl>
-      {def.lesson && (
-        <p className="border-t px-4 py-2 text-caption text-faint-foreground">
-          讲它的课：
-          <Link to={def.lesson.to} className="text-muted-foreground underline decoration-input underline-offset-4 hover:text-foreground">
-            {def.lesson.label}
-          </Link>
-        </p>
-      )}
-    </section>
+    <PageHeader
+      back={
+        <IconButton label="返回工具列表" className="lg:hidden" onClick={() => navigate("/tools")}>
+          <ArrowLeft />
+        </IconButton>
+      }
+      title={tool.title}
+      info={info}
+      actions={actions}
+    />
   )
 }
 
-// The colour-code decoder belongs to the resistor lesson; show it here too when that lesson's widget exists.
-const colorCode = import.meta.glob<Record<string, React.ComponentType>>("/src/widgets/components/ColorCodeLab.tsx")
-const ColorCodeLab = Object.values(colorCode)[0] ? React.lazy(() => Object.values(colorCode)[0]().then((m) => ({ default: m.ColorCodeLab ?? (() => null) }))) : null
-
-/** Everyday calculators. Every field takes engineering shorthand: 4.7k, 100n, 2.4G, 20mA. */
-export function ToolsPage() {
+function LessonLink({ lessonKey }: { lessonKey?: string }) {
+  const ref = LESSONS.find((l) => l.key === lessonKey)
+  if (!ref) return null
   return (
-    <Page width="wide">
-      <PageHeader title="工具箱" info="输入框认识工程写法：4.7k、100n、2.4G、20mA、4k7 都可以。" />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {CALCS.map((def) => (
-          <Calc key={def.id} def={def} />
-        ))}
+    <p className="mt-3 text-small text-muted-foreground">
+      讲它的课：
+      <Link to={lessonPath(ref.key)} className="text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+        {ref.lesson.title}
+      </Link>
+    </p>
+  )
+}
+
+/*
+ * One calculator, in the lab widgets' shape: the formula where a widget has its picture, then the
+ * inputs, then the results. Inputs and results share one grid (4 columns from 576 wide, else 2), so
+ * the results line up with the fields above them.
+ */
+function Calc({ tool, def }: { tool: ToolMeta; def: CalcDef }) {
+  const [state, setState] = useKeptState(`tools.${tool.id}`, () => startState(def))
+  const variant = def.variants.find((v) => v.id === state.variant) ?? def.variants[0]
+  const field = (key: string) => `${variant.id}.${key}`
+  const parsed = variant.inputs.map((input) => {
+    const value = parseSI(state.text[field(input.key)] ?? "")
+    const bad = !Number.isFinite(value) || (!input.anySign && value <= 0)
+    return { input, value, bad }
+  })
+  const out = parsed.some((p) => p.bad) ? null : variant.compute(Object.fromEntries(parsed.map((p) => [p.input.key, p.value])))
+  const problem = typeof out === "string" ? out : null
+  const results = Array.isArray(out) ? out : blankResults(variant)
+  return (
+    <>
+      <ToolHeader
+        tool={tool}
+        info={SHORTHAND}
+        actions={
+          <IconButton label="恢复初始值" className="text-muted-foreground" onClick={() => setState(startState(def))}>
+            <RotateCcw />
+          </IconButton>
+        }
+      />
+      <section aria-label={tool.title} className="@container divide-y overflow-hidden rounded-lg border">
+        <p className="bg-sunken px-4 py-4 text-center text-heading">{def.formula}</p>
+        <div className="flex flex-col gap-3 px-4 py-4">
+          {def.variants.length > 1 && (
+            <Segmented
+              aria-label="计算方式"
+              className="self-start"
+              value={variant.id}
+              onValueChange={(v) => setState((s) => ({ ...s, variant: v }))}
+              options={def.variants.map((v) => ({ value: v.id, label: v.label }))}
+            />
+          )}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-3 @xl:grid-cols-4">
+            {parsed.map(({ input, bad }) => (
+              <Field key={field(input.key)} label={input.label} error={bad ? (input.anySign ? "填一个数字" : "填一个大于 0 的数，例如 4.7k") : undefined}>
+                <Input
+                  inputMode="text"
+                  autoComplete="off"
+                  spellCheck={false}
+                  className="tabular"
+                  value={state.text[field(input.key)] ?? ""}
+                  onChange={(e) => {
+                    const value = e.target.value
+                    setState((s) => ({ ...s, text: { ...s.text, [field(input.key)]: value } }))
+                  }}
+                />
+              </Field>
+            ))}
+          </div>
+        </div>
+        <div aria-live="polite">
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-3 px-4 py-4 @xl:grid-cols-4">
+            {results.map((r) => (
+              <div key={r.label} className="min-w-0">
+                <dt className="text-small text-muted-foreground">
+                  {r.label}
+                  {r.tex && (
+                    <>
+                      {" "}
+                      <Tex>{r.tex}</Tex>
+                    </>
+                  )}
+                </dt>
+                <dd className="tabular text-title font-semibold">{r.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {problem && (
+            <p className="flex items-start gap-1.5 border-t px-4 py-2.5 text-small text-warning">
+              <CircleAlert aria-hidden className="mt-0.5 size-4 shrink-0" />
+              {problem}
+            </p>
+          )}
+        </div>
+      </section>
+      <LessonLink lessonKey={tool.lesson} />
+    </>
+  )
+}
+
+function ToolDetail({ tool }: { tool: ToolMeta }) {
+  const calc = CALCS[tool.id]
+  if (calc) return <Calc tool={tool} def={calc} />
+  const Widget = WIDGETS[tool.id]
+  if (!Widget) return <Missing />
+  return (
+    <>
+      <ToolHeader tool={tool} />
+      {/* the widget brings the margins it has in a lesson; here the page header spaces it */}
+      <div className="*:my-0">
+        <Widget keepAs={`tools.${tool.id}`} />
       </div>
-      {ColorCodeLab && (
-        <Section title="电阻色环" className="max-w-[720px]">
-          <React.Suspense fallback={<div className="h-64" aria-busy="true" />}>
-            <ColorCodeLab />
-          </React.Suspense>
-        </Section>
+      <LessonLink lessonKey={tool.lesson} />
+    </>
+  )
+}
+
+function Missing() {
+  const navigate = useNavigate()
+  return <StateView kind="empty" title="找不到这个工具" action={<Button onClick={() => navigate("/tools")}>回到工具箱</Button>} />
+}
+
+const WIDE = "(min-width: 64rem)" // Tailwind's lg, where the page splits into two columns
+
+function useMediaQuery(query: string) {
+  const subscribe = React.useCallback(
+    (onChange: () => void) => {
+      const mq = window.matchMedia(query)
+      mq.addEventListener("change", onChange)
+      return () => mq.removeEventListener("change", onChange)
+    },
+    [query],
+  )
+  return React.useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(query).matches,
+    () => false,
+  )
+}
+
+const itemClass = cn(
+  "flex h-(--nav-item-h) w-full items-center gap-2 rounded-md px-2 text-body text-muted-foreground",
+  "transition-colors duration-(--duration-fast) hover:bg-accent hover:text-foreground [&_svg]:size-4 [&_svg]:shrink-0",
+)
+// the current tool looks like the current page in the sidebar (NavItem): fill and full-strength text, no bar
+const currentClass = "bg-pressed font-medium text-foreground hover:bg-pressed"
+
+/** Everyday calculators and the colour-code reader, one at a time. */
+export function ToolsPage() {
+  const { toolId } = useParams()
+  const navigate = useNavigate()
+  const wide = useMediaQuery(WIDE)
+  // a wide screen has room for a tool beside the list, so /tools opens the first one; a narrow one shows the list
+  const tool = toolId === undefined ? (wide ? TOOLS[0] : undefined) : TOOLS.find((t) => t.id === toolId)
+  const showDetail = tool !== undefined || toolId !== undefined
+  React.useEffect(() => {
+    if (toolId === undefined && wide) navigate(toolPath(TOOLS[0].id), { replace: true })
+  }, [toolId, wide, navigate])
+
+  const list = React.useRef<HTMLElement>(null)
+  const detail = React.useRef<HTMLDivElement>(null)
+  const refocus = React.useRef(false)
+
+  // ↑ / ↓ or K / J step through the tools, as in every list–detail view. Keys typed into a field,
+  // held with ⌘ / Ctrl / Alt, or meant for a control or a layer above the page are left alone.
+  const index = tool ? TOOLS.indexOf(tool) : -1
+  React.useEffect(() => {
+    if (index < 0) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented) return
+      const step = e.key === "ArrowDown" || e.key === "j" ? 1 : e.key === "ArrowUp" || e.key === "k" ? -1 : 0
+      if (!step) return
+      const target = e.target instanceof HTMLElement ? e.target : null
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return
+      if (target?.closest('[role="listbox"], [role="menu"]') || document.querySelector('[role="dialog"], [role="alertdialog"]')) return
+      const next = TOOLS[index + step]
+      if (!next) return
+      e.preventDefault()
+      refocus.current = !!list.current?.contains(document.activeElement)
+      // stepping replaces the history entry: Back leaves the toolbox instead of replaying every step
+      navigate(toolPath(next.id), { replace: true })
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [index, navigate])
+
+  // a new tool starts at its top, its row stays in view in the list, and focus follows a key press made in the list
+  React.useEffect(() => {
+    if (detail.current) detail.current.scrollTop = 0
+    const row = list.current?.querySelector<HTMLElement>('[aria-current="page"]')
+    row?.scrollIntoView({ block: "nearest" })
+    if (refocus.current) row?.focus()
+    refocus.current = false
+  }, [tool?.id])
+
+  return (
+    <Page width="full" fill className="flex-row p-0 max-sm:p-0">
+      <nav
+        ref={list}
+        aria-label="工具"
+        className={cn(
+          "w-full overflow-y-auto px-(--space-page) pb-10 pt-(--space-page) max-sm:px-4 max-sm:pt-4",
+          "lg:w-60 lg:shrink-0 lg:border-r lg:px-2 lg:pb-3",
+          showDetail && "max-lg:hidden",
+        )}
+      >
+        {/* on a wide screen the sidebar already says where you are and the tool's name is the title */}
+        <PageHeader title="工具箱" className="lg:hidden" />
+        {TOOL_GROUPS.map((group, g) => (
+          <div key={group.label} className="mt-4 first-of-type:mt-0">
+            <div id={`tool-group-${g}`} className="mb-1 px-2 text-caption font-medium text-faint-foreground">
+              {group.label}
+            </div>
+            <ul aria-labelledby={`tool-group-${g}`} className="flex flex-col gap-px">
+              {group.tools.map((t) => (
+                <li key={t.id}>
+                  <Link to={toolPath(t.id)} aria-current={t === tool ? "page" : undefined} className={cn(itemClass, t === tool && currentClass)}>
+                    <t.icon aria-hidden />
+                    <span className="min-w-0 flex-1 truncate">{t.title}</span>
+                    <ChevronRight aria-hidden className="text-faint-foreground lg:hidden" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+      {showDetail && (
+        <div ref={detail} className="min-w-0 flex-1 overflow-y-auto px-(--space-page) py-(--space-page) max-sm:px-4 max-sm:pt-4">
+          <div className="mx-auto max-w-[720px]">{tool ? <ToolDetail key={tool.id} tool={tool} /> : <Missing />}</div>
+        </div>
       )}
     </Page>
   )

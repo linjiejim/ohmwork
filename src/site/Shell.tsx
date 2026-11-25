@@ -10,6 +10,7 @@ import { LESSONS, STAGES, chapterPath, lessonPath } from "@/curriculum/curriculu
 import { useProgress } from "@/curriculum/progress"
 import { GLOSSARY } from "@/site/glossary-data"
 import { preloadWhenIdle } from "@/site/lesson-modules"
+import { TOOLS, toolPath } from "@/site/tools"
 
 export function BrandMark({ className }: { className?: string }) {
   return (
@@ -32,7 +33,7 @@ function Brand() {
 
 const PAGES = [
   { path: "/", label: "首页", icon: Home, keywords: ["home", "学习路线", "路线图"] },
-  { path: "/tools", label: "工具箱", icon: Calculator, keywords: ["calculator", "计算器", "色环", "分压", "限流电阻"] },
+  { path: "/tools", label: "工具箱", icon: Calculator, keywords: ["tools", "calculator", "计算器"] },
   { path: "/symbols", label: "符号速查", icon: Shapes, keywords: ["symbol", "原理图符号"] },
   { path: "/glossary", label: "术语表", icon: BookA, keywords: ["glossary", "名词", "缩写"] },
 ]
@@ -55,7 +56,7 @@ function SideNav({ onSearch }: { onSearch: () => void }) {
       <NavGroup>
         <NavItem icon={<Search />} label="搜索" onClick={onSearch} trailing={<Kbd>⌘K</Kbd>} />
         {PAGES.map((p) => (
-          <NavItem key={p.path} icon={<p.icon />} label={p.label} active={pathname === p.path} onClick={() => navigate(p.path)} />
+          <NavItem key={p.path} icon={<p.icon />} label={p.label} active={pathname === p.path || (p.path !== "/" && pathname.startsWith(`${p.path}/`))} onClick={() => navigate(p.path)} />
         ))}
       </NavGroup>
       {STAGES.map((stage) => (
@@ -141,6 +142,13 @@ function SearchPalette({ open, onOpenChange }: { open: boolean; onOpenChange: (o
           </CommandItem>
         ))}
       </CommandGroup>
+      <CommandGroup heading="工具">
+        {TOOLS.map((t) => (
+          <CommandItem key={t.id} value={`tool ${t.title}`} icon={<t.icon />} keywords={t.keywords} onSelect={() => navigate(toolPath(t.id))}>
+            {t.title}
+          </CommandItem>
+        ))}
+      </CommandGroup>
       <CommandGroup heading="术语">
         {GLOSSARY.map((g) => (
           <CommandItem key={g.term} value={`term ${g.term} ${g.en ?? ""}`} icon={<BookA />} hint={g.en} keywords={g.en ? [g.en] : undefined} onSelect={() => navigate(`/glossary?q=${encodeURIComponent(g.term)}`)}>
@@ -164,7 +172,8 @@ export function Shell() {
   return (
     <>
       <AppShell brand={<Brand />} sidebar={<SideNav onSearch={() => setOpen(true)} />} footer={<AppearanceControl />}>
-        <div ref={content}>
+        {/* full height, so a page that fills the window (Page fill) can size itself to it */}
+        <div ref={content} className="h-full">
           <Outlet />
         </div>
       </AppShell>

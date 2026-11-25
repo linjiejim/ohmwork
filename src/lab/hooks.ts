@@ -71,6 +71,20 @@ export function usePlayback(initial = true) {
 }
 export type Playback = ReturnType<typeof usePlayback>
 
+const kept = new Map<string, unknown>()
+
+/**
+ * useState that, given a key, outlives the component until the page reloads: the tools page passes
+ * one so a tool still shows what you set after you look at another. Without a key it is plain useState.
+ */
+export function useKeptState<T>(key: string | undefined, initial: T | (() => T)) {
+  const [value, setValue] = React.useState<T>(() => (key !== undefined && kept.has(key) ? (kept.get(key) as T) : initial instanceof Function ? initial() : initial))
+  React.useEffect(() => {
+    if (key !== undefined) kept.set(key, value)
+  }, [key, value])
+  return [value, setValue] as const
+}
+
 /** Width of an element in CSS px, tracked with ResizeObserver. `fallback` until measured (and in tests). */
 export function useWidth<T extends Element>(fallback = 640): [React.RefObject<T | null>, number] {
   const ref = React.useRef<T>(null)

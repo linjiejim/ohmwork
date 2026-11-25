@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, Segmented, Select, Tex, formatSI, tex } from "@/lab"
+import { ControlField, Lab, LabControls, LabNote, LabReadouts, LabStage, Label, Readout, Schematic, Segmented, Select, Tex, formatSI, tex, useKeptState } from "@/lab"
 
 type ColorKey = "black" | "brown" | "red" | "orange" | "yellow" | "green" | "blue" | "violet" | "grey" | "white" | "gold" | "silver"
 
@@ -89,10 +89,13 @@ const SERIES: Record<Count, { name: string; values: number[] }> = {
   },
 }
 
-/** Read a resistor's colour bands: pick 4 or 5 bands and a colour for each, get the value, tolerance and whether it is a standard value. */
-export function ColorCodeLab() {
-  const [count, setCount] = React.useState<Count>("4")
-  const [picked, setPicked] = React.useState(INITIAL)
+/**
+ * Read a resistor's colour bands: pick 4 or 5 bands and a colour for each, get the value, tolerance and whether it is a standard value.
+ * `keepAs` (the tools page) keeps the picked bands while the widget is off screen; a lesson starts fresh each time.
+ */
+export function ColorCodeLab({ keepAs }: { keepAs?: string }) {
+  const [count, setCount] = useKeptState<Count>(keepAs && `${keepAs}.count`, "4")
+  const [picked, setPicked] = useKeptState(keepAs && `${keepAs}.bands`, INITIAL)
 
   const roles = ROLES[count]
   const bands = picked[count].map((key) => BY_KEY[key])
