@@ -1,0 +1,45 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "运放，是模拟电路里最万能的一颗芯片。", "gapAfter": 0.6 },
+    { "id": "five", "text": "它有两个输入端，一个输出端，再加正负两个电源脚。", "beats": { "inp": "输入端", "outp": "输出端", "pwr": "电源脚" }, "gapAfter": 0.7 },
+    {
+      "id": "diff",
+      "text": "它只做一件事：把两个输入端的电压差，放大十万倍。",
+      "caption": "它只做一件事：把两个输入端的电压差，放大 10 万倍。",
+      "beats": { "dif": "电压差", "big": "十万倍" },
+      "gapAfter": 0.6
+    },
+    { "id": "rail", "text": "但输出超不出电源电压，顶到头，就停住了。", "beats": { "ceil": "电源电压", "stop": "停住" }, "gapAfter": 0.8 },
+    { "id": "open", "text": "不接反馈，它就是比较器：哪边电压高，输出就倒向哪边。", "beats": { "nofb": "不接反馈", "cmp": "比较器", "hi": "电压高" }, "gapAfter": 0.8 },
+    { "id": "fb", "text": "想让它老老实实放大，就把输出接回反相输入端。", "beats": { "fbk": "接回" }, "gapAfter": 0.6 },
+    { "id": "short", "text": "输出会不停地调整，直到两个输入端电压相等，这叫虚短。", "beats": { "adj": "调整", "eq": "相等", "shortw": "虚短" }, "gapAfter": 0.6 },
+    { "id": "brk", "text": "还有虚断：输入端几乎不吃电流。", "beats": { "brkw": "虚断", "zero": "几乎不吃" }, "gapAfter": 0.8 },
+    { "id": "fol", "text": "这叫电压跟随器：负载再重，输出的电压也稳稳不掉。", "beats": { "foll": "电压跟随器", "load": "负载再重", "stable": "稳稳不掉" }, "gapAfter": 0.8 },
+    { "id": "outro", "text": "下面先试比较器，拖动参考电压，看输出在哪里翻转。", "beats": { "drag": "拖动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "inp", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "outp", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.2 },
+    { "at": "pwr", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.45 },
+    { "at": "diff", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "big", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "stop", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "open", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "cmp", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "fb", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "fbk", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "shortw", "kind": "glass", "f": 880, "gain": 0.16, "send": 0.55 },
+    { "at": "brkw", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "fol", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "load", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.25 },
+    { "at": "stable", "kind": "glass", "f": 1047, "dur": 0.8, "bright": 0.7, "gain": 0.12, "send": 0.55 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

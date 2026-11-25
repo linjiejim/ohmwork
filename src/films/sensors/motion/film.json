@@ -1,0 +1,343 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "手机知道自己是横是竖，平衡车知道自己歪了多少。",
+   "beats": {
+    "phone": "手机",
+    "car": "平衡车"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "acc",
+   "text": "加速度计里有个小质量块，一加速，它就滞后，电容跟着变。",
+   "beats": {
+    "mass": "质量块",
+    "lag": "滞后",
+    "cap": "电容"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "g",
+   "text": "静止时读数也不是零，而是一倍重力加速度。",
+   "caption": "静止时读数也不是零，而是 1 g（重力加速度）。",
+   "beats": {
+    "rest": "静止",
+    "one": "一倍"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "tilt",
+   "text": "板子一倾斜，重力就分到两根轴上，用反正切算回角度。",
+   "beats": {
+    "tiltw": "倾斜",
+    "atan": "反正切"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "shake",
+   "text": "可一振动，角度就乱跳，它分不清重力和晃动。",
+   "beats": {
+    "shakew": "振动",
+    "jump": "乱跳"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "gyro",
+   "text": "陀螺仪测角速度，累加成角度，但零点一偏，一分钟就漂三十度。",
+   "caption": "陀螺仪测角速度，累加成角度，但零点一偏，一分钟就漂 30°。",
+   "beats": {
+    "gyrow": "陀螺仪",
+    "sum": "累加",
+    "drift": "漂"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "fuse",
+   "text": "互补滤波把两者合起来：短期信陀螺仪，长期信加速度计。",
+   "beats": {
+    "fusew": "互补滤波",
+    "short": "短期",
+    "long": "长期"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "hall",
+   "text": "霍尔元件感应磁场，磁铁一靠近，输出就翻转。",
+   "beats": {
+    "hallw": "霍尔元件",
+    "mag": "磁铁"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "enc",
+   "text": "编码器数转了多少：两路方波错开四分之一周期，先后顺序就是方向。",
+   "beats": {
+    "encw": "编码器",
+    "quad": "错开",
+    "dir": "方向"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "outro",
+   "text": "下面的实验里，倾斜板子，看加速度怎么分到两根轴上。",
+   "beats": {
+    "try": "倾斜"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "acc",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "g",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "tilt",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "shake",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "gyro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "fuse",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "hall",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "enc",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "outro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "phone",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "car",
+   "kind": "knock",
+   "f": 223,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "mass",
+   "kind": "knock",
+   "f": 246,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "cap",
+   "kind": "knock",
+   "f": 269,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "rest",
+   "kind": "knock",
+   "f": 202,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "tiltw",
+   "kind": "knock",
+   "f": 225,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "shakew",
+   "kind": "knock",
+   "f": 248,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "gyrow",
+   "kind": "knock",
+   "f": 271,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "drift",
+   "kind": "knock",
+   "f": 204,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "short",
+   "kind": "knock",
+   "f": 227,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "mag",
+   "kind": "knock",
+   "f": 250,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "quad",
+   "kind": "knock",
+   "f": 273,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "one",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "atan",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "jump",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "fusew",
+   "kind": "glass",
+   "f": 988,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "long",
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "dir",
+   "kind": "glass",
+   "f": 1047,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "try",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  }
+ ]
+}

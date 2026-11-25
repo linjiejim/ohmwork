@@ -1,0 +1,414 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课，用一个电池供电的温湿度记录器，走一遍设计流程。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "stations",
+      "text": "流水线一共七站：需求、框图、选型、原理图、板子、打样、调试。",
+      "beats": {
+        "s1": "需求",
+        "s2": "框图",
+        "s3": "选型",
+        "s4": "原理图",
+        "s5": "板子",
+        "s6": "打样",
+        "s7": "调试"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "reqL",
+      "text": "第一站，把需求写成数字：每分钟测一次，电池用满一年，物料三十元。",
+      "caption": "第一站，把需求写成数字：每分钟测一次，电池用满一年，物料 30 元。",
+      "beats": {
+        "req": "需求",
+        "min": "每分钟",
+        "year": "一年",
+        "cost": "三十元"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "block",
+      "text": "第二站画框图：一个方块一个功能，连线上写清接口。",
+      "beats": {
+        "blk": "框图",
+        "box": "方块",
+        "link": "连线"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pick",
+      "text": "选型看四样：供货、封装、资料、参考设计。",
+      "beats": {
+        "pickW": "选型",
+        "p1": "供货",
+        "p2": "封装",
+        "p3": "资料",
+        "p4": "参考设计"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "power",
+      "text": "动手之前先算功耗：醒来干一小会儿活，大部分时间在睡觉。",
+      "beats": {
+        "pw": "功耗",
+        "wake": "醒来",
+        "sleep": "睡觉"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "life",
+      "text": "平均下来约二十二微安，二百二十毫安时的电池，能撑四百多天。",
+      "caption": "平均下来约 22 μA，220 mAh 的电池，能撑 400 多天。",
+      "beats": {
+        "avg": "二十二微安",
+        "cap": "二百二十毫安时",
+        "days": "四百多天"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "led",
+      "text": "指示灯要是常亮，续航就只剩几天。",
+      "beats": {
+        "ledW": "指示灯",
+        "few": "几天"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "check",
+      "text": "原理图画完，照清单检查：电源、去耦、上拉、测试点。",
+      "beats": {
+        "chk": "清单",
+        "c1": "电源",
+        "c2": "去耦",
+        "c3": "上拉",
+        "c4": "测试点"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "first",
+      "text": "第一次上电，用限流电源，一块一块通电，别直接装电池。",
+      "beats": {
+        "lim": "限流",
+        "one": "一块一块",
+        "bat": "装电池"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的功耗计算器，拖动唤醒间隔，看续航怎么变。",
+      "beats": {
+        "calc": "功耗计算器",
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "s1",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s2",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s3",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s4",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s5",
+      "kind": "knock",
+      "f": 280,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s6",
+      "kind": "knock",
+      "f": 300,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s7",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "req",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "min",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "year",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cost",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "block",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "box",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "link",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "pick",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "p1",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "p2",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "p3",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "p4",
+      "kind": "knock",
+      "f": 290,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "power",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "wake",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "sleep",
+      "kind": "knock",
+      "f": 160,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "life",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "avg",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "days",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5,
+      "dur": 0.8
+    },
+    {
+      "at": "led",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "few",
+      "kind": "glass",
+      "f": 330,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "check",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "c1",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "c2",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "c3",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "c4",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "first",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lim",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "one",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.5,
+      "dur": 1.1
+    }
+  ]
+}

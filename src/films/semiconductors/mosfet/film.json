@@ -1,0 +1,323 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "三极管当开关有个麻烦：负载越大，基极要喂的电流就越多。",
+      "beats": {
+        "bjt": "三极管",
+        "more": "越多"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "idea",
+      "text": "场效应管换了个思路：用电压来控制，几乎不要电流。",
+      "beats": {
+        "volt": "用电压",
+        "zero": "几乎不要电流"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pins",
+      "text": "三个脚：栅极、漏极、源极。栅极是控制端。",
+      "beats": {
+        "g": "栅极",
+        "d": "漏极",
+        "s": "源极",
+        "ctrl": "控制端"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "channel",
+      "text": "栅极下面隔着绝缘层。加上电压，下面就形成一条导电的沟道。",
+      "beats": {
+        "ox": "绝缘层",
+        "vg": "加上电压",
+        "ch": "沟道"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "thresh",
+      "text": "电压要超过阈值电压，沟道才刚开始形成，离全开还差得远。",
+      "beats": {
+        "th": "阈值电压",
+        "far": "差得远"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "rds",
+      "text": "完全导通后，漏极和源极之间，就像一只几毫欧的小电阻。",
+      "beats": {
+        "on": "完全导通",
+        "rr": "小电阻"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "heat",
+      "text": "发热是电流的平方乘电阻：两安培流过三十三毫欧，零点一三瓦。",
+      "caption": "发热是电流的平方乘电阻：2 A 流过 33 mΩ，0.13 W。",
+      "beats": {
+        "pw": "电流的平方",
+        "e2": "两安培",
+        "e33": "三十三毫欧",
+        "e013": "零点一三瓦"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "logic",
+      "text": "三点三伏驱动时，逻辑电平管全开了，标准管只开一半，烫得厉害。",
+      "caption": "3.3 V 驱动时，逻辑电平管全开了，标准管只开一半，烫得厉害。",
+      "beats": {
+        "lg": "逻辑电平管",
+        "sd": "标准管",
+        "hot": "烫"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "gate",
+      "text": "栅极要配两只电阻：下拉电阻防止误开，串联电阻保护引脚。",
+      "beats": {
+        "pd": "下拉电阻",
+        "sr": "串联电阻"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，拖动栅极电压，对比两种管子什么时候全开。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "more",
+      "kind": "glass",
+      "f": 440,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "idea",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "zero",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "pins",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "g",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "d",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "s",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "channel",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "ox",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "ch",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "thresh",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "th",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "rds",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "rr",
+      "kind": "glass",
+      "f": 660,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "heat",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "e2",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e33",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e013",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "logic",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "lg",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "sd",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "gate",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "pd",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "sr",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

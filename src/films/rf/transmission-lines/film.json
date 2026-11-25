@@ -1,0 +1,339 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "频率高了，一根导线不再只是连接，而是一条传输线。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "delay",
+      "text": "二点四吉赫的信号，在六厘米的走线上，同时有波峰和波谷。",
+      "caption": "2.4 GHz 的信号，在 6 厘米的走线上，同时有波峰和波谷。",
+      "gapAfter": 0.8,
+      "beats": {
+        "crest": "波峰",
+        "trough": "波谷"
+      }
+    },
+    {
+      "id": "z0",
+      "text": "波前进时，电压和电流有固定的比值，叫特征阻抗。",
+      "gapAfter": 0.8,
+      "beats": {
+        "ratio": "固定的比值",
+        "zz": "特征阻抗"
+      }
+    },
+    {
+      "id": "fifty",
+      "text": "射频最常用五十欧，它是损耗和功率之间的折中。",
+      "caption": "射频最常用 50 Ω，它是损耗和功率之间的折中。",
+      "gapAfter": 0.8,
+      "beats": {
+        "fif": "五十欧",
+        "loss": "损耗",
+        "power": "功率"
+      }
+    },
+    {
+      "id": "refl",
+      "text": "走到终点，负载和线对不上，多出来的部分就掉头反射。",
+      "gapAfter": 0.8,
+      "beats": {
+        "load": "负载",
+        "back": "掉头反射"
+      }
+    },
+    {
+      "id": "cases",
+      "text": "负载等于五十欧，波全被吸收；开路原样弹回，短路倒着弹回。",
+      "caption": "负载等于 50 Ω，波全被吸收；开路原样弹回，短路倒着弹回。",
+      "gapAfter": 0.8,
+      "beats": {
+        "match": "全被吸收",
+        "open": "开路",
+        "short": "短路"
+      }
+    },
+    {
+      "id": "gamma",
+      "text": "五十欧的线接一百五十欧，四分之一的功率被反射。",
+      "caption": "50 Ω 的线接 150 Ω，四分之一的功率被反射。",
+      "gapAfter": 0.8,
+      "beats": {
+        "r150": "一百五十欧",
+        "quarter": "四分之一"
+      }
+    },
+    {
+      "id": "three",
+      "text": "这件事有三种说法：反射系数、驻波比、回波损耗。",
+      "gapAfter": 0.8,
+      "beats": {
+        "gam": "反射系数",
+        "vswr": "驻波比",
+        "rl": "回波损耗"
+      }
+    },
+    {
+      "id": "net",
+      "text": "天线的阻抗对不上时，中间插一个匹配网络，把它调回来。",
+      "gapAfter": 0.7,
+      "beats": {
+        "mnet": "匹配网络"
+      }
+    },
+    {
+      "id": "outro",
+      "text": "下面拖动负载阻抗，亲眼看反射怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "delay",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "crest",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "trough",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "z0",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ratio",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zz",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "fifty",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "loss",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "power",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "fif",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "refl",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "load",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "back",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "cases",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "match",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "open",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "short",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "gamma",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "r150",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "quarter",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "three",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "gam",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "vswr",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "rl",
+      "kind": "knock",
+      "f": 290,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "net",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mnet",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mnet",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.1,
+      "send": 0.5,
+      "offset": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.65,
+      "dur": 1.1,
+      "bright": 0.5
+    }
+  ]
+}

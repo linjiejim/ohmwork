@@ -1,0 +1,73 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "这一课只讲一个公式，它是整门课里用得最多的一个。", "gapAfter": 0.6 },
+    {
+      "id": "loop",
+      "text": "把一只电阻接到电池两端，电压推着电流，从电阻里流过。",
+      "beats": { "res": "电阻", "bat": "电池", "push": "电压", "flow": "电流" }
+    },
+    { "id": "vup", "text": "电压加倍，推得更用力，电流也跟着加倍。", "beats": { "v2": "电压", "i2": "电流" } },
+    { "id": "rup", "text": "换成两倍的电阻，路变窄了，电流就只剩一半。", "beats": { "r2": "两倍", "narrow": "路变窄", "ihalf": "电流" }, "gapAfter": 0.7 },
+    {
+      "id": "law",
+      "text": "一八二七年，欧姆把这个关系写成了一个公式：电流，等于电压除以电阻。",
+      "caption": "1827 年，欧姆把这个关系写成了一个公式：电流等于电压除以电阻。",
+      "beats": { "write": "公式", "lawI": "电流", "lawV": "电压", "lawR": "电阻" },
+      "gapAfter": 0.9
+    },
+    {
+      "id": "forms",
+      "text": "把公式变一变形，就有三种写法。知道任意两个量，就能求出第三个。",
+      "beats": { "three": "三种", "know": "知道", "third": "第三个" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "example",
+      "text": "举个例子：五伏的电源，接一只一千欧的电阻，电流就是五毫安。",
+      "caption": "举个例子：5 V 的电源，接一只 1 kΩ 的电阻，电流就是 5 mA。",
+      "beats": { "exV": "五伏", "exR": "一千欧", "exI": "五毫安" },
+      "gapAfter": 0.8
+    },
+    { "id": "trick", "text": "口算有个窍门：伏特除以千欧，得到的直接就是毫安。", "beats": { "tV": "伏特", "tK": "千欧", "tmA": "毫安" }, "gapAfter": 0.7 },
+    {
+      "id": "graph",
+      "text": "把电压和电流画成图，是一条过原点的直线。电阻越小，线越陡。",
+      "beats": { "axes": "画成图", "line": "直线", "steep": "电阻越小" },
+      "gapAfter": 0.6
+    },
+    { "id": "outro", "text": "下面，拖动滑块，自己验证一下。", "beats": { "drag": "拖动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "loop", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.14, "send": 0.5 },
+    { "at": "res", "kind": "knock", "f": 220, "gain": 0.22, "send": 0.2 },
+    { "at": "bat", "kind": "knock", "f": 180, "gain": 0.22, "send": 0.2 },
+    { "at": "flow", "kind": "glass", "f": 784, "dur": 0.7, "bright": 0.6, "gain": 0.1, "send": 0.5 },
+    { "at": "v2", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "i2", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.45 },
+    { "at": "r2", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "ihalf", "kind": "glass", "f": 494, "gain": 0.12, "send": 0.45 },
+    { "at": "law", "offset": -0.45, "kind": "air", "dur": 0.6, "f0": 2400, "f1": 300, "gain": 0.14, "send": 0.5 },
+    { "at": "lawI", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "lawV", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "lawR", "kind": "glass", "f": 784, "gain": 0.16, "send": 0.55 },
+    { "at": "three", "kind": "knock", "f": 230, "gain": 0.18, "send": 0.25 },
+    { "at": "three", "offset": 0.35, "kind": "knock", "f": 260, "gain": 0.18, "send": 0.25 },
+    { "at": "three", "offset": 0.7, "kind": "knock", "f": 290, "gain": 0.18, "send": 0.25 },
+    { "at": "example", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2600, "gain": 0.13, "send": 0.5 },
+    { "at": "exV", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "exR", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "exI", "kind": "glass", "f": 880, "gain": 0.16, "send": 0.55 },
+    { "at": "tmA", "kind": "glass", "f": 1047, "dur": 0.8, "bright": 0.7, "gain": 0.12, "send": 0.55 },
+    { "at": "graph", "offset": -0.45, "kind": "air", "dur": 0.6, "f0": 2400, "f1": 320, "gain": 0.13, "send": 0.5 },
+    { "at": "line", "offset": -0.3, "kind": "air", "dur": 0.9, "f0": 400, "f1": 1800, "peak": 0.8, "gain": 0.08, "send": 0.4 },
+    { "at": "steep", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

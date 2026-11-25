@@ -1,0 +1,82 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "串口，是最简单的通信方式：两根线，一位一位地发。",
+      "beats": { "two": "两根线", "oneByOne": "一位一位" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "wire",
+      "text": "我的发送线，接你的接收线；两边的地，也要连在一起。",
+      "beats": { "tx": "发送线", "rx": "接收线", "gnd": "地" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "async",
+      "text": "没有时钟线，双方只靠事先约好的速度，各自计时。",
+      "beats": { "noclk": "没有时钟线", "speed": "约好的速度" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "idle",
+      "text": "线路空闲时是高电平。发一个字节，先拉低一位，叫起始位。",
+      "beats": { "idleW": "空闲", "start": "起始位" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "data",
+      "text": "接着是八个数据位，低位先发；最后拉高，是停止位。",
+      "caption": "接着是 8 个数据位，低位先发；最后拉高，是停止位。",
+      "beats": { "d8": "八个数据位", "lsb": "低位先发", "stop": "停止位" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "baud",
+      "text": "每秒发多少位，叫波特率。九千六百波特，每一位约一百零四微秒。",
+      "caption": "每秒发多少位，叫波特率。9600 波特，每一位约 104 μs。",
+      "beats": { "baudW": "波特率", "b96": "九千六百", "us": "一百零四微秒" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "sample",
+      "text": "接收端从起始位的边沿开始，在每一位的正中间采样。",
+      "beats": { "edge": "边沿", "mid": "正中间" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "mismatch",
+      "text": "两边速度对不上，采样越偏越远，收到的就是乱码。",
+      "beats": { "off": "对不上", "garble": "乱码" },
+      "gapAfter": 0.8
+    },
+    { "id": "outro", "text": "下面的实验里，改一改字符和波特率，看一帧怎么变。", "beats": { "tryit": "改一改" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "two", "kind": "knock", "f": 210, "gain": 0.2, "send": 0.2 },
+    { "at": "wire", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "tx", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "rx", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "gnd", "kind": "glass", "f": 587, "gain": 0.14, "send": 0.5 },
+    { "at": "async", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "speed", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "idle", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "start", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "d8", "kind": "knock", "f": 240, "gain": 0.18, "send": 0.25 },
+    { "at": "stop", "kind": "glass", "f": 659, "gain": 0.14, "send": 0.5 },
+    { "at": "baudW", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "us", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "sample", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "mid", "kind": "glass", "f": 880, "gain": 0.12, "send": 0.5 },
+    { "at": "mismatch", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2000, "gain": 0.12, "send": 0.5 },
+    { "at": "garble", "kind": "knock", "f": 170, "gain": 0.2, "send": 0.2 },
+    { "at": "tryit", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

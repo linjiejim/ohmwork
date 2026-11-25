@@ -1,0 +1,89 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "所有电路，都靠三个量来描述：电流、电压、电阻。",
+      "beats": { "iI": "电流", "iV": "电压", "iR": "电阻" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cur",
+      "text": "金属导线里有自由电子，它们朝一个方向流动，就是电流。",
+      "beats": { "elec": "自由电子", "flow": "流动", "curI": "电流" },
+      "gapAfter": 0.6
+    },
+    { "id": "unit", "text": "每秒流过的电荷越多，电流越大，单位是安培。", "beats": { "more": "越多", "amp": "安培" }, "gapAfter": 0.8 },
+    {
+      "id": "volt",
+      "text": "电荷不会自己动，得有东西推它，这个推力就是电压。",
+      "beats": { "still": "不会自己动", "push": "推它", "voltV": "电压" },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "volt2",
+      "text": "电压永远是两点之间的量：电池正极比负极高一点五伏。",
+      "caption": "电压永远是两点之间的量：电池正极比负极高 1.5 V。",
+      "beats": { "two": "两点", "high": "高", "v15": "一点五伏" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "res",
+      "text": "电荷穿过材料，总会被阻碍，这种阻碍叫电阻，单位是欧姆。",
+      "beats": { "block": "阻碍", "resR": "电阻", "ohm": "欧姆" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "water",
+      "text": "用水来想象：水泵是电池，水流是电流，细管子是电阻。",
+      "beats": { "pump": "水泵", "wflow": "水流", "pipe": "细管子" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "loop",
+      "text": "电流只在闭合的回路里流动，断开一处，电流就归零。",
+      "beats": { "closed": "闭合", "cut": "断开", "zero": "归零" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rule",
+      "text": "实验会告诉你：电压越高，电流越大；电阻越大，电流越小。",
+      "beats": { "vhigh": "电压越高", "ihigh": "电流越大", "rhigh": "电阻越大", "ilow": "电流越小" },
+      "gapAfter": 0.6
+    },
+    { "id": "outro", "text": "下面的实验台，拖动电压和电阻滑块，再试着断开开关。", "beats": { "drag": "拖动", "sw": "开关" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "iI", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "iV", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "iR", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "cur", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "curI", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "more", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "amp", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "volt", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "push", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "voltV", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "high", "kind": "glass", "f": 880, "gain": 0.12, "send": 0.5 },
+    { "at": "res", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "block", "kind": "knock", "f": 190, "gain": 0.22, "send": 0.2 },
+    { "at": "ohm", "kind": "glass", "f": 494, "gain": 0.12, "send": 0.45 },
+    { "at": "water", "offset": -0.45, "kind": "air", "dur": 0.6, "f0": 400, "f1": 2000, "gain": 0.12, "send": 0.5 },
+    { "at": "pump", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.25 },
+    { "at": "wflow", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "pipe", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "loop", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "cut", "kind": "knock", "f": 150, "gain": 0.22, "send": 0.2 },
+    { "at": "zero", "kind": "glass", "f": 440, "dur": 0.8, "gain": 0.1, "send": 0.55 },
+    { "at": "rule", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2600, "gain": 0.13, "send": 0.5 },
+    { "at": "ihigh", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.45 },
+    { "at": "ilow", "kind": "glass", "f": 494, "gain": 0.12, "send": 0.45 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

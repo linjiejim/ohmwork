@@ -1,0 +1,100 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "只有五伏，引脚却只认三点三伏。两只电阻，就能解决。",
+      "caption": "只有 5 V，引脚却只认 3.3 V。两只电阻，就能解决。",
+      "beats": { "v5": "五伏", "v33": "三点三伏", "two": "两只电阻" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "build",
+      "text": "两只电阻串联，从中间引出一根线，输出就是下面那只上的电压。",
+      "beats": { "ser": "串联", "tap": "中间", "out": "输出", "low": "下面" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "form",
+      "text": "输出电压，等于输入电压，乘以下面电阻占总电阻的比例。",
+      "beats": { "vo": "输出电压", "vi": "输入电压", "ratio": "占总电阻" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ex",
+      "text": "五伏，一万欧加两万欧，输出就是三点三三伏。",
+      "caption": "5 V，10 kΩ 加 20 kΩ，输出就是 3.33 V。",
+      "beats": { "e5": "五伏", "e1": "一万欧", "e2": "两万欧", "e33": "三点三三伏" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "kvl",
+      "text": "沿回路走一圈，升高的等于降低的：一点六七加三点三三，是五伏。",
+      "caption": "沿回路走一圈，升高的等于降低的：1.67 加 3.33，是 5 V。",
+      "beats": { "lap": "走一圈", "k167": "一点六七", "k333": "三点三三", "k5": "五伏" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "kcl",
+      "text": "另一条定律管节点：流进节点的电流，等于流出的电流。",
+      "beats": { "node": "节点", "inn": "流进", "outc": "流出" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ld",
+      "text": "输出一接上负载，负载就和下面的电阻并联，输出被拉低。",
+      "beats": { "load": "负载", "par": "并联", "drop": "拉低" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ten",
+      "text": "负载电阻至少是下面那只的十倍，输出才基本稳得住。",
+      "beats": { "tenx": "十倍", "stable": "稳得住" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "use",
+      "text": "分压器适合给读数的引脚用，不能拿来给模块供电。",
+      "beats": { "adc": "读数", "nopow": "供电" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面，先在节点实验台验证电流定律，再试试分压器。", "beats": { "d1": "节点实验台", "d2": "分压器" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "v5", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "v33", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "two", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "build", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "ser", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "tap", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "low", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "form", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "vi", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "ratio", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "ex", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "e1", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "e2", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "e33", "kind": "glass", "f": 988, "gain": 0.16, "send": 0.55 },
+    { "at": "kvl", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "k167", "kind": "knock", "f": 210, "gain": 0.2, "send": 0.25 },
+    { "at": "k333", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "k5", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "kcl", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "node", "kind": "knock", "f": 190, "gain": 0.22, "send": 0.2 },
+    { "at": "outc", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.45 },
+    { "at": "ld", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "load", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "drop", "kind": "glass", "f": 440, "dur": 0.8, "gain": 0.12, "send": 0.5 },
+    { "at": "tenx", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "stable", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "adc", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "nopow", "kind": "knock", "f": 160, "gain": 0.22, "send": 0.2 },
+    { "at": "d1", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

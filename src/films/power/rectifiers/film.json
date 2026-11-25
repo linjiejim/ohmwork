@@ -1,0 +1,266 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "墙上的插座给的是交流电，芯片要的却是直流电。",
+      "beats": {
+        "ac": "交流电",
+        "dc": "直流电"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "flipping",
+      "text": "交流电的方向，每秒钟要来回变一百次，芯片可受不了。",
+      "caption": "交流电的方向，每秒钟要来回变 100 次，芯片可受不了。",
+      "beats": {
+        "hund": "一百次"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "xfmr",
+      "text": "第一步，变压器把两百二十伏降到九伏。",
+      "caption": "第一步，变压器把 220 V 降到 9 V。",
+      "beats": {
+        "xf": "变压器",
+        "v220": "两百二十伏",
+        "v9": "九伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "diode",
+      "text": "第二步，二极管只许电流单向通过，反向的半周被挡住。",
+      "beats": {
+        "di": "二极管",
+        "blk": "挡住"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "bridge",
+      "text": "用四只二极管搭成桥，负的半周也被翻了上来。",
+      "beats": {
+        "br": "桥",
+        "flip": "翻"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "bump",
+      "text": "方向统一了，却像一排馒头，每次都掉到零。",
+      "beats": {
+        "bun": "馒头",
+        "zero": "掉到零"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cap",
+      "text": "第三步，并上一只电容。波峰充电，波谷放电。",
+      "beats": {
+        "capw": "电容",
+        "chg": "充电",
+        "dis": "放电"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "fill",
+      "text": "谷被填平，剩下的小起伏，叫纹波。",
+      "beats": {
+        "fillw": "填平",
+        "rip": "纹波"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "calc",
+      "text": "纹波约等于负载电流，除以频率和电容。",
+      "beats": {
+        "cI": "负载电流",
+        "cF": "频率",
+        "cC": "电容"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "more",
+      "text": "电容越大，纹波越小；负载越重，纹波越大。",
+      "beats": {
+        "bigC": "电容",
+        "heavy": "负载越重"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，拖动电容和负载，看纹波怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "dc",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "hund",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "xfmr",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "v9",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "diode",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "blk",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.22,
+      "send": 0.2
+    },
+    {
+      "at": "bridge",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "flip",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "zero",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cap",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "capw",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fillw",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "calc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.6,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cC",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "more",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2200,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "heavy",
+      "kind": "glass",
+      "f": 494,
+      "gain": 0.12,
+      "send": 0.45
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

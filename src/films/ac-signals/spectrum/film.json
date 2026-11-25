@@ -1,0 +1,304 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "同一个信号，可以按时间来看，也可以按频率来看。",
+      "beats": {
+        "time": "按时间",
+        "freq": "按频率"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ln_sum",
+      "text": "傅里叶发现，任何周期波形，都是一些正弦波的叠加。",
+      "beats": {
+        "sum": "叠加"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "sq",
+      "text": "方波就是基波，加上三倍、五倍的谐波，一层层叠出来的。",
+      "beats": {
+        "fund": "基波",
+        "h3": "三倍",
+        "h5": "五倍"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_odd",
+      "text": "只有奇数次谐波，第几次，幅度就是基波的几分之一。",
+      "beats": {
+        "odd": "奇数次",
+        "inv": "几分之一"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "bars",
+      "text": "频谱把每个正弦波画成一根竖条：位置是频率，高度是幅度。",
+      "beats": {
+        "bar": "竖条",
+        "pos": "位置",
+        "hgt": "高度"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "edge",
+      "text": "边沿越陡，高频成分越多；带宽不够，方波就不方了。",
+      "beats": {
+        "steep": "越陡",
+        "bw": "带宽不够",
+        "round": "不方"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rise",
+      "text": "上升时间一纳秒的边沿，高频能延伸到三百五十兆赫。",
+      "caption": "上升时间 1 ns 的边沿，高频能延伸到 350 MHz。",
+      "beats": {
+        "r1": "一纳秒",
+        "r350": "三百五十兆赫"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_db",
+      "text": "各成分的大小，常常差几千几万倍，所以改用分贝来表示。",
+      "beats": {
+        "big": "几千几万倍",
+        "db": "分贝"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rule",
+      "text": "电压翻倍，是六分贝；放大十倍，是二十分贝。",
+      "caption": "电压翻倍，是 6 dB；放大 10 倍，是 20 dB。",
+      "beats": {
+        "d6": "六分贝",
+        "d20": "二十分贝"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，拖动谐波的个数，看方波怎么拼出来。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "ln_sum",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "edge",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "rise",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_db",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "rule",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "outro",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "time",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "freq",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fund",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "h3",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "h5",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "bar",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "steep",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "r1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "big",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "sum",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "odd",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "hgt",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "round",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "r350",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "db",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "d6",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "d20",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "三极管不只会当开关，用好中间那一段，它还能放大。", "beats": { "amp": "放大" }, "gapAfter": 0.7 },
+    { "id": "small", "text": "难处在于，话筒送来的信号太小，三极管根本不理它。", "beats": { "tiny": "信号太小", "ignore": "不理它" }, "gapAfter": 0.7 },
+    { "id": "bias", "text": "所以先给基极一个直流电压，叫偏置，让它站到导通的中间。", "beats": { "biasw": "偏置", "mid": "中间" }, "gapAfter": 0.8 },
+    { "id": "line", "text": "工作点只能在一条负载线上移动，放在线的中点，摆幅最大。", "beats": { "loadw": "负载线", "mid2": "中点" }, "gapAfter": 0.8 },
+    { "id": "clip", "text": "偏得太靠一头，波形就会被削平，这叫失真。", "beats": { "edge": "太靠一头", "clipw": "削平" }, "gapAfter": 0.8 },
+    { "id": "re", "text": "再加一只发射极电阻，用负反馈把工作点稳住，不怕温度变化。", "beats": { "rew": "发射极电阻", "stable": "稳住" }, "gapAfter": 0.8 },
+    { "id": "gain", "text": "这时增益，约等于集电极电阻，除以发射极电阻。", "beats": { "gainw": "增益", "rcre": "集电极电阻" }, "gapAfter": 0.8 },
+    { "id": "cfg", "text": "按信号从哪个脚进出，有共射、共集、共基三种接法。", "beats": { "ce": "共射", "cc": "共集", "cb": "共基" }, "gapAfter": 0.8 },
+    { "id": "outro", "text": "下面拖动偏置电压，看波形是怎么被削平的。", "beats": { "drag": "拖动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "amp", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "small", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "ignore", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.2 },
+    { "at": "biasw", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "mid", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.5 },
+    { "at": "line", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "mid2", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.5 },
+    { "at": "clipw", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "re", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "rew", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "stable", "kind": "glass", "f": 659, "gain": 0.14, "send": 0.5 },
+    { "at": "gain", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "rcre", "kind": "knock", "f": 260, "gain": 0.18, "send": 0.25 },
+    { "at": "ce", "kind": "knock", "f": 230, "gain": 0.18, "send": 0.25 },
+    { "at": "cc", "kind": "knock", "f": 260, "gain": 0.18, "send": 0.25 },
+    { "at": "cb", "kind": "knock", "f": 290, "gain": 0.18, "send": 0.25 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

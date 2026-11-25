@@ -1,0 +1,331 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电容不让电压突变，电感正相反：它不让电流突变。",
+      "beats": {
+        "cap": "电容",
+        "ind": "电感",
+        "cur": "电流突变"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "coil",
+      "text": "把导线绕成线圈，电流一过，就建起磁场，把能量存在里面。",
+      "beats": {
+        "coilw": "绕成线圈",
+        "field": "磁场",
+        "energy": "能量"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "inertia",
+      "text": "磁场不肯立刻变：电流想变大，线圈顶着；想变小，线圈推着。",
+      "beats": {
+        "stuck": "不肯立刻变",
+        "up": "变大",
+        "down": "变小"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "volt",
+      "text": "线圈两端的电压，取决于电流变化的快慢；电流不变，电压就为零。",
+      "beats": {
+        "lv": "电压",
+        "rate": "快慢",
+        "zero": "为零"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rise",
+      "text": "接上电源，电流沿曲线慢慢爬升，快慢由电感除以电阻决定。",
+      "beats": {
+        "risew": "慢慢爬升",
+        "lr": "电感除以电阻"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "off",
+      "text": "最危险的是断电：电流没了去路，线圈就把电压一路顶高。",
+      "beats": {
+        "offw": "断电",
+        "nopath": "没了去路",
+        "spike": "顶高"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "diode",
+      "text": "办法是并联一只续流二极管，让电流绕回线圈，慢慢耗掉。",
+      "beats": {
+        "dio": "续流二极管",
+        "loop": "绕回线圈",
+        "burn": "慢慢耗掉"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "types",
+      "text": "常见的电感：功率电感储能，磁珠吸收噪声，变压器改变电压。",
+      "beats": {
+        "pwr": "功率电感",
+        "bead": "磁珠",
+        "xfmr": "变压器"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "mirror",
+      "text": "电感是电容的镜像：一个守着电压，一个守着电流。",
+      "beats": {
+        "mir": "镜像",
+        "cv": "电压",
+        "ci": "电流"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验里，断开开关，看看有没有二极管的区别。",
+      "beats": {
+        "open": "断开开关"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "ind",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "cur",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "coil",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "field",
+      "kind": "glass",
+      "f": 659,
+      "dur": 0.8,
+      "bright": 0.6,
+      "gain": 0.12,
+      "send": 0.55
+    },
+    {
+      "at": "energy",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "inertia",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "up",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "down",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "volt",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "rate",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zero",
+      "kind": "glass",
+      "f": 494,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "rise",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lr",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "off",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "offw",
+      "kind": "knock",
+      "f": 160,
+      "gain": 0.22,
+      "send": 0.2
+    },
+    {
+      "at": "spike",
+      "kind": "glass",
+      "f": 1175,
+      "dur": 0.6,
+      "bright": 0.8,
+      "gain": 0.12,
+      "send": 0.55
+    },
+    {
+      "at": "dio",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "burn",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "types",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "pwr",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "bead",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "xfmr",
+      "kind": "knock",
+      "f": 280,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "mirror",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cv",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ci",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "open",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

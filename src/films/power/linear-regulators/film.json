@@ -1,0 +1,255 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "输入电压忽高忽低，芯片却要一条稳稳的三点三伏。",
+      "caption": "输入电压忽高忽低，芯片却要一条稳稳的 3.3 V。",
+      "beats": {
+        "wob": "忽高忽低",
+        "flat": "稳稳的"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "idea",
+      "text": "线性稳压器像一只会自动调节的可变电阻，串在电源和负载之间。",
+      "beats": {
+        "reg": "可变电阻",
+        "ser": "串在"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "adj",
+      "text": "输出偏高，它就把电阻调大；偏低，就调小。",
+      "beats": {
+        "up": "调大",
+        "down": "调小"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "heat",
+      "text": "多出来的电压，全压在这只电阻上，变成了热。",
+      "beats": {
+        "extra": "多出来",
+        "heatw": "变成了热"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "formula",
+      "text": "发热，等于电压差，乘以电流。",
+      "caption": "发热 P = (Vin − Vout) × I，电压差乘以电流。",
+      "beats": {
+        "diff": "电压差",
+        "cur": "电流"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "example",
+      "text": "十二伏降到三点三伏，电流半安，要烧掉四点三五瓦。",
+      "caption": "12 V 降到 3.3 V，电流 0.5 A，要烧掉 4.35 W。",
+      "beats": {
+        "e12": "十二伏",
+        "e05": "半安",
+        "e435": "四点三五瓦"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "eff",
+      "text": "效率只有百分之二十七点五，其余全变成了热。",
+      "caption": "效率只有 27.5%，其余全变成了热。",
+      "beats": {
+        "effw": "百分之二十七点五",
+        "rest": "其余"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "drop",
+      "text": "还有压差：输入至少要比输出高出一截，否则稳不住。",
+      "beats": {
+        "dropw": "压差",
+        "gap": "高出一截",
+        "lose": "稳不住"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ldo",
+      "text": "压差很小的，叫低压差稳压器，用电池供电时最合适。",
+      "caption": "压差很小的，叫低压差稳压器（LDO），用电池供电时最合适。",
+      "beats": {
+        "ldow": "低压差稳压器"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "switch",
+      "text": "压差大、电流大，就该换开关电源了。",
+      "beats": {
+        "big": "压差大",
+        "sw": "开关电源"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，把输入电压往下拖，看发热怎么变。",
+      "beats": {
+        "drag": "往下拖"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "flat",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "idea",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "reg",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "up",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "down",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "heatw",
+      "kind": "glass",
+      "f": 440,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "formula",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.6,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cur",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "example",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "e435",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.16,
+      "send": 0.55
+    },
+    {
+      "at": "effw",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "drop",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.6,
+      "f0": 2400,
+      "f1": 320,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lose",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ldow",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "sw",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

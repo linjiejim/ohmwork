@@ -1,0 +1,62 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "拆开任何一块单片机板子，芯片周围总是那几样固定搭配。", "gapAfter": 0.6 },
+    {
+      "id": "decap",
+      "text": "数量最多的，是电源脚旁边的一百纳法电容，叫去耦电容。",
+      "caption": "数量最多的，是电源脚旁边的 100 nF 电容，叫去耦电容。",
+      "beats": { "pin": "电源脚", "cap": "电容", "name": "去耦电容" },
+      "gapAfter": 0.7
+    },
+    { "id": "why", "text": "芯片翻转的一瞬间，会猛抽一口电流，电容就在旁边先垫上。", "beats": { "spike": "猛抽", "fill": "垫上" }, "gapAfter": 0.7 },
+    { "id": "dip", "text": "没有它，电源脚会跌下去两百多毫伏；装上它，曲线几乎是平的。", "caption": "没有它，电源脚会跌下去 200 多 mV；装上它，曲线几乎是平的。", "beats": { "without": "没有它", "with": "装上它" }, "gapAfter": 0.7 },
+    {
+      "id": "reset",
+      "text": "复位电路：一只十千欧电阻，一只一百纳法电容，再加一个按键。",
+      "caption": "复位电路：一只 10 kΩ 电阻，一只 100 nF 电容，再加一个按键。",
+      "beats": { "r": "十千欧电阻", "c": "一百纳法电容", "sw": "按键" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "xtal",
+      "text": "晶振的两边，各接一只负载电容，常见十到二十二皮法。",
+      "caption": "晶振的两边，各接一只负载电容，常见 10 到 22 pF。",
+      "beats": { "x": "晶振", "load": "负载电容" },
+      "gapAfter": 0.7
+    },
+    { "id": "rev", "text": "怕电池接反？串一只二极管，或者用 P 沟道的 MOSFET。", "beats": { "d": "二极管", "pmos": "P 沟道" }, "gapAfter": 0.7 },
+    { "id": "level", "text": "五伏和三点三伏的器件通信，用一只 BSS138，做电平转换。", "caption": "5 V 和 3.3 V 的器件通信，用一只 BSS138，做电平转换。", "beats": { "five": "五伏", "three": "三点三伏", "fet": "BSS138" }, "gapAfter": 0.7 },
+    { "id": "outro", "text": "下面拖动实验台，把电容从装上拖到不装，看电源脚怎么跌。", "beats": { "drag": "拖动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "decap", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.14, "send": 0.5 },
+    { "at": "pin", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "cap", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.2 },
+    { "at": "name", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "spike", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "fill", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.5 },
+    { "at": "dip", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "without", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.25 },
+    { "at": "with", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "reset", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "r", "kind": "knock", "f": 230, "gain": 0.18, "send": 0.25 },
+    { "at": "c", "kind": "knock", "f": 260, "gain": 0.18, "send": 0.25 },
+    { "at": "sw", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "xtal", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "x", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "load", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "rev", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "d", "kind": "knock", "f": 210, "gain": 0.2, "send": 0.25 },
+    { "at": "pmos", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "level", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "fet", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

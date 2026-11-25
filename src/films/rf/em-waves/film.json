@@ -1,0 +1,315 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课讲电磁波：信号离开导线以后，在空中是怎么走的。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "shake",
+      "text": "电流来回变化，能量就被甩出去，变成电磁波。",
+      "gapAfter": 0.7,
+      "beats": {
+        "shk": "来回变化",
+        "out": "甩出去",
+        "emw": "电磁波"
+      }
+    },
+    {
+      "id": "light",
+      "text": "电磁波跑得很快，每秒三十万公里，就是光速。",
+      "caption": "电磁波跑得很快，每秒 30 万公里，就是光速。",
+      "gapAfter": 0.7,
+      "beats": {
+        "fast": "每秒",
+        "lightc": "光速"
+      }
+    },
+    {
+      "id": "wl",
+      "text": "振荡一次走过的距离，叫波长。频率越高，波长越短。",
+      "gapAfter": 0.8,
+      "beats": {
+        "wlen": "波长",
+        "hi": "频率越高",
+        "short": "越短"
+      }
+    },
+    {
+      "id": "calc",
+      "text": "二点四五吉赫的无线网，波长只有十二点二厘米。",
+      "caption": "2.45 GHz 的无线网，波长只有 12.2 厘米。",
+      "gapAfter": 0.8,
+      "beats": {
+        "f": "二点四五吉赫",
+        "l": "十二点二厘米"
+      }
+    },
+    {
+      "id": "size",
+      "text": "天线要和波长差不多大：中波电台是铁塔，二点四吉赫只要三厘米。",
+      "caption": "天线要和波长差不多大：中波电台是铁塔，2.4 GHz 只要 3 厘米。",
+      "gapAfter": 0.8,
+      "beats": {
+        "tower": "铁塔",
+        "chip": "三厘米"
+      }
+    },
+    {
+      "id": "bands",
+      "text": "天上的频率，被分成了一段一段，各有各的用处。",
+      "gapAfter": 0.8,
+      "beats": {
+        "seg": "一段一段"
+      }
+    },
+    {
+      "id": "trade",
+      "text": "频率低，绕得远、能穿墙；频率高，速率快，但怕遮挡。",
+      "gapAfter": 0.8,
+      "beats": {
+        "low": "频率低",
+        "far": "绕得远",
+        "high": "频率高",
+        "bandw": "速率快",
+        "block": "怕遮挡"
+      }
+    },
+    {
+      "id": "ism",
+      "text": "还有一些免执照的频段：四百三十三兆赫，和二点四吉赫。",
+      "caption": "还有一些免执照的频段：433 MHz，和 2.4 GHz。",
+      "gapAfter": 0.7,
+      "beats": {
+        "free": "免执照",
+        "f433": "四百三十三兆赫",
+        "f24": "二点四吉赫"
+      }
+    },
+    {
+      "id": "outro",
+      "text": "下面拖动频率滑块，看看波长怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "shake",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "shk",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "emw",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.1,
+      "send": 0.5,
+      "dur": 0.7,
+      "bright": 0.6
+    },
+    {
+      "at": "light",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lightc",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "wl",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "wlen",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "short",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "calc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "f",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "l",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.16,
+      "send": 0.55
+    },
+    {
+      "at": "size",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "tower",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "chip",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "bands",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "seg",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "trade",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "low",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "high",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "block",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "ism",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "f433",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "f24",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.65,
+      "dur": 1.1,
+      "bright": 0.5
+    }
+  ]
+}

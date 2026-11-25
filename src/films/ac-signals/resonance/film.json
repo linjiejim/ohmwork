@@ -1,0 +1,330 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电感和电容凑在一起，能量来回倒腾，会在某个频率上唱歌。",
+      "beats": {
+        "ind": "电感",
+        "cap": "电容",
+        "sing": "唱歌"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "swing",
+      "text": "充了电的电容向电感放电，电感又推着电流，给电容反向充电。",
+      "beats": {
+        "disc": "放电",
+        "push": "推着",
+        "rev": "反向"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_f0",
+      "text": "来回一次的快慢，只由电感和电容决定，叫谐振频率。",
+      "beats": {
+        "only": "只由",
+        "f0": "谐振频率"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ex",
+      "text": "一毫亨配十纳法，谐振频率约五十千赫兹。",
+      "caption": "1 mH 配 10 nF，谐振频率约 50 kHz。",
+      "beats": {
+        "e1": "一毫亨",
+        "e2": "十纳法",
+        "e3": "五十千赫兹"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_eq",
+      "text": "这时感抗等于容抗，大小相等，方向相反，正好抵消。",
+      "beats": {
+        "eq": "等于",
+        "cancel": "抵消"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "series",
+      "text": "所以串联谐振时，阻抗最小，电流最大，只对这个频率开门。",
+      "beats": {
+        "zmin": "最小",
+        "imax": "最大",
+        "door": "开门"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_q",
+      "text": "峰有多尖，用品质因数表示：电阻越小，峰越尖。",
+      "beats": {
+        "q": "品质因数",
+        "rsmall": "电阻越小",
+        "sharp": "越尖"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "use",
+      "text": "收音机选台，晶振计时，靠的都是谐振。",
+      "beats": {
+        "radio": "收音机",
+        "xtal": "晶振"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_ring",
+      "text": "导线里寄生的电感和电容，也会谐振，边沿上就出现了振铃。",
+      "beats": {
+        "par": "寄生",
+        "ring": "振铃"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，拖动电感和电容，看谐振峰怎么移动。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "swing",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_f0",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_eq",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_q",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "use",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_ring",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "outro",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ind",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cap",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "push",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "only",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e2",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zmin",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "rsmall",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "radio",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "xtal",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "par",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "sing",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "rev",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "f0",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "e3",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "cancel",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "door",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "sharp",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "ring",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    }
+  ]
+}

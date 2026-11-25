@@ -1,0 +1,289 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "离开插座的设备，都靠电池。我们先看一节锂电池。",
+      "beats": {
+        "bat": "锂电池"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "volt",
+      "text": "它的电压不是定值：充满四点二伏，放到三伏就该停。",
+      "caption": "它的电压不是定值：充满 4.2 V，放到 3 V 就该停。",
+      "beats": {
+        "full": "充满四点二伏",
+        "stop": "三伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cap",
+      "text": "容量的单位是毫安时。两千五百毫安时，就是五百毫安放五小时。",
+      "caption": "容量的单位是 mAh。2500 mAh，就是 500 mA 放 5 小时。",
+      "beats": {
+        "mah": "毫安时",
+        "c2500": "两千五百毫安时",
+        "h5": "五小时"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "rate",
+      "text": "电流常用倍率来说：一倍率一小时放完，二倍率半小时放完。",
+      "caption": "电流常用倍率来说：1C 一小时放完，2C 半小时放完。",
+      "beats": {
+        "ratew": "倍率",
+        "r1": "一倍率",
+        "r2": "二倍率"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "res",
+      "text": "电池自己有内阻，电流一大，内阻上就掉电压，端电压被拉低。",
+      "beats": {
+        "ir": "内阻",
+        "drop": "掉电压",
+        "low": "拉低"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "curve",
+      "text": "放电曲线：开头降得快，中间很平缓，快放空时急剧下跌。",
+      "beats": {
+        "c1": "开头",
+        "c2": "中间",
+        "c3": "急剧下跌"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "load",
+      "text": "负载越重，曲线越往下沉，电池里还有电，却提前取不出来了。",
+      "beats": {
+        "heavy": "负载越重",
+        "stuck": "取不出来"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cc",
+      "text": "充电分两段：先恒流，电压慢慢爬升。",
+      "beats": {
+        "ccw": "恒流",
+        "climb": "爬升"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "cv",
+      "text": "到四点二伏改成恒压，电流慢慢减小，降到十分之一就停。",
+      "caption": "到 4.2 V 改成恒压，电流慢慢减小，降到十分之一就停。",
+      "beats": {
+        "cvw": "恒压",
+        "taper": "减小",
+        "tenth": "十分之一"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "safe",
+      "text": "锂电池怕过充、过放和短路，要配保护板和正规的充电芯片。",
+      "beats": {
+        "over": "过充",
+        "under": "过放",
+        "short": "短路",
+        "board": "保护板"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，调内阻和电流，看能放出多少电。",
+      "beats": {
+        "drag": "调内阻"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "bat",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "volt",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "stop",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cap",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "h5",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "rate",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "r2",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "res",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ir",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "low",
+      "kind": "glass",
+      "f": 494,
+      "gain": 0.12,
+      "send": 0.45
+    },
+    {
+      "at": "curve",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.6,
+      "f0": 2400,
+      "f1": 320,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "c3",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "stuck",
+      "kind": "glass",
+      "f": 440,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "cc",
+      "offset": -0.5,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cvw",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "tenth",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "safe",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "board",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

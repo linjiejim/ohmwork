@@ -1,0 +1,326 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课算一笔账：信号从发射机出发，最后还剩多少。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "dbm",
+      "text": "功率跨度太大，所以用分贝毫瓦来记：零分贝毫瓦，就是一毫瓦。",
+      "caption": "功率跨度太大，所以用 dBm 来记：0 dBm，就是 1 mW。",
+      "gapAfter": 0.7,
+      "beats": {
+        "dbmw": "分贝毫瓦",
+        "one": "一毫瓦"
+      }
+    },
+    {
+      "id": "rule",
+      "text": "加三分贝，功率翻一倍；加十分贝，功率乘以十。",
+      "caption": "加 3 dB，功率翻一倍；加 10 dB，功率乘以 10。",
+      "gapAfter": 0.8,
+      "beats": {
+        "three": "三分贝",
+        "ten": "十分贝"
+      }
+    },
+    {
+      "id": "bill",
+      "text": "于是整条链路，就成了一张加减法的账单。",
+      "gapAfter": 0.8,
+      "beats": {
+        "bll": "账单"
+      }
+    },
+    {
+      "id": "path",
+      "text": "最大的一项是路径损耗：距离每翻一倍，就多损耗六分贝。",
+      "caption": "最大的一项是路径损耗：距离每翻一倍，就多损耗 6 dB。",
+      "gapAfter": 0.8,
+      "beats": {
+        "dbl": "翻一倍",
+        "six": "六分贝"
+      }
+    },
+    {
+      "id": "sens",
+      "text": "接收机也有底线，叫灵敏度：蓝牙大约是负九十五分贝毫瓦。",
+      "caption": "接收机也有底线，叫灵敏度：蓝牙大约是 −95 dBm。",
+      "gapAfter": 0.8,
+      "beats": {
+        "sns": "灵敏度",
+        "ble": "负九十五分贝毫瓦"
+      }
+    },
+    {
+      "id": "tech",
+      "text": "带宽越窄、调制越简单，听得越远，速率也越慢。",
+      "gapAfter": 0.8,
+      "beats": {
+        "narrow": "越窄",
+        "simple": "越简单",
+        "far": "越远",
+        "slow": "越慢"
+      }
+    },
+    {
+      "id": "margin",
+      "text": "十米外的蓝牙，收到负六十分贝毫瓦，余量还有三十五分贝。",
+      "caption": "10 米外的蓝牙，收到 −60 dBm，余量还有 35 dB。",
+      "gapAfter": 0.8,
+      "beats": {
+        "rx": "负六十分贝毫瓦",
+        "mrg": "三十五分贝"
+      }
+    },
+    {
+      "id": "walls",
+      "text": "再隔两堵承重墙，余量只剩五分贝，最好留十分贝以上。",
+      "caption": "再隔两堵承重墙，余量只剩 5 dB，最好留 10 dB 以上。",
+      "gapAfter": 0.7,
+      "beats": {
+        "wls": "承重墙",
+        "five": "五分贝",
+        "ten2": "十分贝"
+      }
+    },
+    {
+      "id": "outro",
+      "text": "下面拖动距离和损耗，看看余量怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "dbm",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "dbmw",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "one",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "rule",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "three",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ten",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "bill",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "bll",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "path",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "dbl",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "six",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "sens",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "sns",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ble",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "tech",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "narrow",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "simple",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "slow",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "margin",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "rx",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mrg",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "walls",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "wls",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "five",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "ten2",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.65,
+      "dur": 1.1,
+      "bright": 0.5
+    }
+  ]
+}

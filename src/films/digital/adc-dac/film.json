@@ -1,0 +1,246 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "温度、声音、光，都是连续变化的电压，可单片机只认数字。",
+      "beats": {
+        "wave": "连续变化",
+        "num": "数字"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pair",
+      "text": "模数转换器，简称ADC，把电压变成数。数模转换器，简称DAC，反过来。",
+      "beats": {
+        "adc": "模数转换器",
+        "dac": "数模转换器"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "sampleL",
+      "text": "第一步是采样：每隔固定的时间，看一眼电压。",
+      "beats": {
+        "sample": "采样",
+        "every": "每隔"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "quantL",
+      "text": "第二步是量化：把每个读数，归到最近的一级台阶上。",
+      "beats": {
+        "quant": "量化",
+        "snap": "最近"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "res",
+      "text": "台阶越细，分辨率越高。三位只有八级，十二位有四千零九十六级。",
+      "caption": "台阶越细，分辨率越高。3 位只有 8 级，12 位有 4096 级。",
+      "beats": {
+        "fine": "越细",
+        "b3": "三位",
+        "b12": "十二位"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "lsb",
+      "text": "每一级的高度，等于三点三伏除以四千零九十六，约零点八毫伏。",
+      "caption": "每一级的高度，等于 3.3 V ÷ 4096，约 0.8 mV。",
+      "beats": {
+        "step": "每一级",
+        "calc": "三点三伏",
+        "mv": "零点八毫伏"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "alias",
+      "text": "采样太慢就会出错：九百赫兹的波，用一千赫兹采，读出来像一百赫兹。",
+      "caption": "采样太慢就会出错：900 Hz 的波，用 1000 Hz 采，读出来像 100 Hz。",
+      "beats": {
+        "slow": "采样太慢",
+        "sig": "九百赫兹",
+        "fs": "一千赫兹",
+        "fake": "一百赫兹"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "fix",
+      "text": "所以采样率要超过信号最高频率的两倍，前面还要加低通滤波。",
+      "beats": {
+        "two": "两倍",
+        "filter": "低通滤波"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面，拖动位数和采样率，看阶梯怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "pair",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "adc",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "dac",
+      "kind": "knock",
+      "f": 180,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "sampleL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "sample",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "quant",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "snap",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "res",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "b12",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "lsb",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mv",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "alias",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "fake",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "fix",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "filter",
+      "kind": "glass",
+      "f": 1047,
+      "dur": 0.8,
+      "bright": 0.7,
+      "gain": 0.12,
+      "send": 0.55
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

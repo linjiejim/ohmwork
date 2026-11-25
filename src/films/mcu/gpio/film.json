@@ -1,0 +1,82 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "单片机，是一颗芯片里的小电脑，它靠引脚和外面打交道。",
+      "beats": { "mcu": "芯片", "pins": "引脚" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "out",
+      "text": "引脚可以当输出：程序写一，它就变成高电平，灯亮了。",
+      "caption": "引脚可以当输出：程序写 1，它就变成高电平，灯亮了。",
+      "beats": { "outW": "输出", "wr": "写一", "high": "高电平", "lit": "灯亮" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "inp",
+      "text": "引脚也可以当输入，只看外面的电压，是高还是低。",
+      "beats": { "inW": "输入", "look": "只看", "hiLo": "高还是低" },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "float",
+      "text": "但输入引脚不能悬空，什么都不接，读数就会乱跳。",
+      "beats": { "open": "悬空", "jump": "乱跳" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pull",
+      "text": "加一只上拉电阻，默认就是高；按下按键，才变成低。",
+      "beats": { "pullR": "上拉电阻", "dflt": "默认", "press": "按下", "low": "变成低" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "bounce",
+      "text": "按键会抖，触点弹好几下，要等十几毫秒再确认。",
+      "caption": "按键会抖，触点弹好几下，要等 10 到 20 毫秒再确认。",
+      "beats": { "shake": "会抖", "wait": "等十几毫秒" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "od",
+      "text": "输出有两种：推挽能拉高也能拉低，开漏只会拉低。",
+      "beats": { "pp": "推挽", "ppBoth": "能拉高", "odW": "开漏", "odLow": "只会拉低" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "load",
+      "text": "每个引脚只能带十几毫安，点灯要串一只限流电阻。",
+      "caption": "每个引脚只能带 10 到 20 mA，点灯要串一只限流电阻。",
+      "beats": { "limit": "十几毫安", "limR": "限流电阻" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面先做上拉电阻的实验，按一按按键，看引脚读到什么。", "beats": { "tryit": "按一按" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "mcu", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.2 },
+    { "at": "out", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "high", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "lit", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "inp", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "open", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.2 },
+    { "at": "pull", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "pullR", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "low", "kind": "glass", "f": 523, "gain": 0.14, "send": 0.5 },
+    { "at": "bounce", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "wait", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "od", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "pp", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "odW", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "load", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "limR", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "tryit", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "有了虚短和虚断，只要两只电阻，就能搭出各种放大器。", "beats": { "two": "两只电阻" }, "gapAfter": 0.7 },
+    { "id": "inv", "text": "先看反相放大器：信号经过一只电阻，接到反相端。", "beats": { "invw": "反相放大器", "rin": "一只电阻" }, "gapAfter": 0.6 },
+    { "id": "gnd", "text": "同相端接地，虚短让反相端也成了零伏，叫虚地。", "beats": { "gndw": "接地", "vg": "虚地" }, "gapAfter": 0.6 },
+    { "id": "cur", "text": "电流进不了运放，只好全部从反馈电阻流过。", "beats": { "curw": "电流", "rf": "反馈电阻" }, "gapAfter": 0.7 },
+    { "id": "gain", "text": "增益就是两只电阻的比值，带一个负号，输出是倒过来的。", "beats": { "gainw": "增益", "neg": "负号", "flip": "倒过来" }, "gapAfter": 0.8 },
+    { "id": "non", "text": "同相放大器，信号从同相端直接进去。", "beats": { "nonw": "同相放大器", "direct": "直接" }, "gapAfter": 0.6 },
+    {
+      "id": "same",
+      "text": "同样两只电阻，增益是五点七倍，输出和输入同相。",
+      "caption": "同样两只电阻，增益是 5.7 倍，输出和输入同相。",
+      "beats": { "x57": "五点七倍", "inph": "同相" },
+      "gapAfter": 0.8
+    },
+    { "id": "clip", "text": "输入再大一点，输出碰到电源，波形就被削平了。", "beats": { "grow": "再大一点", "clipw": "削平" }, "gapAfter": 0.8 },
+    { "id": "gbw", "text": "运放也有极限：增益越高，能放大的频率越低。", "beats": { "hg": "增益越高", "lf": "频率越低" }, "gapAfter": 0.8 },
+    { "id": "outro", "text": "下面试试：改动两只电阻，看增益怎么变。", "beats": { "drag": "改动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "two", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "inv", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "rin", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "vg", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "rf", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "gainw", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "flip", "kind": "glass", "f": 659, "gain": 0.14, "send": 0.5 },
+    { "at": "non", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "x57", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.5 },
+    { "at": "clipw", "kind": "knock", "f": 200, "gain": 0.22, "send": 0.2 },
+    { "at": "gbw", "offset": -0.45, "kind": "air", "dur": 0.6, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "lf", "kind": "glass", "f": 494, "gain": 0.12, "send": 0.45 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

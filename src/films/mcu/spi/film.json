@@ -1,0 +1,89 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "I 二 C 省线，但是慢。要速度，就用 S P I。",
+      "caption": "I²C 省线，但是慢。要速度，就用 SPI。",
+      "beats": { "fast": "要速度" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "wires",
+      "text": "四根线：时钟、发出的数据、收回的数据，再加一根片选。",
+      "caption": "四根线：时钟 SCK、发出的数据 MOSI、收回的数据 MISO，再加一根片选 CS。",
+      "beats": { "sck": "时钟", "mosi": "发出", "miso": "收回", "cs": "片选" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "sel",
+      "text": "每个从机有自己的片选线，拉低谁，就是和谁说话。",
+      "beats": { "selW": "片选线", "lowW": "拉低" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "shift",
+      "text": "主机和从机各有一个移位寄存器，首尾相接成一个环。",
+      "beats": { "mst": "主机", "ring": "首尾相接" },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "swap",
+      "text": "每个时钟，各自移出一位，同时移进一位。",
+      "beats": { "tick": "每个时钟", "inW": "移进" },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "eight",
+      "text": "八个时钟之后，主从就交换了一个字节。",
+      "caption": "8 个时钟之后，主从就交换了一个字节。",
+      "beats": { "eightW": "八个时钟", "done": "交换" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "read",
+      "text": "所以没有单独的读：想读，也得发一个字节出去。",
+      "beats": { "noread": "没有单独的读", "dummy": "发一个字节" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "mode",
+      "text": "时钟空闲是高还是低，在哪个沿采样，组成四种模式。",
+      "beats": { "idleW": "空闲", "edgeW": "沿", "four": "四种模式" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "speed",
+      "text": "没有地址和应答，但推挽输出很快，能到几十兆赫。",
+      "caption": "没有地址和应答，但推挽输出很快，能到几十 MHz。",
+      "beats": { "noaddr": "没有地址", "mhz": "几十兆赫" },
+      "gapAfter": 0.8
+    },
+    { "id": "outro", "text": "下面的实验里，点一下时钟，看两个寄存器怎么换字节。", "beats": { "tryit": "点一下" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "wires", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "sck", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "mosi", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "miso", "kind": "knock", "f": 280, "gain": 0.2, "send": 0.25 },
+    { "at": "cs", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "sel", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "lowW", "kind": "glass", "f": 587, "gain": 0.14, "send": 0.5 },
+    { "at": "shift", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "ring", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "done", "kind": "glass", "f": 988, "dur": 0.8, "bright": 0.7, "gain": 0.14, "send": 0.55 },
+    { "at": "read", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "dummy", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "mode", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "four", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "speed", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "mhz", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "tryit", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

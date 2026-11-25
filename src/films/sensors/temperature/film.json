@@ -1,0 +1,324 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "温度是测得最多的物理量，最便宜的办法，是一只热敏电阻。",
+   "beats": {
+    "therm": "热敏电阻"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "ntc",
+   "text": "温度越高，它的阻值越小，这一类叫 NTC。",
+   "beats": {
+    "hot": "越高",
+    "low": "越小",
+    "ntcw": "NTC"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "curve",
+   "text": "阻值不是直线：零下二十度有一百多千欧，一百度只剩七百欧。",
+   "caption": "阻值不是直线：−20 °C 时 100 多 kΩ，100 °C 只剩约 700 Ω。",
+   "beats": {
+    "c1": "零下二十度",
+    "c2": "一百度"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "log",
+   "text": "差了一百五十倍，所以画图时，纵轴要取对数。",
+   "beats": {
+    "times": "一百五十倍",
+    "logw": "对数"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "div",
+   "text": "单片机读不了电阻，就把它和固定电阻串起来分压，读中点电压。",
+   "beats": {
+    "divw": "分压",
+    "mid": "中点"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "pick",
+   "text": "固定电阻取多大？取关心的温度下，它自己的阻值，那里最灵敏。",
+   "beats": {
+    "pickw": "取多大",
+    "steep": "最灵敏"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "self",
+   "text": "还要当心自热：电流流过它会发热，读数就偏高。",
+   "beats": {
+    "selfw": "自热"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "chip",
+   "text": "不想算公式，就用数字温度芯片，一根线就能读，精度半度。",
+   "caption": "不想算公式，就用数字温度芯片（DS18B20），一根线就能读，精度 ±0.5 °C。",
+   "beats": {
+    "chipw": "数字温度芯片",
+    "wire": "一根线"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "hi",
+   "text": "上千度的炉子用热电偶，要精密，就用铂电阻。",
+   "beats": {
+    "tc": "热电偶",
+    "pt": "铂电阻"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "outro",
+   "text": "下面的实验里，拖动温度，看分压怎么变。",
+   "beats": {
+    "try": "拖动"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "ntc",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "curve",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "log",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "div",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "pick",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "self",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "chip",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "hi",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "outro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "therm",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "hot",
+   "kind": "knock",
+   "f": 223,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "low",
+   "kind": "knock",
+   "f": 246,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "c1",
+   "kind": "knock",
+   "f": 269,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "c2",
+   "kind": "knock",
+   "f": 202,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "times",
+   "kind": "knock",
+   "f": 225,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "mid",
+   "kind": "knock",
+   "f": 248,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "steep",
+   "kind": "knock",
+   "f": 271,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "selfw",
+   "kind": "knock",
+   "f": 204,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "wire",
+   "kind": "knock",
+   "f": 227,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "tc",
+   "kind": "knock",
+   "f": 250,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "pt",
+   "kind": "knock",
+   "f": 273,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ntcw",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "logw",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "divw",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "chipw",
+   "kind": "glass",
+   "f": 988,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "try",
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.5
+  }
+ ]
+}

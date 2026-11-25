@@ -1,0 +1,87 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "再复杂的电路，连接方式也只有两种：串联和并联。",
+      "beats": { "ser": "串联", "par": "并联" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "sA",
+      "text": "串联，是首尾相接，电流只有一条路可走。",
+      "beats": { "chain": "首尾相接", "one": "一条路" },
+      "gapAfter": 0.6
+    },
+    { "id": "sB", "text": "所以电流处处相同，电压按阻值来分。", "beats": { "same": "处处相同", "split": "按阻值" }, "gapAfter": 0.6 },
+    {
+      "id": "sC",
+      "text": "等效电阻是各电阻相加：一千加两千加三千，就是六千欧。",
+      "caption": "等效电阻是各电阻相加：1 k 加 2 k 加 3 k，就是 6 kΩ。",
+      "beats": { "sum": "相加", "r1": "一千", "r2": "两千", "r3": "三千", "r6": "六千欧" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "pA",
+      "text": "并联，是两端分别接在一起，电流可以分成几条路。",
+      "beats": { "ends": "两端", "fork": "几条路" },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "pB",
+      "text": "每条路的电压相同，电流各走各的，阻值小的走得多。",
+      "beats": { "samev": "电压相同", "each": "各走各的", "small": "阻值小" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pC",
+      "text": "总电阻比最小的那只还要小，因为多了一条路。",
+      "beats": { "less": "还要小", "extra": "多了一条路" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "trick",
+      "text": "口算窍门：两只一样的电阻并联，阻值正好减半。",
+      "beats": { "two": "两只", "half": "减半" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "brk",
+      "text": "串联断开一处，全都没电；并联断开一只，其他照常。",
+      "beats": { "sb": "串联断开", "pb": "并联断开" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面的实验台，切到并联，看总电阻是不是比最小的还小。", "beats": { "go": "切到并联", "chk": "比最小的还小" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "ser", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "par", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "sA", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "chain", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "one", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "same", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "split", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "sC", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "r6", "kind": "glass", "f": 880, "gain": 0.16, "send": 0.55 },
+    { "at": "pA", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "ends", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "fork", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.45 },
+    { "at": "samev", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "each", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "pC", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "less", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.5 },
+    { "at": "trick", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "two", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "half", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.5 },
+    { "at": "brk", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "sb", "kind": "knock", "f": 160, "gain": 0.22, "send": 0.2 },
+    { "at": "pb", "kind": "knock", "f": 190, "gain": 0.22, "send": 0.2 },
+    { "at": "go", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

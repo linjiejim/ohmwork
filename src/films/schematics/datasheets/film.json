@@ -1,0 +1,56 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "数据手册几十页，不用从头读，知道去哪一节找什么就行。", "gapAfter": 0.6 },
+    { "id": "struct", "text": "手册的结构固定：首页、引脚、极限参数、电气特性、曲线，最后是封装。", "beats": { "home": "首页", "pins": "引脚", "absW": "极限参数", "elec": "电气特性", "curve": "曲线", "pkg": "封装" }, "gapAfter": 0.7 },
+    { "id": "abs", "text": "极限参数是超过就会坏的线，不是能长期工作的线。", "beats": { "line": "超过就会坏", "notwork": "不是" }, "gapAfter": 0.7 },
+    { "id": "rec", "text": "设计只看推荐工作条件：十二伏以内，各项指标才有保证。", "caption": "设计只看推荐工作条件：12 V 以内，各项指标才有保证。", "beats": { "recW": "推荐工作条件", "twelve": "十二伏" }, "gapAfter": 0.7 },
+    { "id": "mtm", "text": "电气特性有三列：最小、典型、最大。典型值不保证，要按最坏情况算。", "beats": { "min": "最小", "typ": "典型", "max": "最大", "worst": "最坏情况" }, "gapAfter": 0.7 },
+    {
+      "id": "calc",
+      "text": "输出三点三伏，压差最大一点三伏，输入至少要四点六伏。",
+      "caption": "输出 3.3 V，压差最大 1.3 V，输入至少要 4.6 V。",
+      "beats": { "out": "三点三伏", "drop": "一点三伏", "need": "四点六伏" },
+      "gapAfter": 0.7
+    },
+    { "id": "cond", "text": "每个数字旁边都有测试条件：条件一变，数字就不算数了。", "beats": { "condW": "测试条件", "vary": "条件一变" }, "gapAfter": 0.7 },
+    {
+      "id": "tj",
+      "text": "结温等于环境温度，加上发热乘热阻。一百二十一度，离上限只剩四度。",
+      "caption": "结温等于环境温度，加上发热乘热阻。121 °C，离上限只剩 4 °C。",
+      "beats": { "formula": "结温", "res": "一百二十一度", "left": "只剩四度" },
+      "gapAfter": 0.7
+    },
+    { "id": "derate", "text": "环境越热，能散掉的功率越少，所以元件要降额，留出余量。", "beats": { "hot": "越热", "margin": "留出余量" }, "gapAfter": 0.7 },
+    { "id": "outro", "text": "下面的实验台，把输入降到四点五伏，再切到典型值，看看会怎样。", "caption": "下面的实验台，把输入降到 4.5 V，再切到典型值，看看会怎样。", "beats": { "lab": "实验台", "typ2": "典型值" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "struct", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.14, "send": 0.5 },
+    { "at": "absW", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "pkg", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "abs", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "line", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.25 },
+    { "at": "recW", "kind": "knock", "f": 240, "gain": 0.18, "send": 0.25 },
+    { "at": "twelve", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "mtm", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "max", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "worst", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.5 },
+    { "at": "calc", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "drop", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "need", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.55 },
+    { "at": "condW", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "vary", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "tj", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "res", "kind": "knock", "f": 260, "gain": 0.2, "send": 0.25 },
+    { "at": "left", "kind": "glass", "f": 740, "gain": 0.14, "send": 0.55 },
+    { "at": "derate", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 400, "f1": 1800, "gain": 0.1, "send": 0.5 },
+    { "at": "margin", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "lab", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

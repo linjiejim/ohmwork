@@ -1,0 +1,375 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电阻电容掉个头接都行，二极管不一样，它只让电流朝一个方向走。",
+      "beats": {
+        "dir": "一个方向"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "valve",
+      "text": "把它想成水管里的单向阀：顺着推，阀门打开；反着推，越推越紧。",
+      "beats": {
+        "fwd": "顺着推",
+        "vrev": "反着推"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pins",
+      "text": "它有两个脚，阳极和阴极。电流只能从阳极，流向阴极。",
+      "beats": {
+        "anode": "阳极",
+        "cath": "阴极",
+        "go": "流向"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "curve",
+      "text": "把电压和电流画成图，是一条曲线：有门槛，过了门槛就很陡。",
+      "beats": {
+        "axes": "画成图",
+        "crv": "曲线",
+        "knee": "门槛",
+        "steep": "很陡"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "vf",
+      "text": "导通以后，硅管的压降大约零点七伏，肖特基管只有零点三伏。",
+      "caption": "导通以后，硅管的压降大约 0.7 V，肖特基管只有 0.3 V。",
+      "beats": {
+        "si": "硅管",
+        "v07": "零点七伏",
+        "sch": "肖特基",
+        "v03": "零点三伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "reverse",
+      "text": "反过来，几乎不通，只有极小的漏电流；电压太高，会被击穿。",
+      "beats": {
+        "rev": "反过来",
+        "leak": "漏电流",
+        "brk": "击穿"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "calc",
+      "text": "导通时的电流，由串联的电阻决定：电源电压减零点七伏，再除以电阻。",
+      "caption": "导通时的电流，由串联的电阻决定：电源电压减 0.7 V，再除以电阻。",
+      "beats": {
+        "cI": "电流",
+        "cRs": "串联",
+        "cVs": "电源电压",
+        "cVf": "零点七伏",
+        "cR": "除以"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "example",
+      "text": "五伏电源，三百三十欧电阻，电流大约十三毫安。",
+      "caption": "5 V 电源，330 Ω 电阻，电流大约 13 mA。",
+      "beats": {
+        "eV": "五伏",
+        "eR": "三百三十欧",
+        "eI": "十三毫安"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "uses",
+      "text": "用处很多：整流、防反接、续流，还有给芯片引脚钳位。",
+      "beats": {
+        "u1": "整流",
+        "u2": "防反接",
+        "u3": "续流",
+        "u4": "钳位"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，拖动电源电压，看工作点怎么在曲线上走。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "valve",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "fwd",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "vrev",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "pins",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "anode",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cath",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "go",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "dir",
+      "kind": "glass",
+      "f": 660,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "curve",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "curve",
+      "offset": -0.1,
+      "kind": "air",
+      "dur": 0.9,
+      "f0": 400,
+      "f1": 1800,
+      "peak": 0.8,
+      "gain": 0.08,
+      "send": 0.4
+    },
+    {
+      "at": "knee",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "vf",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "v07",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "v03",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "reverse",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "leak",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "brk",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "calc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "cVs",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cVf",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cR",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "example",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "eV",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "eR",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "eI",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.16,
+      "send": 0.5
+    },
+    {
+      "at": "uses",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "u1",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "u2",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "u3",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "u4",
+      "kind": "knock",
+      "f": 280,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

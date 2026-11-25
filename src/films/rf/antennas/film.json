@@ -1,0 +1,321 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "天线，是电路和空间之间的接口：把电流变成电磁波。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "dipole",
+      "text": "把导线的末端向两边掰开，就成了最简单的天线：偶极子。",
+      "gapAfter": 0.7,
+      "beats": {
+        "open": "掰开",
+        "dip": "偶极子"
+      }
+    },
+    {
+      "id": "standing",
+      "text": "电流冲到尽头被反弹回来，叠成驻波：两端为零，中间最大。",
+      "gapAfter": 0.8,
+      "beats": {
+        "refl": "反弹",
+        "mid": "中间最大"
+      }
+    },
+    {
+      "id": "half",
+      "text": "总长正好是半个波长时，天线谐振，能量最容易送进去。",
+      "gapAfter": 0.8,
+      "beats": {
+        "hlf": "半个波长",
+        "res": "谐振"
+      }
+    },
+    {
+      "id": "mono",
+      "text": "砍掉一半，换成一块地平面，就是单极子，四分之一波长。",
+      "gapAfter": 0.8,
+      "beats": {
+        "cut": "砍掉一半",
+        "ground": "地平面",
+        "monon": "单极子",
+        "quarter": "四分之一波长"
+      }
+    },
+    {
+      "id": "calc",
+      "text": "四百三十三兆赫的波长六十九厘米，单极子只要十六厘米。",
+      "caption": "433 MHz 的波长 69 厘米，单极子只要 16 厘米。",
+      "gapAfter": 0.8,
+      "beats": {
+        "wl": "六十九厘米",
+        "len": "十六厘米"
+      }
+    },
+    {
+      "id": "pattern",
+      "text": "天线不会均匀辐射。偶极子的方向图，像一个甜甜圈。",
+      "gapAfter": 0.8,
+      "beats": {
+        "pat": "方向图",
+        "donut": "甜甜圈"
+      }
+    },
+    {
+      "id": "gain",
+      "text": "增益不是放大，是集中：把功率挤到某个方向。",
+      "gapAfter": 0.8,
+      "beats": {
+        "gn": "增益",
+        "focus": "集中"
+      }
+    },
+    {
+      "id": "pcb",
+      "text": "放到电路板上，天线周围要留出净空，别让铜靠近。",
+      "gapAfter": 0.7,
+      "beats": {
+        "clear": "净空",
+        "copper": "铜"
+      }
+    },
+    {
+      "id": "outro",
+      "text": "下面拖动频率，看看天线的长度怎么跟着变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "dipole",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "open",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "dip",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "standing",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "refl",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mid",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "half",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "hlf",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "res",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "mono",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cut",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ground",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "quarter",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "calc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "wl",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "len",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.16,
+      "send": 0.55
+    },
+    {
+      "at": "pattern",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "pat",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "donut",
+      "kind": "glass",
+      "f": 740,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "gain",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "gn",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "focus",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "pcb",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "clear",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "copper",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.65,
+      "dur": 1.1,
+      "bright": 0.5
+    }
+  ]
+}

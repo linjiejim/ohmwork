@@ -1,0 +1,345 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "原理图只说谁和谁相连，板子把这些连接，做成了真正的铜线。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "cutL",
+      "text": "把一块板子从侧面切开，它是一层一层叠起来的。",
+      "beats": {
+        "cut": "切开",
+        "stack": "一层一层"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "parts",
+      "text": "中间是基材，上下压着铜，铜上盖阻焊，最外面是丝印。",
+      "beats": {
+        "fr4": "基材",
+        "cu": "铜",
+        "mask": "阻焊",
+        "silk": "丝印"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "count",
+      "text": "铜层的数量叫层数。四层板，中间两层是整片的地和电源。",
+      "beats": {
+        "n": "层数",
+        "four": "四层板",
+        "gnd": "地",
+        "pwr": "电源"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "viaL",
+      "text": "同一层里连线的是走线，把不同层连起来的，是过孔。",
+      "beats": {
+        "trace": "走线",
+        "via": "过孔"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "pkgL",
+      "text": "元件的外形叫封装。常见的贴片有零四零二、零六零三、零八零五。",
+      "caption": "元件的外形叫封装。常见的贴片有 0402、0603、0805。",
+      "beats": {
+        "pkg": "封装",
+        "p0402": "零四零二",
+        "p0603": "零六零三",
+        "p0805": "零八零五"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "milL",
+      "text": "单位记一个换算：一百密耳，就是排针的二点五四毫米间距。",
+      "caption": "单位记一个换算：100 mil，就是排针的 2.54 mm 间距。",
+      "beats": {
+        "mil": "一百密耳",
+        "mm": "二点五四毫米"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "width",
+      "text": "线该画多宽，看电流：一安培，外层一盎司铜，约零点三毫米。",
+      "caption": "线该画多宽，看电流：1 A，外层 1 oz 铜，约 0.3 mm。",
+      "beats": {
+        "w": "线该画多宽",
+        "amp": "一安培",
+        "oz": "一盎司铜",
+        "mm03": "零点三毫米"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "inner",
+      "text": "内层被板材包着，散热差，同样一安培，要画到零点七八毫米。",
+      "caption": "内层被板材包着，散热差，同样 1 A，要画到 0.78 mm。",
+      "beats": {
+        "innerW": "内层",
+        "hot": "散热差",
+        "mm078": "零点七八毫米"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "filesL",
+      "text": "画完交给工厂：每一层一个文件，再加一个钻孔文件。",
+      "caption": "画完交给工厂：每一层一个 Gerber 文件，再加一个钻孔文件。",
+      "beats": {
+        "files": "每一层一个文件",
+        "drill": "钻孔文件"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "outro",
+      "text": "下面拖动叠层，看板子怎么叠起来，再去试试线宽。",
+      "beats": {
+        "drag": "拖动",
+        "stk": "叠层"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "cut",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "cut",
+      "kind": "knock",
+      "f": 180,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fr4",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cu",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mask",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "silk",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "count",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "four",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "gnd",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "pwr",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "via",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "trace",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "via",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "pkg",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "p0402",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "p0603",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "p0805",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "mil",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mm",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "width",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "amp",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mm03",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "inner",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "mm078",
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "files",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "drill",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.5,
+      "dur": 1.1
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课讲数字电路最基础的两样东西：高低电平，和逻辑门。",
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ana",
+      "text": "模拟信号的电压可以取任意值，一点噪声，就会改变它的样子。",
+      "beats": {
+        "any": "任意值",
+        "noise": "噪声"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "dig",
+      "text": "数字信号只约定两种状态：高是一，低是零。",
+      "caption": "数字信号只约定两种状态：高是 1，低是 0。",
+      "beats": {
+        "hi": "高",
+        "one": "一",
+        "lo": "低",
+        "zero": "零"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "regen",
+      "text": "噪声再大，只要没越过门槛，接收方照样认得，再输出干净的信号。",
+      "beats": {
+        "noise2": "噪声",
+        "thr": "门槛",
+        "clean": "干净"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "gateL",
+      "text": "逻辑门按固定规则，把输入变成输出。规则列成表，叫真值表。",
+      "beats": {
+        "gate": "逻辑门",
+        "rule": "固定规则",
+        "table": "真值表"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "andL",
+      "text": "与门：两个输入都是一，输出才是一。",
+      "caption": "与门：两个输入都是 1，输出才是 1。",
+      "beats": {
+        "and": "与门",
+        "both": "都是一"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "orL",
+      "text": "或门：只要有一个输入是一，输出就是一。",
+      "caption": "或门：只要有一个输入是 1，输出就是 1。",
+      "beats": {
+        "or": "或门",
+        "or1": "就是一"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "notL",
+      "text": "非门只有一个输入，输出和它正相反。",
+      "beats": {
+        "not": "非门",
+        "inv": "正相反"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "xorL",
+      "text": "异或门：两个输入不一样，输出才是一。",
+      "caption": "异或门：两个输入不一样，输出才是 1。",
+      "beats": {
+        "xor": "异或门",
+        "xor1": "才是一"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "nandL",
+      "text": "只用与非门，就能搭出所有别的门，所以它叫万能门。",
+      "beats": {
+        "nand": "与非门",
+        "all": "所有",
+        "univ": "万能门"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面，把七种门挨个试一遍，看真值表怎么变。",
+      "beats": {
+        "try": "挨个试"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "ana",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "noise",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "dig",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "hi",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "lo",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "regen",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "clean",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "gateL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 320,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "table",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "both",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "or1",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "inv",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "xor1",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "nandL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "univ",
+      "kind": "glass",
+      "f": 1047,
+      "dur": 0.8,
+      "bright": 0.7,
+      "gain": 0.12,
+      "send": 0.55
+    },
+    {
+      "at": "try",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

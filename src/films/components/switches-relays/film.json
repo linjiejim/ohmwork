@@ -1,0 +1,331 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "开关管通断，继电器用小电路控制大电路，保护元件出事先牺牲。",
+      "beats": {
+        "sw": "开关",
+        "relay": "继电器",
+        "prot": "保护元件"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pole",
+      "text": "开关用刀和掷来描述：刀是几条电路，掷是几个位置。",
+      "beats": {
+        "polew": "刀",
+        "throw": "掷",
+        "n": "几条电路",
+        "pos": "几个位置"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "kinds",
+      "text": "单刀单掷只管通断，单刀双掷二选一，双刀双掷同时切两路。",
+      "beats": {
+        "spst": "单刀单掷",
+        "spdt": "单刀双掷",
+        "dpdt": "双刀双掷"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "coil",
+      "text": "继电器里有线圈和触点：线圈一通电，吸动衔铁，触点切换。",
+      "beats": {
+        "coilw": "线圈",
+        "pull": "吸动衔铁",
+        "contact": "触点切换"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "iso",
+      "text": "两侧没有导线，只靠磁力相连，所以五伏能安全地控制两百二十伏。",
+      "caption": "两侧没有导线，只靠磁力相连，所以 5 V 能安全地控制 220 V。",
+      "beats": {
+        "isow": "没有导线",
+        "v5": "五伏",
+        "v220": "两百二十伏"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "drive",
+      "text": "引脚带不动线圈，要加三极管驱动；线圈两端，别忘了续流二极管。",
+      "beats": {
+        "pin": "引脚",
+        "bjt": "三极管",
+        "dio": "续流二极管"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "fuse",
+      "text": "防过流的元件串联：电流一超，保险丝就熔断。",
+      "beats": {
+        "ser": "串联",
+        "fusew": "保险丝",
+        "blow": "熔断"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "tvs",
+      "text": "防过压的元件并联：尖峰一来，瞬态抑制二极管就把它钳住。",
+      "beats": {
+        "par": "并联",
+        "tvsw": "瞬态抑制二极管",
+        "clamp": "钳住"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "warn",
+      "text": "保险丝保护的是导线，不是人；烧了，先找原因，别换更大的。",
+      "beats": {
+        "wire": "导线",
+        "human": "不是人",
+        "why": "找原因",
+        "bigger": "更大的"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面，先通电线圈，看触点怎么动。",
+      "beats": {
+        "go": "通电线圈"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "sw",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "relay",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "prot",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "pole",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "polew",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "throw",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "kinds",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "spst",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "spdt",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "dpdt",
+      "kind": "knock",
+      "f": 280,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "coil",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "pull",
+      "kind": "knock",
+      "f": 150,
+      "gain": 0.22,
+      "send": 0.2
+    },
+    {
+      "at": "contact",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "isow",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "v220",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "drive",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "bjt",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "dio",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fuse",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "blow",
+      "kind": "knock",
+      "f": 140,
+      "gain": 0.22,
+      "send": 0.2
+    },
+    {
+      "at": "tvs",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "clamp",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.13,
+      "send": 0.55
+    },
+    {
+      "at": "warn",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "human",
+      "kind": "knock",
+      "f": 180,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "bigger",
+      "kind": "knock",
+      "f": 160,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "go",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "板上的接口走不远。线一长，干扰就多，要换一种办法。",
+      "beats": { "longW": "线一长", "noiseW": "干扰" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "single",
+      "text": "普通信号只用一根线，干扰叠上去，接收端就分不清了。",
+      "beats": { "oneW": "一根线", "noise": "干扰", "lost": "分不清" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "diff",
+      "text": "差分用两根线，传一对相反的电压，接收端只看两者的差。",
+      "beats": { "pair": "一对相反", "sub": "只看两者的差" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cancel",
+      "text": "绞在一起的两根线，受到同样的干扰，相减就抵消了。",
+      "beats": { "twist": "绞在一起", "cancelW": "抵消" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "term",
+      "text": "线很长，信号会在尽头反射，所以两端各并一只一百二十欧电阻。",
+      "caption": "线很长，信号会在尽头反射，所以两端各并一只 120 Ω 电阻。",
+      "beats": { "reflect": "反射", "termW": "一百二十欧" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rs485",
+      "text": "R S 四八五，是差分版的串口，一条线上能挂几十个节点。",
+      "caption": "RS-485，是差分版的串口，一条线上能挂几十个节点。",
+      "beats": { "rsW": "差分版", "nodes": "几十个节点" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "can",
+      "text": "CAN 总线用在汽车里，多个节点抢着说话，靠仲裁决定谁先。",
+      "beats": { "grab": "抢着说话", "arb": "仲裁" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "usb",
+      "text": "U S B 也是一对差分线，电脑是主机，设备只在被问到时回答。",
+      "caption": "USB 也是一对差分线，电脑是主机，设备只在被问到时回答。",
+      "beats": { "usbW": "差分线", "hostW": "主机", "asked": "被问到" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "choose",
+      "text": "怎么选：板内的短距离，用前面三种；长距离，选差分总线。",
+      "beats": { "shortW": "板内", "longD": "长距离" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面，拖动干扰的大小，看差分怎样把噪声抵消。", "beats": { "tryit": "拖动" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "noiseW", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.2 },
+    { "at": "single", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "lost", "kind": "knock", "f": 170, "gain": 0.2, "send": 0.2 },
+    { "at": "diff", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "pair", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "sub", "kind": "glass", "f": 740, "gain": 0.14, "send": 0.5 },
+    { "at": "cancelW", "kind": "glass", "f": 988, "dur": 0.8, "bright": 0.7, "gain": 0.14, "send": 0.55 },
+    { "at": "term", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "termW", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "rs485", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "nodes", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "can", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "arb", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "usb", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.12, "send": 0.5 },
+    { "at": "hostW", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "choose", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "longD", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "tryit", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

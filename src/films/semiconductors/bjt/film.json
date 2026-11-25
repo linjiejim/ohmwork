@@ -1,0 +1,332 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "单片机的引脚，只能给一点点电流，推不动大负载，得有个帮手。",
+      "beats": {
+        "pin": "引脚",
+        "help": "帮手"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "pins",
+      "text": "三极管有三个脚：基极、集电极、发射极。基极是控制端。",
+      "beats": {
+        "base": "基极",
+        "col": "集电极",
+        "emit": "发射极",
+        "ctrl": "控制端"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "small",
+      "text": "往基极送一点点电流，集电极就能流过它的好多倍。",
+      "beats": {
+        "ib": "一点点",
+        "ic": "集电极",
+        "many": "好多倍"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "example",
+      "text": "比如基极零点一毫安，集电极最多二十毫安，两百倍。",
+      "caption": "比如基极 0.1 mA，集电极最多 20 mA，200 倍。",
+      "beats": {
+        "e1": "零点一毫安",
+        "e2": "二十毫安",
+        "e3": "两百倍"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "circuit",
+      "text": "把它接成开关来控制一盏灯，它会处在三种状态。",
+      "beats": {
+        "lamp": "一盏灯",
+        "three": "三种"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "cutoff",
+      "text": "基极没有电流，是截止，像一个断开的开关。",
+      "beats": {
+        "cut": "截止"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "linear",
+      "text": "电流小一些，是放大，像拧到一半的阀门，管子自己也在发热。",
+      "beats": {
+        "lin": "放大",
+        "heat": "发热"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "sat",
+      "text": "电流足够大，是饱和，像闭合的开关，管子两端只剩零点二伏。",
+      "caption": "电流足够大，是饱和，像闭合的开关，管子两端只剩 0.2 V。",
+      "beats": {
+        "satw": "饱和",
+        "v02": "零点二伏"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "deep",
+      "text": "当开关用，要深度饱和：基极电流取负载电流的十分之一。",
+      "caption": "当开关用，要深度饱和：基极电流取负载电流的 1/10。",
+      "beats": {
+        "deepw": "深度饱和",
+        "tenth": "十分之一"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "rb",
+      "text": "三点三伏引脚控制一百毫安的灯，基极电阻取二百七十欧。",
+      "caption": "3.3 V 引脚控制 100 mA 的灯，基极电阻取 270 Ω。",
+      "beats": {
+        "r1": "三点三伏",
+        "r2": "一百毫安",
+        "r3": "二百七十欧"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，拖动引脚电压，看三种状态一路走过。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "pin",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "pins",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "base",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "col",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "emit",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "small",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "ib",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "many",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "e3",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "circuit",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "lamp",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cutoff",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "cut",
+      "kind": "glass",
+      "f": 392,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "linear",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "lin",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "sat",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "satw",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "deep",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "deepw",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "tenth",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "rb",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "r1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "r2",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "r3",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.16,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

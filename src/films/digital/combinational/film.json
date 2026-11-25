@@ -1,0 +1,289 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "一个门只管一位。把很多位排在一起，很多门连起来，就能做算术。",
+      "beats": {
+        "bits": "很多位",
+        "gates": "很多门"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "weight",
+      "text": "二进制的位权，从右往左是一、二、四、八。",
+      "caption": "二进制的位权，从右往左是 1、2、4、8。",
+      "beats": {
+        "w1": "是一",
+        "w4": "四",
+        "w8": "八"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "sumL",
+      "text": "把是一的位权加起来：八加二加一，等于十一。",
+      "caption": "把是 1 的位权加起来：8 + 2 + 1 = 11。",
+      "beats": {
+        "sum": "加起来",
+        "e8": "八",
+        "e2": "二",
+        "e1": "加一",
+        "res": "十一"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "hexL",
+      "text": "每四位合成一位十六进制，一个字节，正好是两位。",
+      "beats": {
+        "nib": "四位",
+        "hex": "十六进制",
+        "byte": "字节"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "halfL",
+      "text": "两个一位数相加：和是异或，进位是与。",
+      "beats": {
+        "half": "相加",
+        "xor": "异或",
+        "and": "与"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "carryL",
+      "text": "多位相加时，进位会从低位，一路传到高位。",
+      "beats": {
+        "carry": "进位",
+        "ripple": "一路"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "overL",
+      "text": "如果只有四位能存，最高位的一就丢了，这叫溢出。",
+      "beats": {
+        "lost": "丢了",
+        "over": "溢出"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "decL",
+      "text": "译码器把一个二进制数，翻译成第几根线亮起来。",
+      "beats": {
+        "dec": "译码器",
+        "line": "第几根线"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "segL",
+      "text": "数码管也是这样：把四位数，翻译成哪几段该亮。",
+      "beats": {
+        "seg": "数码管",
+        "lit": "哪几段"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "combL",
+      "text": "它们都是组合逻辑：输出只看当前的输入，没有记忆。",
+      "beats": {
+        "comb": "组合逻辑",
+        "mem": "没有记忆"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面，拨一拨加数，看进位怎么一路传过去。",
+      "beats": {
+        "drag": "拨一拨"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "weight",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "w1",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "w8",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "res",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "hexL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "byte",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "halfL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "xor",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "and",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "carryL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 320,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ripple",
+      "kind": "glass",
+      "f": 740,
+      "dur": 0.8,
+      "bright": 0.6,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "over",
+      "kind": "knock",
+      "f": 160,
+      "gain": 0.22,
+      "send": 0.25
+    },
+    {
+      "at": "decL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "line",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "segL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lit",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "combL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mem",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

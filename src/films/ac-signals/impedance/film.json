@@ -1,0 +1,344 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电阻对什么频率都一样，电容和电感，却不一样。",
+      "beats": {
+        "res": "电阻",
+        "cl": "电容和电感"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ln_xc",
+      "text": "电容的阻力叫容抗，频率越高，容抗越小。",
+      "beats": {
+        "xc": "容抗",
+        "cup": "频率越高"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_xl",
+      "text": "电感正好相反，感抗随着频率升高而变大。",
+      "beats": {
+        "xl": "感抗",
+        "lup": "升高"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "nums",
+      "text": "一百纳法的电容：五十赫兹，三十二千欧；一兆赫，一点六欧。",
+      "caption": "100 nF 的电容：50 Hz 是 32 kΩ；1 MHz 是 1.6 Ω。",
+      "beats": {
+        "n50": "五十赫兹",
+        "n1m": "一兆赫"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rule",
+      "text": "记一句话：电容隔直通交，电感通直阻交。",
+      "beats": {
+        "cap": "电容隔直通交",
+        "ind": "电感通直阻交"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "phase",
+      "text": "电容里，电流超前电压九十度；电感里，电流滞后九十度。",
+      "caption": "电容里，电流超前电压 90°；电感里，电流滞后 90°。",
+      "beats": {
+        "lead": "超前",
+        "lag": "滞后"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_store",
+      "text": "所以理想的电容和电感，只存能量，不发热。",
+      "beats": {
+        "store": "只存能量",
+        "heat": "不发热"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_z",
+      "text": "电阻加电抗，合起来叫阻抗，有大小，也有相位。",
+      "beats": {
+        "z": "阻抗",
+        "size": "大小",
+        "ph": "相位"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_tri",
+      "text": "串联时不能直接相加，要像直角三角形那样合成。",
+      "beats": {
+        "nosum": "不能直接相加",
+        "tri": "直角三角形"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ex",
+      "text": "一千欧加一点五九千欧，不是二点五九，而是一点八八千欧。",
+      "caption": "1 kΩ 加 1.59 kΩ，不是 2.59 kΩ，而是 1.88 kΩ。",
+      "beats": {
+        "ex1": "一千欧",
+        "ex2": "一点五九千欧",
+        "exz": "一点八八千欧"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，拖动频率，看容抗和感抗怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "ln_xc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_xl",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "rule",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "phase",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_store",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_z",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_tri",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ex",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "outro",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "res",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cl",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "xc",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "xl",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "n1m",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "lead",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "lag",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ex1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ex2",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cup",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "lup",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "cap",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "ind",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "heat",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "z",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "tri",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "exz",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    }
+  ]
+}

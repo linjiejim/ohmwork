@@ -12,6 +12,8 @@ import { Shell } from "@/site/Shell"
 const ToolsPage = React.lazy(() => import("@/site/ToolsPage").then((m) => ({ default: m.ToolsPage })))
 const SymbolsPage = React.lazy(() => import("@/site/SymbolsPage").then((m) => ({ default: m.SymbolsPage })))
 const GlossaryPage = React.lazy(() => import("@/site/GlossaryPage").then((m) => ({ default: m.GlossaryPage })))
+// development only: a contact sheet of a lesson film's frames (scripts/films/frames.mjs)
+const FilmSheet = import.meta.env.DEV ? React.lazy(() => import("@/films/FilmSheet")) : () => null
 const later = (el: React.ReactNode) => <React.Suspense fallback={<div className="min-h-dvh" aria-busy="true" />}>{el}</React.Suspense>
 
 function NotFound() {
@@ -26,6 +28,7 @@ function NotFound() {
 export function App() {
   return (
     <Routes>
+      {import.meta.env.DEV && <Route path="dev/film/:chapter/:slug" element={later(<FilmSheet />)} />}
       <Route element={<Shell />}>
         <Route index element={<HomePage />} />
         <Route path="learn/:chapterId" element={<ChapterPage />} />

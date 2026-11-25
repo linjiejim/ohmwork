@@ -1,0 +1,42 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "认得符号，还不等于读得懂图。这一课讲怎么读一张完整的原理图。", "gapAfter": 0.6 },
+    { "id": "conn", "text": "原理图只画谁和谁相连，不画它们在板子上的位置。", "beats": { "links": "相连", "pos": "位置" }, "gapAfter": 0.7 },
+    { "id": "label", "text": "两个点隔得远，不用画线，贴上同样的网络标号，就连在一起了。", "beats": { "far": "隔得远", "lab": "网络标号", "join": "连在一起" }, "gapAfter": 0.7 },
+    { "id": "cross", "text": "两根线交叉，有圆点才相连；没有圆点，只是从上面跨过去。", "beats": { "dot": "圆点", "nodot": "没有圆点" }, "gapAfter": 0.7 },
+    { "id": "order", "text": "读图有个顺序：先看电源，再看地，然后是主芯片。", "beats": { "pwr": "电源", "gnd": "地", "mcu": "主芯片" }, "gapAfter": 0.6 },
+    { "id": "io", "text": "接着看输入和输出，最后看它用什么通信。", "beats": { "in": "输入", "out": "输出", "comm": "通信" }, "gapAfter": 0.7 },
+    { "id": "habit", "text": "习惯上，信号从左进、右出，电源在上，地在下。", "beats": { "lr": "左进", "up": "电源在上" }, "gapAfter": 0.7 },
+    { "id": "bom", "text": "图上的位号，对应物料清单里的一行，也对应电路板丝印上的一个位置。", "beats": { "ref": "位号", "bomRow": "物料清单", "pcb": "丝印" }, "gapAfter": 0.7 },
+    { "id": "outro", "text": "下面这块小板子，一步步走一遍，再选 SDA，看那根没画的线。", "beats": { "walk": "走一遍", "sda": "SDA" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "conn", "offset": -0.9, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.14, "send": 0.5 },
+    { "at": "pos", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "label", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "lab", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "join", "kind": "glass", "f": 784, "dur": 0.7, "bright": 0.6, "gain": 0.12, "send": 0.55 },
+    { "at": "cross", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "dot", "kind": "knock", "f": 260, "gain": 0.18, "send": 0.25 },
+    { "at": "nodot", "kind": "knock", "f": 200, "gain": 0.18, "send": 0.25 },
+    { "at": "order", "offset": -0.45, "kind": "air", "dur": 0.6, "f0": 300, "f1": 2600, "gain": 0.13, "send": 0.5 },
+    { "at": "pwr", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "gnd", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.25 },
+    { "at": "mcu", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "in", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "out", "kind": "knock", "f": 280, "gain": 0.18, "send": 0.25 },
+    { "at": "comm", "kind": "glass", "f": 988, "gain": 0.12, "send": 0.5 },
+    { "at": "habit", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 400, "f1": 1800, "gain": 0.1, "send": 0.5 },
+    { "at": "bom", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "bomRow", "kind": "knock", "f": 230, "gain": 0.18, "send": 0.25 },
+    { "at": "pcb", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "sda", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

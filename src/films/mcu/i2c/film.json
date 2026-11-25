@@ -1,0 +1,80 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "板子上有好几个传感器，引脚不够用。I 二 C 用两根线，全挂上去。",
+      "caption": "板子上有好几个传感器，引脚不够用。I²C 用两根线，全挂上去。",
+      "beats": { "devs": "传感器", "two": "两根线" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "lines",
+      "text": "一根是数据线，一根是时钟线，所有器件并联在上面。",
+      "beats": { "sda": "数据线", "scl": "时钟线", "par": "并联" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "master",
+      "text": "发起通信的是主机，其余是从机，每个从机有自己的地址。",
+      "beats": { "mst": "主机", "slv": "从机", "addr": "地址" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "call",
+      "text": "主机先喊一个地址，只有对上号的从机，才会回应。",
+      "beats": { "shout": "喊", "match": "对上号", "reply": "回应" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "start",
+      "text": "开始时，时钟线是高，数据线由高拉低，这是起始条件。",
+      "beats": { "fall": "由高拉低", "startC": "起始条件" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "bits",
+      "text": "之后每个时钟，数据线上走一位；时钟为高时，数据不许动。",
+      "beats": { "bitW": "走一位", "hold": "数据不许动" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ack",
+      "text": "第九个时钟，接收方把数据线拉低，表示应答。",
+      "caption": "第 9 个时钟，接收方把数据线拉低，表示应答。",
+      "beats": { "nine": "第九个", "ackW": "应答" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "pullup",
+      "text": "两根线都是开漏，只会拉低，高电平要靠上拉电阻。",
+      "beats": { "od": "开漏", "pu": "上拉电阻" },
+      "gapAfter": 0.8
+    },
+    { "id": "outro", "text": "下面，在实验里拨一拨地址，看一次传输怎么走。", "beats": { "tryit": "拨一拨" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "two", "kind": "knock", "f": 210, "gain": 0.2, "send": 0.2 },
+    { "at": "lines", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "par", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "master", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "mst", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "addr", "kind": "knock", "f": 270, "gain": 0.18, "send": 0.25 },
+    { "at": "shout", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.2 },
+    { "at": "reply", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "start", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "startC", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "hold", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.5 },
+    { "at": "nine", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "ackW", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.55 },
+    { "at": "pullup", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "pu", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "tryit", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

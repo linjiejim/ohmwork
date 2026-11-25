@@ -1,0 +1,342 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电阻只会发热，电容却能把电存起来，再放出去。",
+      "beats": {
+        "res": "电阻",
+        "store": "存起来",
+        "out": "放出去"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "plates",
+      "text": "两片导体夹一层绝缘，一加电压，就聚起正负电荷。",
+      "beats": {
+        "platesW": "两片导体",
+        "gap": "绝缘",
+        "charge": "正负电荷"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "q",
+      "text": "存下的电荷和电压成正比，比例叫电容量，单位是法拉。",
+      "beats": {
+        "qq": "电荷",
+        "ratio": "成正比",
+        "cap": "电容量",
+        "farad": "法拉"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "jump",
+      "text": "灌水时，水位只能慢慢涨；电容的电压，也不能突变。",
+      "beats": {
+        "fill": "灌水",
+        "slow": "慢慢涨",
+        "nojump": "不能突变"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rc",
+      "text": "经过电阻充电：先快后慢，越接近电源电压，就越慢。",
+      "beats": {
+        "rcw": "经过电阻",
+        "fast": "先快",
+        "slow2": "越慢"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "tau",
+      "text": "快慢由时间常数决定，它等于电阻乘以电容。",
+      "beats": {
+        "tauw": "时间常数",
+        "rxc": "电阻乘以电容"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "t63",
+      "text": "一个时间常数，充到六成三；五个，就算充满。",
+      "caption": "一个时间常数，充到 63%；五个，就算充满。",
+      "beats": {
+        "t1": "一个时间常数",
+        "p63": "六成三",
+        "t5": "五个"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ex",
+      "text": "一万欧配一百微法，时间常数正好一秒。",
+      "caption": "10 kΩ 配 100 μF，时间常数正好 1 s。",
+      "beats": {
+        "r10": "一万欧",
+        "c100": "一百微法",
+        "one": "一秒"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "types",
+      "text": "电容分好几种：电解的容量大，但有正负极，接反会鼓包。",
+      "beats": {
+        "typesw": "电容分好几种",
+        "elec": "电解",
+        "pol": "正负极",
+        "rev": "接反"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "decouple",
+      "text": "芯片的电源脚旁边，总要放一只一百纳法，就近补电。",
+      "caption": "芯片的电源脚旁边，总要放一只 100 nF，就近补电。",
+      "beats": {
+        "chip": "芯片",
+        "c100n": "一百纳法",
+        "near": "就近补电"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验里，改电阻和电容，看充电曲线怎么变。",
+      "beats": {
+        "try": "改电阻和电容"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "res",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "store",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "plates",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "plates",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "charge",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "q",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ratio",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cap",
+      "kind": "knock",
+      "f": 270,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "farad",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "fill",
+      "kind": "air",
+      "dur": 0.8,
+      "f0": 400,
+      "f1": 1600,
+      "peak": 0.8,
+      "gain": 0.08,
+      "send": 0.4
+    },
+    {
+      "at": "nojump",
+      "kind": "knock",
+      "f": 180,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "rc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "fast",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "tauw",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "rxc",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "p63",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.15,
+      "send": 0.55
+    },
+    {
+      "at": "t5",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "ex",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.5,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "one",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.13,
+      "send": 0.55
+    },
+    {
+      "at": "types",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "elec",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "rev",
+      "kind": "knock",
+      "f": 170,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "decouple",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "c100n",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "near",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "try",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

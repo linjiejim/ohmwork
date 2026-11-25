@@ -1,0 +1,346 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "光可以是被测量，也可以是工具：发出去，看它回不回来。",
+   "beats": {
+    "meas": "被测量",
+    "tool": "工具"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "ldr",
+   "text": "光敏电阻，光越强，阻值越小。全黑时兆欧，阳光下只剩几百欧。",
+   "caption": "光敏电阻，光越强，阻值越小。全黑时 1 MΩ 以上，阳光下只剩几百 Ω。",
+   "beats": {
+    "ldrw": "光敏电阻",
+    "strong": "光越强",
+    "dark": "全黑",
+    "sun": "阳光"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "lamp",
+   "text": "串一只固定电阻分压，再接比较器，就是天黑自动开灯。",
+   "beats": {
+    "div": "分压",
+    "cmp": "比较器",
+    "lampw": "开灯"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "pd",
+   "text": "要快要准，用光电二极管：电流和光强成正比，再用运放变成电压。",
+   "beats": {
+    "pdw": "光电二极管",
+    "prop": "成正比",
+    "tia": "运放"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "ir",
+   "text": "红外对管一发一收，前面有浅色物体，光就反射回来。",
+   "beats": {
+    "irw": "红外对管",
+    "refl": "反射"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "rem",
+   "text": "遥控器让红外光每秒闪三万八千次，接收头才认得出它。",
+   "caption": "遥控器让红外光每秒闪 38000 次，接收头才认得出它。",
+   "beats": {
+    "blink": "闪",
+    "pick": "认得出"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "us",
+   "text": "超声波测距：发出声波，等回声，时间乘声速，再除以二。",
+   "beats": {
+    "send": "发出",
+    "echo": "回声",
+    "half": "除以二"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "ex",
+   "text": "回声用了五点八三毫秒，距离就是一米。",
+   "caption": "回声用了 5.83 ms，距离就是 1 m。",
+   "beats": {
+    "ms": "五点八三毫秒",
+    "m": "一米"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "lim",
+   "text": "两厘米内有盲区，四米外就没有回声了。",
+   "caption": "2 cm 内有盲区，4 m 外就没有回声了。",
+   "beats": {
+    "blind": "盲区",
+    "far": "四米"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "outro",
+   "text": "下面的实验里，拖动光照，看灯什么时候亮。",
+   "beats": {
+    "try": "拖动"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "ldr",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "lamp",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "pd",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "ir",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "rem",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "us",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "ex",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "lim",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "outro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "meas",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "tool",
+   "kind": "knock",
+   "f": 223,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ldrw",
+   "kind": "knock",
+   "f": 246,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "dark",
+   "kind": "knock",
+   "f": 269,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "sun",
+   "kind": "knock",
+   "f": 202,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "div",
+   "kind": "knock",
+   "f": 225,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "lampw",
+   "kind": "knock",
+   "f": 248,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "irw",
+   "kind": "knock",
+   "f": 271,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "blink",
+   "kind": "knock",
+   "f": 204,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "send",
+   "kind": "knock",
+   "f": 227,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "blind",
+   "kind": "knock",
+   "f": 250,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "far",
+   "kind": "knock",
+   "f": 273,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "pdw",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "prop",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "refl",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "echo",
+   "kind": "glass",
+   "f": 988,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "half",
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "m",
+   "kind": "glass",
+   "f": 1047,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "try",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  }
+ ]
+}

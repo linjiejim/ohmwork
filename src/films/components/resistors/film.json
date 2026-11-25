@@ -1,0 +1,328 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "真要买一只电阻，得先认清四件事：阻值、精度、功率、封装。",
+      "beats": {
+        "kVal": "阻值",
+        "kTol": "精度",
+        "kPow": "功率",
+        "kPkg": "封装"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "band",
+      "text": "直插电阻用色环标阻值：前两环是数字，第三环是倍率。",
+      "beats": {
+        "bandw": "色环",
+        "dig": "数字",
+        "mult": "倍率"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ex",
+      "text": "黄、紫、红：四十七，后面加两个零，就是四点七千欧。",
+      "caption": "黄、紫、红：47，后面加 2 个零，就是 4.7 kΩ。",
+      "beats": {
+        "yel": "黄",
+        "vio": "紫",
+        "red": "红",
+        "res": "四点七千欧"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "tol",
+      "text": "最后一环是金色，表示精度，正负百分之五。",
+      "caption": "最后一环是金色，表示精度，±5%。",
+      "beats": {
+        "gold": "金色",
+        "tolw": "精度",
+        "pm": "正负百分之五"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "smd",
+      "text": "贴片电阻直接印数字：四七二，就是四十七加两个零。",
+      "caption": "贴片电阻直接印数字：472，就是 47 加 2 个零。",
+      "beats": {
+        "smdw": "贴片",
+        "n472": "四七二",
+        "plus": "加两个零"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "std",
+      "text": "阻值只有标准系列：五千欧买不到，只能选四点七千欧或五点一千欧。",
+      "caption": "阻值只有标准系列：5 kΩ 买不到，只能选 4.7 kΩ 或 5.1 kΩ。",
+      "beats": {
+        "stdw": "标准系列",
+        "no5": "五千欧",
+        "p47": "四点七千欧",
+        "p51": "五点一千欧"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "heat",
+      "text": "电阻会发热：封装越大，散热越好，额定功率就越高。",
+      "beats": {
+        "heatw": "发热",
+        "big": "封装越大",
+        "rate": "额定功率"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "calc",
+      "text": "五伏加在一百欧上，功耗零点二五瓦，已经顶格；要留一半余量。",
+      "caption": "5 V 加在 100 Ω 上，功耗 0.25 W，已经顶格；要留一半余量。",
+      "beats": {
+        "p5": "五伏",
+        "p100": "一百欧",
+        "pw": "零点二五瓦",
+        "half": "一半"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "uses",
+      "text": "电阻的用途很多：限流、分压、上拉，还有采样电流。",
+      "beats": {
+        "u1": "限流",
+        "u2": "分压",
+        "u3": "上拉",
+        "u4": "采样"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面，选几种色环，自己读一读阻值。",
+      "beats": {
+        "pick": "色环"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "kVal",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "kPkg",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "band",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mult",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "yel",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "vio",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "red",
+      "kind": "knock",
+      "f": 290,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "res",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.15,
+      "send": 0.55
+    },
+    {
+      "at": "gold",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "smd",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "n472",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "plus",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "std",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "no5",
+      "kind": "knock",
+      "f": 170,
+      "gain": 0.2,
+      "send": 0.2
+    },
+    {
+      "at": "p47",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "p51",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "heat",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "big",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "calc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "pw",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.15,
+      "send": 0.55
+    },
+    {
+      "at": "half",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "uses",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "u1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "u3",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "pick",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

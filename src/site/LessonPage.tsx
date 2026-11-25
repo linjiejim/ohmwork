@@ -12,6 +12,7 @@ import { TocContext, mdxComponents } from "@/mdx/components"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useDelayedFlag } from "@/hooks/use-delayed-flag"
 import { cn } from "@/lib/utils"
+import { lessonFilm } from "@/films"
 import { lessonComponent, preloadWhenIdle } from "./lesson-modules"
 
 /** What the lesson body looks like while its chunk loads: paragraphs, then a widget card. Appears after 300ms. */
@@ -33,7 +34,7 @@ function LessonSkeleton() {
 
 export const LEVEL_TONE: Record<Level, "success" | "info" | "warning"> = { 入门: "success", 基础: "info", 进阶: "warning" }
 
-class LessonBoundary extends React.Component<{ children: React.ReactNode; resetKey: string }, { failed: boolean }> {
+class LessonBoundary extends React.Component<{ children: React.ReactNode; resetKey: string; title?: string }, { failed: boolean }> {
   state = { failed: false }
   static getDerivedStateFromError() {
     return { failed: true }
@@ -43,7 +44,7 @@ class LessonBoundary extends React.Component<{ children: React.ReactNode; resetK
   }
   render() {
     if (this.state.failed) {
-      return <StateView kind="error" title="这节课没能加载出来" description="检查网络后重试。" onRetry={() => window.location.reload()} />
+      return <StateView kind="error" title={this.props.title ?? "这节课没能加载出来"} description="检查网络后重试。" onRetry={() => window.location.reload()} />
     }
     return this.props.children
   }
@@ -84,6 +85,7 @@ export function LessonPage() {
 
   const { lesson, chapter, key, index } = ref
   const Content = lessonComponent(key)
+  const Film = lessonFilm(key)
   const prev = LESSONS[index - 1]
   const next = LESSONS[index + 1]
   const done = progress.isDone(key)
@@ -114,6 +116,16 @@ export function LessonPage() {
             </span>
           )}
         </div>
+
+        {Film && (
+          <div className="mb-10">
+            <LessonBoundary resetKey={key} title="动画讲解没能加载出来">
+              <React.Suspense fallback={<div aria-busy="true" aria-label="正在加载动画讲解" className="aspect-video rounded-lg border bg-sunken" />}>
+                <Film key={key} />
+              </React.Suspense>
+            </LessonBoundary>
+          </div>
+        )}
 
         {Content ? (
           <LessonBoundary resetKey={key}>

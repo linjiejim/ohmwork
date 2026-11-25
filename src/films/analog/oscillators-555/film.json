@@ -1,0 +1,54 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "灯要闪，蜂鸣器要响，芯片要有节拍，都得电路自己打拍子。", "beats": { "beat": "打拍子" }, "gapAfter": 0.7 },
+    { "id": "need", "text": "做到这一点要三样：放大，正反馈，和一个定时元件。", "beats": { "n1": "放大", "n2": "正反馈", "n3": "定时元件" }, "gapAfter": 0.8 },
+    {
+      "id": "relax",
+      "text": "电容充电爬到上门限就放电，降到下门限再充电，输出就是方波。",
+      "beats": { "chg": "充电", "up": "上门限", "dchg": "放电", "low": "下门限", "sq": "方波" },
+      "gapAfter": 0.9
+    },
+    { "id": "chip", "text": "五五五定时器，把这套零件做进了一颗八脚芯片。", "caption": "555 定时器，把这套零件做进了一颗 8 脚芯片。", "beats": { "chipw": "八脚" }, "gapAfter": 0.6 },
+    { "id": "inside", "text": "两个比较器盯着电容，触发器记住高低，放电管负责放电。", "beats": { "cmp": "两个比较器", "ff": "触发器", "dis": "放电管" }, "gapAfter": 0.8 },
+    { "id": "bigc", "text": "电容越大，充放电越慢，频率就越低。", "beats": { "bigw": "电容越大", "slow": "越慢", "lowf": "频率就越低" }, "gapAfter": 0.8 },
+    { "id": "duty", "text": "充电要走两只电阻，放电只走一只，所以高电平总是更长。", "beats": { "two": "两只电阻", "one": "只走一只", "longer": "更长" }, "gapAfter": 0.8 },
+    { "id": "schmitt", "text": "有两个门限，慢慢变化又带毛刺的信号，也能整成干净的方波。", "beats": { "thr": "两个门限", "noise": "毛刺", "clean": "干净" }, "gapAfter": 0.8 },
+    {
+      "id": "xtal",
+      "text": "要走得准，就用晶振：阻容振荡一天差十几分钟，晶振只差一两秒。",
+      "caption": "要走得准，就用晶振：RC 振荡一天差十几分钟，晶振只差一两秒。",
+      "beats": { "xw": "晶振", "rcw": "阻容", "xdone": "只差" },
+      "gapAfter": 0.8
+    },
+    { "id": "outro", "text": "下面，调一调电阻和电容，看五五五的波形怎么变。", "caption": "下面，调一调电阻和电容，看 555 的波形怎么变。", "beats": { "drag": "调一调" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "n1", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "n2", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.2 },
+    { "at": "n3", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.45 },
+    { "at": "relax", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "up", "kind": "knock", "f": 240, "gain": 0.18, "send": 0.25 },
+    { "at": "low", "kind": "knock", "f": 200, "gain": 0.18, "send": 0.25 },
+    { "at": "sq", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "chip", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "chipw", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "cmp", "kind": "knock", "f": 210, "gain": 0.18, "send": 0.25 },
+    { "at": "ff", "kind": "knock", "f": 240, "gain": 0.18, "send": 0.25 },
+    { "at": "dis", "kind": "glass", "f": 659, "gain": 0.14, "send": 0.5 },
+    { "at": "bigc", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "lowf", "kind": "glass", "f": 494, "gain": 0.12, "send": 0.45 },
+    { "at": "longer", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "schmitt", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "clean", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.55 },
+    { "at": "xtal", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "xdone", "kind": "glass", "f": 1047, "dur": 0.8, "bright": 0.7, "gain": 0.12, "send": 0.55 },
+    { "at": "drag", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

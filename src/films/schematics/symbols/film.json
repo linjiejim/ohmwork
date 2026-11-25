@@ -1,0 +1,55 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    { "id": "intro", "text": "前面每一课都在看原理图，这一课，先把图上的记号认全。", "gapAfter": 0.6 },
+    { "id": "shape", "text": "米粒大的贴片电阻，带引脚的插件电阻，在原理图里是同一个符号。", "beats": { "smd": "贴片电阻", "tht": "插件电阻", "sym": "同一个符号" }, "gapAfter": 0.7 },
+    { "id": "tag", "text": "符号旁边有两行字：位号说明是哪一只，数值说明有多大。", "beats": { "ref": "位号", "val": "数值" }, "gapAfter": 0.7 },
+    { "id": "letters", "text": "位号的字母看种类：R 是电阻，C 是电容，D 是二极管，U 是芯片。", "beats": { "lR": "R", "lC": "C", "lD": "D", "lU": "U" }, "gapAfter": 0.7 },
+    {
+      "id": "value",
+      "text": "数值常把小数点换成字母：四K七，就是四点七千欧。",
+      "caption": "数值常把小数点换成字母：4k7，就是 4.7 kΩ。",
+      "beats": { "dot": "小数点", "k47": "四K七", "ohm": "四点七千欧" },
+      "gapAfter": 0.7
+    },
+    { "id": "polar", "text": "有极性的器件要看方向：二极管的竖线是负极，电解电容的加号是正极。", "beats": { "diode": "二极管", "bar": "竖线", "cap": "电解电容", "plus": "加号" }, "gapAfter": 0.7 },
+    { "id": "std", "text": "电阻有两种画法：折线是美标，空心矩形是国标，两种都要认得。", "beats": { "zig": "折线", "iec": "空心矩形" }, "gapAfter": 0.7 },
+    { "id": "same", "text": "名字相同的电源符号和地符号，不画线，也连在一起。", "beats": { "sameName": "名字相同", "join": "连在一起" }, "gapAfter": 0.6 },
+    {
+      "id": "diff",
+      "text": "但三V三和三点三V，差一个字，就是两个网络。",
+      "caption": "但 3V3 和 3.3V，差一个字，就是两个网络。",
+      "beats": { "a": "三V三", "b": "三点三V", "two": "两个网络" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面的测验里，认一认这些符号，看你能认对几个。", "beats": { "quiz": "测验" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "shape", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.14, "send": 0.5 },
+    { "at": "smd", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.2 },
+    { "at": "tht", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.2 },
+    { "at": "sym", "kind": "glass", "f": 784, "gain": 0.14, "send": 0.55 },
+    { "at": "ref", "kind": "knock", "f": 240, "gain": 0.18, "send": 0.25 },
+    { "at": "val", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "letters", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "lD", "kind": "knock", "f": 250, "gain": 0.18, "send": 0.25 },
+    { "at": "lU", "kind": "glass", "f": 880, "gain": 0.12, "send": 0.5 },
+    { "at": "k47", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "ohm", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.55 },
+    { "at": "polar", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "bar", "kind": "knock", "f": 210, "gain": 0.2, "send": 0.25 },
+    { "at": "plus", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.5 },
+    { "at": "std", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "iec", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "sameName", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "join", "kind": "glass", "f": 784, "dur": 0.7, "bright": 0.6, "gain": 0.12, "send": 0.55 },
+    { "at": "two", "kind": "knock", "f": 180, "gain": 0.2, "send": 0.25 },
+    { "at": "quiz", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

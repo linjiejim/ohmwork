@@ -1,0 +1,219 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "组合逻辑没有记忆。给电路加上记忆，它就有了过去。",
+      "gapAfter": 0.7
+    },
+    {
+      "id": "latchL",
+      "text": "两个与非门首尾相接，就能锁住一位，这叫锁存器。",
+      "beats": {
+        "loop": "首尾相接",
+        "hold": "锁住",
+        "latch": "锁存器"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "edgeL",
+      "text": "触发器更挑剔：只在时钟上升沿的那一瞬间，把输入抄进输出。",
+      "beats": {
+        "clk": "时钟",
+        "edge": "上升沿",
+        "copy": "抄进"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ignoreL",
+      "text": "两个沿之间，输入怎么抖，输出都不理会。",
+      "beats": {
+        "shake": "怎么抖",
+        "ignore": "不理会"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "countL",
+      "text": "同一个时钟，推着一排触发器同步更新，就成了计数器。",
+      "beats": {
+        "same": "同一个时钟",
+        "count": "计数器"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "divL",
+      "text": "每一位翻转的频率，都是低一位的一半，所以它也是分频器。",
+      "beats": {
+        "half": "一半",
+        "div": "分频器"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "xtalL",
+      "text": "电子表的晶振每秒震三万多次，二分频十五次，正好是一秒。",
+      "caption": "电子表的晶振每秒震 32768 次，二分频 15 次，正好是 1 秒。",
+      "beats": {
+        "xtal": "晶振",
+        "halve": "二分频",
+        "fifteen": "十五次",
+        "one": "一秒"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "shiftL",
+      "text": "移位寄存器一拍挪一格，把数据一位位送进去，再一起亮出来。",
+      "beats": {
+        "shift": "挪一格",
+        "latch2": "一起"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面，拨动输入，看触发器只在时钟沿抄数。",
+      "beats": {
+        "try": "拨动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "latchL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "hold",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "edgeL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "edge",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ignore",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "countL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "divL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "half",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "xtalL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "one",
+      "kind": "glass",
+      "f": 1047,
+      "dur": 0.8,
+      "bright": 0.7,
+      "gain": 0.12,
+      "send": 0.55
+    },
+    {
+      "at": "shiftL",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "latch2",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "try",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "欧姆定律回答不了两个问题：电阻会不会烫坏，电池能撑多久。",
+      "beats": { "hot": "烫坏", "batt": "撑多久" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "conv",
+      "text": "电能变成热、光或转动，转换得多快，就是功率，单位是瓦特。",
+      "beats": { "heat": "热", "light": "光", "spin": "转动", "pwr": "功率", "watt": "瓦特" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "form",
+      "text": "功率等于电压乘以电流：五伏、两安，就是十瓦。",
+      "caption": "功率等于电压乘以电流：5 V、2 A，就是 10 W。",
+      "beats": { "pf": "功率", "fv": "电压", "fi": "电流", "e5": "五伏", "e2": "两安", "e10": "十瓦" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "forms",
+      "text": "放在电阻上，还有两种写法：电流平方乘电阻，电压平方除以电阻。",
+      "beats": { "other": "两种", "ir": "电流平方", "vr": "电压平方" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "rated",
+      "text": "每只电阻都有额定功率，热散不出去，就会烧坏。",
+      "beats": { "rate": "额定功率", "burn": "烧坏" },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "square",
+      "text": "功率随电压的平方增长：电压翻倍，功率变成四倍。",
+      "beats": { "sq": "平方", "dbl": "翻倍", "four": "四倍" },
+      "gapAfter": 0.9
+    },
+    {
+      "id": "energy",
+      "text": "功率乘以时间，就是能量。一瓦用一小时，是一瓦时。",
+      "caption": "功率乘以时间，就是能量。1 W 用一小时，是 1 Wh。",
+      "beats": { "time": "时间", "eng": "能量", "wh": "瓦时" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "cap",
+      "text": "电池的容量是毫安时，乘上电压，才是能量。",
+      "caption": "电池的容量是 mAh，乘上电压，才是能量。",
+      "beats": { "mah": "毫安时", "cv": "电压", "cen": "能量" },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "life",
+      "text": "三千毫安时的电池，一百毫安能用三十小时，十微安能用几十年。",
+      "caption": "3000 mAh 的电池，100 mA 能用 30 小时，10 μA 能用几十年。",
+      "beats": { "c100": "一百毫安", "h30": "三十小时", "c10": "十微安", "yrs": "几十年" },
+      "gapAfter": 0.7
+    },
+    { "id": "outro", "text": "下面两个实验台：拖电压，看电阻烧不烧；调电流，看电池撑多久。", "beats": { "d1": "拖电压", "d2": "调电流" } }
+  ],
+  "sfx": [
+    { "at": "intro", "offset": -0.55, "kind": "thump", "gain": 0.32, "send": 0.3 },
+    { "at": "intro", "offset": -0.5, "kind": "glass", "f": 587, "gain": 0.12, "send": 0.6 },
+    { "at": "hot", "kind": "knock", "f": 200, "gain": 0.2, "send": 0.25 },
+    { "at": "batt", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "conv", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 260, "f1": 2200, "gain": 0.13, "send": 0.5 },
+    { "at": "heat", "kind": "knock", "f": 190, "gain": 0.2, "send": 0.25 },
+    { "at": "light", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "spin", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "pwr", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "form", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "fv", "kind": "knock", "f": 240, "gain": 0.2, "send": 0.25 },
+    { "at": "fi", "kind": "knock", "f": 270, "gain": 0.2, "send": 0.25 },
+    { "at": "e10", "kind": "glass", "f": 880, "gain": 0.16, "send": 0.55 },
+    { "at": "forms", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "ir", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "vr", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "rated", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.13, "send": 0.5 },
+    { "at": "rate", "kind": "glass", "f": 659, "gain": 0.12, "send": 0.45 },
+    { "at": "burn", "kind": "knock", "f": 160, "gain": 0.22, "send": 0.2 },
+    { "at": "dbl", "kind": "glass", "f": 740, "gain": 0.12, "send": 0.45 },
+    { "at": "four", "kind": "knock", "f": 210, "gain": 0.22, "send": 0.2 },
+    { "at": "energy", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 300, "f1": 2400, "gain": 0.13, "send": 0.5 },
+    { "at": "eng", "kind": "glass", "f": 988, "gain": 0.14, "send": 0.5 },
+    { "at": "wh", "kind": "glass", "f": 784, "gain": 0.12, "send": 0.5 },
+    { "at": "mah", "kind": "knock", "f": 230, "gain": 0.2, "send": 0.25 },
+    { "at": "cen", "kind": "glass", "f": 880, "gain": 0.14, "send": 0.55 },
+    { "at": "life", "offset": -0.45, "kind": "air", "dur": 0.55, "f0": 2400, "f1": 300, "gain": 0.12, "send": 0.5 },
+    { "at": "c100", "kind": "knock", "f": 220, "gain": 0.2, "send": 0.25 },
+    { "at": "c10", "kind": "knock", "f": 250, "gain": 0.2, "send": 0.25 },
+    { "at": "yrs", "kind": "glass", "f": 1047, "dur": 0.8, "bright": 0.7, "gain": 0.12, "send": 0.55 },
+    { "at": "d1", "kind": "glass", "f": 659, "dur": 1.1, "bright": 0.5, "gain": 0.1, "send": 0.65 }
+  ]
+}

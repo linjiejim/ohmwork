@@ -1,0 +1,368 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "同一张原理图，摆法不同，有的安安静静，有的偶尔复位。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "loop",
+      "text": "原因在电流回来的那条路：从芯片出去，就一定从地回来。",
+      "beats": {
+        "out": "出去",
+        "back": "回来"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "low",
+      "text": "低频的时候，回流挑电阻最小的路，在地平面里散开。",
+      "beats": {
+        "lowW": "低频",
+        "spread": "散开"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "high",
+      "text": "频率一高，回流挑电感最小的路，紧贴在信号线正下方。",
+      "beats": {
+        "highW": "频率一高",
+        "hug": "紧贴"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "slotL",
+      "text": "地平面要是被槽切断，回流只能绕路，围出的回路面积就变大。",
+      "beats": {
+        "slot": "槽",
+        "detour": "绕路",
+        "area": "回路面积"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "antL",
+      "text": "面积越大，越像天线：向外辐射，也容易被干扰。",
+      "beats": {
+        "ant": "天线",
+        "rad": "辐射",
+        "pick": "被干扰"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "surgeL",
+      "text": "芯片翻转要抽一口电流，电容离得远，走线电感就会顶出电压。",
+      "beats": {
+        "surge": "抽一口电流",
+        "far": "离得远",
+        "spike": "顶出电压"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "num",
+      "text": "十毫米约十纳亨，一百毫安跳变，电源脚上就晃零点二伏。",
+      "caption": "10 mm 约 10 nH，100 mA 跳变，电源脚上就晃 0.2 V。",
+      "beats": {
+        "ten": "十毫米",
+        "hund": "一百毫安",
+        "vv": "零点二伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "rules",
+      "text": "所以去耦电容要紧贴电源脚，走线短而粗，地端就近打孔。",
+      "beats": {
+        "close": "紧贴",
+        "short": "短而粗",
+        "hole": "打孔"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "emc",
+      "text": "干扰有三要素：干扰源、耦合路径、受害者，去掉一个就解决。",
+      "beats": {
+        "src": "干扰源",
+        "cp": "耦合路径",
+        "vic": "受害者",
+        "cutit": "去掉"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的回流实验，拖动频率，看电流怎么选路。",
+      "beats": {
+        "try": "回流实验",
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "loop",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "out",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "back",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "low",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "low",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "spread",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "high",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "high",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "hug",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "slot",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "slot",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "detour",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "area",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "ant",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "rad",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.1,
+      "send": 0.5,
+      "dur": 0.8
+    },
+    {
+      "at": "surge",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "far",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "spike",
+      "kind": "glass",
+      "f": 330,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "ten",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "hund",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "vv",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "rules",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "close",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "short",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.16,
+      "send": 0.25
+    },
+    {
+      "at": "hole",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "emc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "src",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cp",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "vic",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cutit",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.5,
+      "dur": 1.1
+    }
+  ]
+}

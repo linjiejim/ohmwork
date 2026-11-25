@@ -1,0 +1,301 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "电压会随时间变化，把它画出来，就是波形。",
+      "beats": {
+        "wave": "波形"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "dcac",
+      "text": "电池给的直流，方向不变；市电是交流，正负来回交替。",
+      "beats": {
+        "dc": "直流",
+        "ac": "交流"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_sine",
+      "text": "最基本的交流波形是正弦波，重复一次所用的时间，叫周期。",
+      "beats": {
+        "sine": "正弦波",
+        "period": "周期"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ln_freq",
+      "text": "每秒重复多少次，就是频率，单位是赫兹。",
+      "beats": {
+        "freq": "频率",
+        "hz": "赫兹"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "mains",
+      "text": "市电是五十赫兹，周期就是二十毫秒。",
+      "caption": "市电是 50 Hz，周期就是 20 ms。",
+      "beats": {
+        "f50": "五十赫兹",
+        "t20": "二十毫秒"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_amp",
+      "text": "从中线到波峰，是幅度；从波谷到波峰，是峰峰值。",
+      "beats": {
+        "amp": "幅度",
+        "pp": "峰峰值"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_rms",
+      "text": "有效值按发热来算：正弦波的有效值，约是幅度的零点七倍。",
+      "caption": "有效值按发热来算：正弦波的有效值，约是幅度的 0.7 倍。",
+      "beats": {
+        "rms": "有效值",
+        "k": "零点七倍"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_bias",
+      "text": "整个波形还能被抬高，抬高的那部分，叫直流偏置。",
+      "beats": {
+        "lift": "抬高",
+        "bias": "直流偏置"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "phase",
+      "text": "两个同频的波可以错开，一个周期算三百六十度。",
+      "caption": "两个同频的波可以错开，一个周期算 360°。",
+      "beats": {
+        "two": "两个",
+        "p360": "三百六十度"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，拖动幅度、频率和偏置，看读数怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "dcac",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_sine",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "mains",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_amp",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_rms",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_bias",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "phase",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "outro",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "dc",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "ac",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "period",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "f50",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "amp",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "lift",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "two",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "wave",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "hz",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "t20",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "pp",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "k",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "bias",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "p360",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    }
+  ]
+}

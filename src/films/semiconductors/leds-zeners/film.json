@@ -1,0 +1,375 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课讲两种特殊的二极管：会发光的，和会稳压的。",
+      "beats": {
+        "led": "会发光",
+        "zen": "会稳压"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "light",
+      "text": "发光二极管导通时，电能变成光，电流越大，光越亮。",
+      "beats": {
+        "cur": "电流越大",
+        "br": "越亮"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "colors",
+      "text": "颜色不同，压降也不同：红光约两伏，蓝光和白光约三伏。",
+      "caption": "颜色不同，压降也不同：红光约 2 V，蓝光和白光约 3 V。",
+      "beats": {
+        "red": "红光",
+        "r2": "两伏",
+        "blue": "蓝光",
+        "b3": "三伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "burn",
+      "text": "直接接到电源上，电流不受控制，一瞬间就会烧坏。",
+      "beats": {
+        "direct": "直接",
+        "boom": "烧坏"
+      },
+      "gapAfter": 0.5
+    },
+    {
+      "id": "res",
+      "text": "所以必须串一只限流电阻，由它来决定电流。",
+      "beats": {
+        "rr": "限流电阻",
+        "dec": "决定"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "formula",
+      "text": "阻值这样算：电源电压，减去压降，再除以想要的电流。",
+      "beats": {
+        "fVs": "电源电压",
+        "fVf": "压降",
+        "fI": "想要的电流"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "example",
+      "text": "五伏点红灯，要十毫安：三伏除以十毫安，三百欧，取三百三十欧。",
+      "caption": "5 V 点红灯，要 10 mA：3 V ÷ 10 mA = 300 Ω，取 330 Ω。",
+      "beats": {
+        "eV": "五伏",
+        "eI": "十毫安",
+        "eD": "三伏",
+        "eR": "三百欧",
+        "eS": "三百三十欧"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "zener",
+      "text": "稳压二极管反着接，工作在击穿区：电流变化很大，电压几乎不动。",
+      "beats": {
+        "rev": "反着接",
+        "brk": "击穿区",
+        "wide": "变化很大",
+        "flat": "几乎不动"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "circ",
+      "text": "用法是串一只电阻，再把它并在输出上，得到一个固定的五点一伏。",
+      "caption": "用法是串一只电阻，再把它并在输出上，得到一个固定的 5.1 V。",
+      "beats": {
+        "zr": "串一只电阻",
+        "zz": "并在输出",
+        "zo": "五点一伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "limit",
+      "text": "它只适合毫安级的小电流，负载一大，输出就会掉下去。",
+      "beats": {
+        "small": "毫安级",
+        "load": "负载一大",
+        "drop": "掉下去"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面先拖动电阻，点亮一颗灯，再去看稳压管怎么稳住电压。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "led",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zen",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "light",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "br",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "colors",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "red",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "blue",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "burn",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "boom",
+      "kind": "glass",
+      "f": 392,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "res",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "rr",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "formula",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "fVs",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fVf",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fI",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "example",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "eV",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "eD",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "eR",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "eS",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.16,
+      "send": 0.5
+    },
+    {
+      "at": "zener",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "rev",
+      "kind": "knock",
+      "f": 210,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "flat",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "circ",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "zr",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zz",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "zo",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.16,
+      "send": 0.5
+    },
+    {
+      "at": "limit",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drop",
+      "kind": "glass",
+      "f": 440,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

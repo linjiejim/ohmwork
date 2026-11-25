@@ -1,0 +1,348 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "这一课先称重，再看气压、湿度和气体怎么测。",
+   "beats": {
+    "weigh": "称重",
+    "env": "气压"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "strain",
+   "text": "应变片是一片蛇形金属箔，被拉长，阻值就变大。",
+   "beats": {
+    "foil": "金属箔",
+    "stretch": "拉长"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "tiny",
+   "text": "可它只变千分之一：三百五十欧，满载只多零点三五欧。",
+   "caption": "可它只变千分之一：350 Ω，满载只多 0.35 Ω。",
+   "beats": {
+    "thou": "千分之一",
+    "ohm": "三百五十欧"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "bridge",
+   "text": "惠斯通电桥把两个分压器并排，只量两个中点的差。",
+   "beats": {
+    "bridgew": "电桥",
+    "diff": "差"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "bal",
+   "text": "平衡时输出为零，二点五伏的底被减掉，剩下的才是变化。",
+   "caption": "平衡时输出为 0，2.5 V 的底被减掉，剩下的才是变化。",
+   "beats": {
+    "zero": "为零",
+    "base": "底",
+    "chg": "变化"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "chip",
+   "text": "专用芯片把它放大一百二十八倍，再变成数字。",
+   "caption": "专用芯片把它放大 128 倍，再变成数字。",
+   "beats": {
+    "chipw": "专用芯片",
+    "n128": "一百二十八倍"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "cal",
+   "text": "称重还要校准：空秤记一个值，放上砝码再记一个。",
+   "beats": {
+    "tare": "空秤",
+    "wt": "砝码"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "baro",
+   "text": "气压越往高处越低，所以气压芯片也能当高度计。",
+   "beats": {
+    "press": "气压",
+    "alt": "高度计"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "gas",
+   "text": "气体和土壤湿度的探头，一般只能分多和少，不能当报警器。",
+   "beats": {
+    "gasw": "气体",
+    "qual": "只能分多和少"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "outro",
+   "text": "下面的实验里，拖动应变，看电桥怎么把这点变化挑出来。",
+   "beats": {
+    "try": "拖动"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "strain",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "tiny",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "bridge",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "bal",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "chip",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "cal",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "baro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "gas",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "outro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "weigh",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "env",
+   "kind": "knock",
+   "f": 223,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "foil",
+   "kind": "knock",
+   "f": 246,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "stretch",
+   "kind": "knock",
+   "f": 269,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "thou",
+   "kind": "knock",
+   "f": 202,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ohm",
+   "kind": "knock",
+   "f": 225,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "bridgew",
+   "kind": "knock",
+   "f": 248,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "diff",
+   "kind": "knock",
+   "f": 271,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "zero",
+   "kind": "knock",
+   "f": 204,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "base",
+   "kind": "knock",
+   "f": 227,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "tare",
+   "kind": "knock",
+   "f": 250,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "wt",
+   "kind": "knock",
+   "f": 273,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "press",
+   "kind": "knock",
+   "f": 206,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "alt",
+   "kind": "knock",
+   "f": 229,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "gasw",
+   "kind": "knock",
+   "f": 252,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "qual",
+   "kind": "knock",
+   "f": 275,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "chg",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "chipw",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "n128",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "try",
+   "kind": "glass",
+   "f": 988,
+   "gain": 0.12,
+   "send": 0.5
+  }
+ ]
+}

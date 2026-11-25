@@ -1,0 +1,267 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "线性稳压器把多余的电压烧成热，开关电源换了个思路。",
+      "beats": {
+        "burn": "烧成热",
+        "newway": "换了个思路"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "chop",
+      "text": "让开关飞快地通断，一小份一小份地，把能量搬过去。",
+      "beats": {
+        "chopw": "飞快地通断",
+        "pack": "一小份"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "cool",
+      "text": "开关通的时候没有压降，断的时候没有电流，所以几乎不发热。",
+      "beats": {
+        "on": "通的时候",
+        "off": "断的时候",
+        "coolw": "几乎不发热"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "square",
+      "text": "得到的是一串方波，电感和电容把它抹平成直流。",
+      "beats": {
+        "sq": "方波",
+        "lc": "电感",
+        "flat": "抹平"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "buck",
+      "text": "这就是降压电路。开关接通，电感储能，电流上升。",
+      "beats": {
+        "buckw": "降压电路",
+        "ion": "接通",
+        "rise": "上升"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "buck2",
+      "text": "开关断开，电感放能，电流下降，从二极管继续流。",
+      "beats": {
+        "ioff": "断开",
+        "fall": "下降",
+        "free": "二极管"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "duty",
+      "text": "接通的时间，占一个周期的比例，叫占空比。",
+      "beats": {
+        "dutyw": "占空比"
+      },
+      "gapAfter": 0.6
+    },
+    {
+      "id": "vout",
+      "text": "输出电压，等于占空比乘以输入电压。十二伏，占空比百分之四十二，就是五伏。",
+      "caption": "输出电压等于占空比乘以输入电压：12 V × 42% ≈ 5 V。",
+      "beats": {
+        "d42": "占空比",
+        "v12": "十二伏",
+        "v5": "五伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "boost",
+      "text": "元件换个位置，就能升压：三点七伏的锂电池，升到五伏。",
+      "caption": "元件换个位置，就能升压：3.7 V 的锂电池，升到 5 V。",
+      "beats": {
+        "boostw": "升压",
+        "v37": "三点七伏",
+        "v5b": "五伏"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "eff",
+      "text": "效率能到百分之九十，代价是多出一些噪声。",
+      "caption": "效率能到 90%，代价是多出一些噪声。",
+      "beats": {
+        "effw": "百分之九十",
+        "noise": "噪声"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台里，拖动占空比，看输出怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "newway",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "chop",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "chopw",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "coolw",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "square",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "lc",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "flat",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "buck",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ion",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "ioff",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "duty",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2400,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "v12",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "v5",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.16,
+      "send": 0.55
+    },
+    {
+      "at": "boost",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 300,
+      "f1": 2600,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "v5b",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.14,
+      "send": 0.55
+    },
+    {
+      "at": "effw",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "dur": 1.1,
+      "bright": 0.5,
+      "gain": 0.1,
+      "send": 0.65
+    }
+  ]
+}

@@ -1,0 +1,340 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "单片机只认电压和数字，可温度、光和重量，都不是电压。",
+   "beats": {
+    "mcu": "单片机",
+    "phys": "温度"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "chain",
+   "text": "传感器把它们变成电信号，整理一下，再交给模数转换器去读。",
+   "beats": {
+    "sens": "传感器",
+    "cond": "整理",
+    "adc": "模数转换器"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "out",
+   "text": "输出有三种：模拟量，数字量，还有只分高低的开关量。",
+   "beats": {
+    "ana": "模拟量",
+    "dig": "数字量",
+    "sw": "开关量"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "res",
+   "text": "分辨率说的是读数有多细，精度说的是读数有多准。",
+   "beats": {
+    "fine": "分辨率",
+    "acc": "精度"
+   },
+   "gapAfter": 0.6
+  },
+  {
+   "id": "ex",
+   "text": "读数细到零点零六二五度，真实温度却可能差半度。",
+   "caption": "读数细到 0.0625 °C，真实温度却可能差 0.5 °C。",
+   "beats": {
+    "f1": "零点零六二五度",
+    "off": "差半度"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "amp",
+   "text": "信号太小，就先放大，让它充满转换器的量程。",
+   "beats": {
+    "small": "太小",
+    "big": "放大",
+    "full": "量程"
+   },
+   "gapAfter": 0.6
+  },
+  {
+   "id": "sat",
+   "text": "可放大过了头，读数就顶在最大值上，这叫饱和。",
+   "beats": {
+    "over": "过了头",
+    "satw": "饱和"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "cal",
+   "text": "读数有偏差，用两个已知的点校准：冰水零度，沸水一百度。",
+   "caption": "读数有偏差，用两个已知的点校准：冰水 0 °C，沸水 100 °C。",
+   "beats": {
+    "ice": "冰水",
+    "boil": "沸水"
+   },
+   "gapAfter": 0.8
+  },
+  {
+   "id": "avg",
+   "text": "读数总在跳？多测几次取平均，噪声按次数的平方根下降。",
+   "beats": {
+    "jump": "总在跳",
+    "mean": "平均",
+    "root": "平方根"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "outro",
+   "text": "下面的实验里，调一调放大倍数，看读数怎么变细。",
+   "beats": {
+    "try": "放大倍数"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "chain",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "out",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "res",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "amp",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "sat",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "cal",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "avg",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "outro",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "mcu",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "sens",
+   "kind": "knock",
+   "f": 223,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "cond",
+   "kind": "knock",
+   "f": 246,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ana",
+   "kind": "knock",
+   "f": 269,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "dig",
+   "kind": "knock",
+   "f": 202,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "sw",
+   "kind": "knock",
+   "f": 225,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "fine",
+   "kind": "knock",
+   "f": 248,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "acc",
+   "kind": "knock",
+   "f": 271,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "small",
+   "kind": "knock",
+   "f": 204,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "over",
+   "kind": "knock",
+   "f": 227,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ice",
+   "kind": "knock",
+   "f": 250,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "boil",
+   "kind": "knock",
+   "f": 273,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "jump",
+   "kind": "knock",
+   "f": 206,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "adc",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "f1",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "off",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "big",
+   "kind": "glass",
+   "f": 988,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "satw",
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "mean",
+   "kind": "glass",
+   "f": 1047,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "try",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  }
+ ]
+}

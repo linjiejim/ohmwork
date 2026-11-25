@@ -1,0 +1,401 @@
+{
+ "voice": "Chinese (Mandarin)_Sincere_Adult",
+ "speed": 1.0,
+ "lead": 0.9,
+ "gap": 0.5,
+ "tail": 1.6,
+ "lines": [
+  {
+   "id": "intro",
+   "text": "板子第一次上电就正常，很少见。调试靠仪器，加一套方法。",
+   "gapAfter": 0.6
+  },
+  {
+   "id": "vmeas",
+   "text": "万用表量电压，表笔并联在两点上，不用断开电路。",
+   "beats": {
+    "mm": "万用表",
+    "par": "并联"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "amps",
+   "text": "量电流要把回路断开，把表串进去。",
+   "beats": {
+    "brk": "断开",
+    "ser": "串"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "short",
+   "text": "电流档内阻很小，用它去量电压，等于把电源短路。",
+   "beats": {
+    "low": "内阻很小",
+    "shrt": "短路"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "scope",
+   "text": "示波器把电压随时间画出来：横向是时间，纵向是电压。",
+   "beats": {
+    "scp": "示波器",
+    "time": "时间",
+    "svolt": "电压"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "knobs",
+   "text": "三组旋钮：时基管横向，档位管纵向，触发让波形停稳。",
+   "beats": {
+    "tb": "时基",
+    "vd": "档位",
+    "trig": "触发"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "read",
+   "text": "数格子读数：一个周期五格，每格二百微秒，就是一千赫。",
+   "caption": "数格子读数：一个周期 5 格，每格 200 μs，就是 1 kHz。",
+   "beats": {
+    "cells": "五格",
+    "div": "二百微秒",
+    "khz": "一千赫"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "probe",
+   "text": "探头打到十倍档，接地夹线要短，不然会多出振铃。",
+   "caption": "探头打到 ×10 档，接地夹线要短，不然会多出振铃。",
+   "beats": {
+    "x10": "十倍档",
+    "gnd": "接地夹线",
+    "ring": "振铃"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "logic",
+   "text": "调通信总线，用逻辑分析仪：同时录很多路，还能解码成字节。",
+   "beats": {
+    "la": "逻辑分析仪",
+    "dec": "解码"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "order",
+   "text": "先电源后信号：电压、电流、复位、时钟、下载口、焊接。",
+   "beats": {
+    "o1": "电压",
+    "o2": "电流",
+    "o3": "复位",
+    "o4": "时钟",
+    "o5": "下载口",
+    "o6": "焊接"
+   },
+   "gapAfter": 0.7
+  },
+  {
+   "id": "outro",
+   "text": "下面先试万用表：把表笔接到不同的点，看读数。",
+   "beats": {
+    "try": "万用表",
+    "drag": "表笔"
+   }
+  }
+ ],
+ "sfx": [
+  {
+   "at": "intro",
+   "offset": -0.55,
+   "kind": "thump",
+   "gain": 0.32,
+   "send": 0.3
+  },
+  {
+   "at": "intro",
+   "offset": -0.5,
+   "kind": "glass",
+   "f": 587,
+   "gain": 0.12,
+   "send": 0.6
+  },
+  {
+   "at": "vmeas",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "mm",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "par",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "amps",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "brk",
+   "kind": "knock",
+   "f": 190,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ser",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "low",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "shrt",
+   "kind": "glass",
+   "f": 330,
+   "gain": 0.14,
+   "send": 0.5
+  },
+  {
+   "at": "scope",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "scp",
+   "kind": "knock",
+   "f": 210,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "time",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.1,
+   "send": 0.5
+  },
+  {
+   "at": "svolt",
+   "kind": "knock",
+   "f": 240,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "knobs",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "tb",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "vd",
+   "kind": "knock",
+   "f": 230,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "trig",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "read",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 2400,
+   "f1": 300,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "cells",
+   "kind": "knock",
+   "f": 230,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "div",
+   "kind": "knock",
+   "f": 260,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "khz",
+   "kind": "glass",
+   "f": 1047,
+   "gain": 0.12,
+   "send": 0.5,
+   "dur": 0.8
+  },
+  {
+   "at": "probe",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "x10",
+   "kind": "knock",
+   "f": 230,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "gnd",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "ring",
+   "kind": "glass",
+   "f": 784,
+   "gain": 0.1,
+   "send": 0.5
+  },
+  {
+   "at": "logic",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "la",
+   "kind": "knock",
+   "f": 230,
+   "gain": 0.2,
+   "send": 0.25
+  },
+  {
+   "at": "dec",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.1,
+   "send": 0.5
+  },
+  {
+   "at": "order",
+   "offset": -0.45,
+   "kind": "air",
+   "dur": 0.55,
+   "f0": 260,
+   "f1": 2200,
+   "gain": 0.13,
+   "send": 0.5
+  },
+  {
+   "at": "o1",
+   "kind": "knock",
+   "f": 200,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "o2",
+   "kind": "knock",
+   "f": 220,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "o3",
+   "kind": "knock",
+   "f": 240,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "o4",
+   "kind": "knock",
+   "f": 260,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "o5",
+   "kind": "knock",
+   "f": 280,
+   "gain": 0.16,
+   "send": 0.25
+  },
+  {
+   "at": "o6",
+   "kind": "glass",
+   "f": 880,
+   "gain": 0.12,
+   "send": 0.5
+  },
+  {
+   "at": "drag",
+   "kind": "glass",
+   "f": 659,
+   "gain": 0.1,
+   "send": 0.5,
+   "dur": 1.1
+  }
+ ]
+}

@@ -266,6 +266,51 @@ export function OhmsLawLab() {
 
 需要别的数据颜色时用 `catVar("teal")`（`@/lib/categorical`，九种：gray red orange amber green teal blue purple pink）。
 
+## 课前动画讲解
+
+课文开头可以放一段一分钟左右的配音动画，把这节课的要点先讲一遍。它是网页动画，不是视频文件：画面实时绘制，跟着声音走；声音只在点播放时才下载（一分钟约 470 KB）。示例是 `src/films/basics/ohms-law/`。
+
+一段动画是一个目录 `src/films/<章 id>/<课 slug>/`，放进去课程页就会自动显示：
+
+| 文件 | 谁写 | 内容 |
+| --- | --- | --- |
+| `film.json` | 人 | 配音的嗓音和语速、每句旁白、句子里要对齐画面的词（beats）、音效 |
+| `audio.mp3`、`timing.json` | 脚本生成 | 配音加音效；每句、每个 beat、每条字幕的时间 |
+| `Film.tsx` | 人 | 画面：`Stage` 组件，按时间 `t` 画出这一刻 |
+
+改了 `film.json` 就重新生成（已生成过的句子有缓存，不重复计费）：
+
+```bash
+set -a; source ~/.config/letpot-film/minimax.env; set +a
+python3 scripts/films/build.py src/films/basics/ohms-law
+```
+
+- 旁白用口语写。数字写成要念的汉字（「五伏」「一八二七年」），屏幕上要显示成 5 V、1827 年的句子另写 `caption`。
+- `beats` 用句子里的词给画面定时：`"lawR": "电阻"` 就是念到「电阻」的那一刻（同一个词出现两次，按顺序往后找）。画面里写 `b.lawR`，音效也挂在 `"at": "lawR"` 上，改了旁白两边一起跟着动。
+- 画面只能是 `t` 的函数，不用 state、不用定时器，这样拖进度条、暂停、重播都对。工具在 `src/films/kit.tsx`：`enter` / `span` / `glide` 管时间，`T` 放文字，`Svg` + `Draw` 画线，`V` / `M` / `Frac` 拼公式（和课文的 KaTeX 用同一套字体）。坐标是舞台宽度的百分比（100 × 56.25）。
+- 颜色和课文一致：电压橙、电流蓝。一屏只讲一件事，旧的退场再上新的。
+- 音效从 `scripts/films/sfx.py` 里选（`glass` 落定、`knock` 出现、`air` 转场、`thump` 开场），比 beats 少，轻放在人声下面。
+- 电路符号用课程里的 `src/lab/schematic.tsx`（`Resistor`、`Battery`、`Led`……），套在 `<Sym x y scale>` 里放到舞台上，线宽自动和舞台一致；符号不带 `label` / `value`，文字用 `<T>` 另放。
+- `src/tests/films.test.tsx` 会检查 `timing.json` 是否已按最新的 `film.json` 生成、每一帧有没有 `NaN`、画面有没有用到没定义的 beat。
+
+### 看画面
+
+开着 `npm run dev`，把一段动画的画面拍成一张联系表（每 2 秒一帧），并检查文字有没有出舞台、有没有压在别的文字上：
+
+```bash
+node scripts/films/frames.mjs basics/ohms-law                 # .cache/films/frames/basics-ohms-law.png
+node scripts/films/frames.mjs basics/ohms-law --t 21,22.5 --w 960 --cols 2   # 放大看几帧
+node scripts/films/frames.mjs basics/ohms-law --dark
+```
+
+逐帧看一遍，过关的标准：
+
+- 旁白在讲的时候，画面不能空着超过 1.5 秒：讲到什么，画面上就要有它。
+- 每一帧和下面那行字幕说的是同一件事；画面跟着词出现，不提前也不落后。
+- 文字不压文字、不压线，不出舞台；底部留 3 个单位的边。
+- 一屏一个重点，元素不超过 6～8 个；舞台左右都用上，不挤在中间一小块。
+- 浅色和深色都看一遍（`--dark`）。
+
 ## 设计守则（有自动检查）
 
 本站用 jim-uiux 设计系统，见 `docs/DESIGN.md`。写组件时：

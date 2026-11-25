@@ -1,0 +1,363 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "这一课讲调制：怎么把低频的信息，装到高频的电磁波上。",
+      "gapAfter": 0.6
+    },
+    {
+      "id": "why",
+      "text": "一千赫的声音信号，波长有三百公里，天线根本做不出来。",
+      "caption": "1 kHz 的声音信号，波长有 300 公里，天线根本做不出来。",
+      "gapAfter": 0.7,
+      "beats": {
+        "long": "三百公里",
+        "nomake": "做不出来"
+      }
+    },
+    {
+      "id": "carrier",
+      "text": "办法是让高频的载波，替低频的信息运货。",
+      "gapAfter": 0.7,
+      "beats": {
+        "car": "载波",
+        "info": "信息"
+      }
+    },
+    {
+      "id": "three",
+      "text": "一个正弦波，只有三个参数能改：幅度、频率和相位。",
+      "gapAfter": 0.8,
+      "beats": {
+        "amp": "幅度",
+        "freq": "频率",
+        "phase": "相位"
+      }
+    },
+    {
+      "id": "am",
+      "text": "改幅度，就是调幅：载波的包络，跟着信息起伏。",
+      "gapAfter": 0.7,
+      "beats": {
+        "amw": "调幅",
+        "env": "包络"
+      }
+    },
+    {
+      "id": "fm",
+      "text": "改频率，就是调频：幅度不变，信息藏在疏密里。",
+      "gapAfter": 0.8,
+      "beats": {
+        "fmw": "调频",
+        "dense": "疏密"
+      }
+    },
+    {
+      "id": "dig",
+      "text": "数字信号也一样：开关载波、换频率、翻相位。",
+      "gapAfter": 0.8,
+      "beats": {
+        "ask": "开关载波",
+        "fsk": "换频率",
+        "psk": "翻相位"
+      }
+    },
+    {
+      "id": "qam",
+      "text": "幅度和相位一起变，一个符号就能装好几个比特。",
+      "gapAfter": 0.8,
+      "beats": {
+        "sym": "符号",
+        "bits": "好几个比特"
+      }
+    },
+    {
+      "id": "noise",
+      "text": "点摆得越密，速率越高，但噪声一大，就容易认错。",
+      "gapAfter": 0.8,
+      "beats": {
+        "denser": "越密",
+        "noisy": "噪声",
+        "wrong": "认错"
+      }
+    },
+    {
+      "id": "shannon",
+      "text": "速率的上限，由带宽和信噪比决定，加带宽最划算。",
+      "gapAfter": 0.7,
+      "beats": {
+        "bw": "带宽",
+        "snr": "信噪比",
+        "cheap": "最划算"
+      }
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，可以切换调制方式，自己看波形。",
+      "beats": {
+        "drag": "切换"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "why",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "long",
+      "kind": "knock",
+      "f": 190,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "nomake",
+      "kind": "glass",
+      "f": 494,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "carrier",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "car",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "info",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "three",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "amp",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "freq",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "phase",
+      "kind": "knock",
+      "f": 290,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "am",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "amw",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "env",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "fm",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "fmw",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "dense",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "dig",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ask",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "fsk",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "psk",
+      "kind": "knock",
+      "f": 290,
+      "gain": 0.18,
+      "send": 0.25
+    },
+    {
+      "at": "qam",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "sym",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "bits",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "noise",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 280,
+      "f1": 2400,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "noisy",
+      "kind": "knock",
+      "f": 200,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "wrong",
+      "kind": "glass",
+      "f": 523,
+      "gain": 0.1,
+      "send": 0.5
+    },
+    {
+      "at": "shannon",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "bw",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "cheap",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.14,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.1,
+      "send": 0.65,
+      "dur": 1.1,
+      "bright": 0.5
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "voice": "Chinese (Mandarin)_Sincere_Adult",
+  "speed": 1.0,
+  "lead": 0.9,
+  "gap": 0.5,
+  "tail": 1.6,
+  "lines": [
+    {
+      "id": "intro",
+      "text": "一只电阻，一只电容，就能做成滤波器。",
+      "beats": {
+        "r": "电阻",
+        "c": "电容"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "ln_div",
+      "text": "它其实是个分压器，只是分压比，会随频率变化。",
+      "beats": {
+        "div": "分压器",
+        "vary": "随频率变化"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "low",
+      "text": "电容接在输出端，叫低通：低频通过，高频被挡住。",
+      "beats": {
+        "lp": "低通",
+        "pass": "低频通过",
+        "block": "高频被挡住"
+      },
+      "gapAfter": 0.7
+    },
+    {
+      "id": "why",
+      "text": "因为频率越高，容抗越小，把信号短路到了地。",
+      "beats": {
+        "xc": "容抗",
+        "gnd": "短路"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_swap",
+      "text": "把电阻和电容对调，就成了高通：低频被挡住。",
+      "beats": {
+        "swap": "对调",
+        "hp": "高通"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_fc",
+      "text": "通过和被挡的分界，叫截止频率，这里的输出，是输入的零点七倍。",
+      "caption": "通过和被挡的分界，叫截止频率，这里的输出，是输入的 0.707 倍。",
+      "beats": {
+        "fc": "截止频率",
+        "k": "零点七倍"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_form",
+      "text": "截止频率，等于一除以，二派乘电阻乘电容。",
+      "caption": "截止频率 fc = 1 / (2πRC)。",
+      "beats": {
+        "form": "等于一除以"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ex",
+      "text": "一点五千欧配一百纳法，截止频率约一千赫兹。",
+      "caption": "1.5 kΩ 配 100 nF，截止频率约 1 kHz。",
+      "beats": {
+        "e1": "一点五千欧",
+        "e2": "一百纳法",
+        "e3": "一千赫兹"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_roll",
+      "text": "过了截止频率，频率每升高十倍，输出缩小到十分之一。",
+      "caption": "过了截止频率，频率每升高 10 倍，输出缩小到 1/10。",
+      "beats": {
+        "roll": "每升高十倍",
+        "tenth": "十分之一"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "ln_bode",
+      "text": "画成波特图，横轴是频率，纵轴是增益，一眼看清。",
+      "beats": {
+        "bode": "波特图"
+      },
+      "gapAfter": 0.8
+    },
+    {
+      "id": "outro",
+      "text": "下面的实验台，拖动频率，看输出怎么变。",
+      "beats": {
+        "drag": "拖动"
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "at": "intro",
+      "offset": -0.55,
+      "kind": "thump",
+      "gain": 0.32,
+      "send": 0.3
+    },
+    {
+      "at": "intro",
+      "offset": -0.5,
+      "kind": "glass",
+      "f": 587,
+      "gain": 0.12,
+      "send": 0.6
+    },
+    {
+      "at": "ln_div",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "low",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_swap",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_fc",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ex",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_roll",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "ln_bode",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 260,
+      "f1": 2200,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "outro",
+      "offset": -0.45,
+      "kind": "air",
+      "dur": 0.55,
+      "f0": 2400,
+      "f1": 300,
+      "gain": 0.13,
+      "send": 0.5
+    },
+    {
+      "at": "r",
+      "kind": "knock",
+      "f": 220,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "c",
+      "kind": "knock",
+      "f": 250,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "lp",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "hp",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "fc",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e1",
+      "kind": "knock",
+      "f": 230,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "e2",
+      "kind": "knock",
+      "f": 260,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "roll",
+      "kind": "knock",
+      "f": 240,
+      "gain": 0.2,
+      "send": 0.25
+    },
+    {
+      "at": "vary",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "pass",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "gnd",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "k",
+      "kind": "glass",
+      "f": 988,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "form",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "e3",
+      "kind": "glass",
+      "f": 1047,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "tenth",
+      "kind": "glass",
+      "f": 880,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "bode",
+      "kind": "glass",
+      "f": 659,
+      "gain": 0.12,
+      "send": 0.5
+    },
+    {
+      "at": "drag",
+      "kind": "glass",
+      "f": 784,
+      "gain": 0.12,
+      "send": 0.5
+    }
+  ]
+}
