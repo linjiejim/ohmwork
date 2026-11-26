@@ -1,6 +1,7 @@
 /**
  * Sidebar footer: links back to the repo and the author, and an appearance
  * toggle with only light and dark that follows the OS until someone picks.
+ * The browser tab names the page you are on.
  */
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react"
@@ -18,13 +19,14 @@ const setOs = (dark: boolean) =>
     osListeners.forEach((l) => l())
   })
 
-function renderShell() {
+function renderShell(url = "/") {
   return render(
     <TooltipProvider>
-      <MemoryRouter initialEntries={["/"]}>
+      <MemoryRouter initialEntries={[url]}>
         <Routes>
           <Route element={<Shell />}>
             <Route index element={<div>home</div>} />
+            <Route path="*" element={<div>page</div>} />
           </Route>
         </Routes>
       </MemoryRouter>
@@ -123,5 +125,17 @@ describe("sidebar footer", () => {
     expect(localStorage.getItem("appearance")).toBeNull()
     expect(document.documentElement.classList.contains("dark")).toBe(false)
     expect(isOn("浅色")).toBe(true)
+  })
+})
+
+describe("page title", () => {
+  it("names the page in the browser tab", () => {
+    renderShell("/learn/basics/ohms-law")
+    expect(document.title).toBe("欧姆定律 · Ohmwork")
+  })
+
+  it("says so when there is no such page", () => {
+    renderShell("/learn/basics/nope")
+    expect(document.title).toBe("没有这个页面 · Ohmwork")
   })
 })
