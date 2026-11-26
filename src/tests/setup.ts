@@ -9,6 +9,7 @@ globalThis.IntersectionObserver ??= Observer as unknown as typeof IntersectionOb
 window.matchMedia ??= ((query: string) => ({ matches: false, media: query, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false })) as unknown as typeof window.matchMedia
 window.scrollTo = () => {}
 Element.prototype.scrollIntoView ??= () => {}
+Element.prototype.scrollTo ??= () => {}
 // Radix (Select, Tooltip) reaches for pointer capture, which jsdom lacks.
 Element.prototype.hasPointerCapture ??= () => false
 Element.prototype.setPointerCapture ??= () => {}

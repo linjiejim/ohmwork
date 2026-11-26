@@ -1,0 +1,94 @@
+/**
+ * Sidebar footer: links back to the repo and the author, and an appearance
+ * toggle with only light and dark that follows the OS until someone picks.
+ */
+import { afterEach, beforeEach, describe, expect, it } from "vitest"
+import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react"
+import { MemoryRouter, Route, Routes } from "react-router-dom"
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { AUTHOR, REPO_URL, Shell } from "@/site/Shell"
+
+let osDark = false
+const original = window.matchMedia
+
+function renderShell() {
+  return render(
+    <TooltipProvider>
+      <MemoryRouter initialEntries={["/"]}>
+        <Routes>
+          <Route element={<Shell />}>
+            <Route index element={<div>home</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </TooltipProvider>,
+  )
+}
+
+const toggle = () => screen.getByRole("radiogroup", { name: "外观" })
+const option = (name: string) => within(toggle()).getByRole("radio", { name })
+const isOn = (name: string) => option(name).getAttribute("aria-checked") === "true"
+
+beforeEach(() => {
+  localStorage.clear()
+  document.documentElement.classList.remove("dark")
+  window.matchMedia = ((query: string) => ({
+    matches: query.includes("dark") ? osDark : false,
+    media: query,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    onchange: null,
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia
+})
+
+afterEach(() => {
+  cleanup()
+  window.matchMedia = original
+  osDark = false
+})
+
+describe("sidebar footer", () => {
+  it("links to the GitHub repo and credits the author, both in a new tab", () => {
+    renderShell()
+    const repo = screen.getByRole("link", { name: "GitHub" })
+    expect(repo.getAttribute("href")).toBe(REPO_URL)
+    expect(repo.getAttribute("target")).toBe("_blank")
+    expect(repo.getAttribute("rel")).toContain("noreferrer")
+    const author = screen.getByRole("link", { name: AUTHOR.name })
+    expect(author.getAttribute("href")).toBe(AUTHOR.url)
+    expect(author.closest("p")?.textContent).toContain("作者")
+  })
+
+  it("offers light and dark only, no follow-the-system option", () => {
+    renderShell()
+    const names = within(toggle()).getAllByRole("radio").map((r) => r.textContent)
+    expect(names).toEqual(["浅色", "深色"])
+  })
+
+  it("follows the OS when nothing has been picked", () => {
+    osDark = true
+    renderShell()
+    expect(isOn("深色")).toBe(true)
+    expect(isOn("浅色")).toBe(false)
+    expect(localStorage.getItem("appearance")).toBeNull()
+  })
+
+  it("remembers a pick that differs from the OS, and hands back to the OS when the pick matches it", () => {
+    osDark = false
+    renderShell()
+    expect(isOn("浅色")).toBe(true)
+
+    act(() => fireEvent.click(option("深色")))
+    expect(localStorage.getItem("appearance")).toBe("dark")
+    expect(document.documentElement.classList.contains("dark")).toBe(true)
+    expect(isOn("深色")).toBe(true)
+
+    act(() => fireEvent.click(option("浅色")))
+    expect(localStorage.getItem("appearance")).toBeNull()
+    expect(document.documentElement.classList.contains("dark")).toBe(false)
+    expect(isOn("浅色")).toBe(true)
+  })
+})
