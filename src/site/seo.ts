@@ -7,8 +7,8 @@
  * vite.config.ts loads this file in plain Node, so it and what it imports
  * use relative paths, not the "@/" alias.
  */
-import { CHAPTERS, LESSONS, chapterPath, lessonPath } from "../curriculum/curriculum"
-import { TOOLS, toolPath } from "./tools"
+import { CHAPTERS, LESSONS, chapterPath, lessonPath } from "../curriculum/curriculum.ts"
+import { TOOLS, toolPath } from "./tools.ts"
 
 export const SITE = {
   name: "Ohmwork",
@@ -94,14 +94,18 @@ export function pageHtml(html: string, page: PageMeta | undefined): string {
         `<meta name="twitter:card" content="summary_large_image" />`,
       ]
     : [`<meta name="robots" content="noindex" />`]
-  const out = html
-    .replace(/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`)
-    .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(description)}" />`)
-    .replace(/\s*<\/head>/, `\n    ${tags.join("\n    ")}\n  </head>`)
-  if (!out.includes(`<title>${esc(title)}</title>`) || !out.includes(`content="${esc(description)}"`)) {
-    throw new Error("pageHtml: index.html lost its <title> or description meta; update the patterns in src/site/seo.ts")
-  }
-  return out
+  const swaps: [RegExp, string][] = [
+    [/<title>[^<]*<\/title>/, `<title>${esc(title)}</title>`],
+    [/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(description)}" />`],
+    [/\s*<\/head>/, `\n    ${tags.join("\n    ")}\n  </head>`],
+  ]
+  // each tag must be there exactly once, or every page would quietly ship the home page's
+  return swaps.reduce((out, [re, tag]) => {
+    if (out.match(new RegExp(re, "g"))?.length !== 1) {
+      throw new Error(`pageHtml: index.html needs exactly one ${re}; update the patterns in src/site/seo.ts`)
+    }
+    return out.replace(re, () => tag)
+  }, html)
 }
 
 export function sitemapXml(pages: PageMeta[] = SITE_PAGES): string {

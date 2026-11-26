@@ -8,20 +8,21 @@ import mdx from "@mdx-js/rollup"
 import remarkGfm from "remark-gfm"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
-import { SITE_PAGES, pageHtml, sitemapXml } from "./src/site/seo"
+import { SITE_PAGES, pageHtml, sitemapXml } from "./src/site/seo.ts"
 
 /**
  * One HTML file per page, so a deep link answers 200 with its own title and share card
- * instead of falling through to 404.html. /learn/basics/ohms-law → learn/basics/ohms-law.html
- * (GitHub Pages serves it without the extension). A page with pages under it (/learn/basics,
- * /tools) also gets <path>/index.html, in case the host takes the directory first.
+ * instead of falling through to 404.html. /learn/basics/ohms-law → learn/basics/ohms-law.html,
+ * which GitHub Pages serves without the extension and ahead of a same-named directory.
+ * <path>/index.html as well, so the same URL with a trailing slash also answers 200.
  */
 function sitePages(): Plugin {
   return {
     name: "ohmwork:site-pages",
     apply: "build",
     writeBundle({ dir }) {
-      if (!dir) return
+      // without these files every deep link is GitHub's bare 404: never skip quietly
+      if (!dir) throw new Error("ohmwork:site-pages: the build has no output directory")
       const shell = fs.readFileSync(path.join(dir, "index.html"), "utf8")
       const write = (file: string, html: string) => {
         fs.mkdirSync(path.dirname(path.join(dir, file)), { recursive: true })
@@ -34,7 +35,7 @@ function sitePages(): Plugin {
           continue
         }
         write(`${page.path.slice(1)}.html`, html)
-        if (SITE_PAGES.some((p) => p.path.startsWith(`${page.path}/`))) write(`${page.path.slice(1)}/index.html`, html)
+        write(`${page.path.slice(1)}/index.html`, html)
       }
       write("404.html", pageHtml(shell, undefined))
       write("sitemap.xml", sitemapXml())

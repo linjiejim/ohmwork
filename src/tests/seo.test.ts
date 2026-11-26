@@ -64,7 +64,22 @@ describe("page HTML", () => {
   })
 
   it("fails the build loudly if index.html stops matching", () => {
-    expect(() => pageHtml("<html><head></head></html>", pageMeta("/"))).toThrow(/index\.html/)
+    const lesson = pageMeta("/learn/basics/ohms-law")
+    expect(() => pageHtml("<html><head></head></html>", lesson)).toThrow(/index\.html/)
+    // a formatter turning " />" into ">" would otherwise ship the home description on every page
+    expect(() => pageHtml(indexHtml.replace(/(<meta name="description" content="[^"]*") \/>/, "$1>"), lesson)).toThrow(/description/)
+  })
+
+  it("puts text in as written, with no replacement patterns", () => {
+    const html = pageHtml(indexHtml, { path: "/x", title: "a $& b $' c", description: "d $$ e $` f" })
+    expect(html).toContain("<title>a $&amp; b $' c</title>")
+    expect(html).toContain('content="d $$ e $` f"')
+  })
+
+  it("keeps index.html's own title and description the same as the built home page's", () => {
+    // vite dev serves index.html as written; the build rewrites it from SITE
+    expect(indexHtml).toContain(`<title>${SITE.title}</title>`)
+    expect(indexHtml).toContain(`<meta name="description" content="${SITE.description}" />`)
   })
 
   it("lists every page in the sitemap", () => {
