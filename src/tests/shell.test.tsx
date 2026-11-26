@@ -9,7 +9,14 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { AUTHOR, REPO_URL, Shell } from "@/site/Shell"
 
 let osDark = false
+let osListeners: (() => void)[] = []
 const original = window.matchMedia
+/** Flip the OS appearance while the page is open, as the media query would report it. */
+const setOs = (dark: boolean) =>
+  act(() => {
+    osDark = dark
+    osListeners.forEach((l) => l())
+  })
 
 function renderShell() {
   return render(
@@ -33,10 +40,16 @@ beforeEach(() => {
   localStorage.clear()
   document.documentElement.classList.remove("dark")
   window.matchMedia = ((query: string) => ({
-    matches: query.includes("dark") ? osDark : false,
+    get matches() {
+      return query.includes("dark") ? osDark : false
+    },
     media: query,
-    addEventListener() {},
-    removeEventListener() {},
+    addEventListener(_: string, l: () => void) {
+      if (query.includes("dark")) osListeners.push(l)
+    },
+    removeEventListener(_: string, l: () => void) {
+      osListeners = osListeners.filter((x) => x !== l)
+    },
     addListener() {},
     removeListener() {},
     onchange: null,
@@ -48,6 +61,7 @@ afterEach(() => {
   cleanup()
   window.matchMedia = original
   osDark = false
+  osListeners = []
 })
 
 describe("sidebar footer", () => {
@@ -59,6 +73,8 @@ describe("sidebar footer", () => {
     expect(repo.getAttribute("rel")).toContain("noreferrer")
     const author = screen.getByRole("link", { name: AUTHOR.name })
     expect(author.getAttribute("href")).toBe(AUTHOR.url)
+    expect(author.getAttribute("target")).toBe("_blank")
+    expect(author.getAttribute("rel")).toContain("noreferrer")
     expect(author.closest("p")?.textContent).toContain("作者")
   })
 
@@ -74,6 +90,23 @@ describe("sidebar footer", () => {
     expect(isOn("深色")).toBe(true)
     expect(isOn("浅色")).toBe(false)
     expect(localStorage.getItem("appearance")).toBeNull()
+  })
+
+  it("keeps following the OS when it changes while the page is open", () => {
+    renderShell()
+    expect(isOn("浅色")).toBe(true)
+    setOs(true)
+    expect(isOn("深色")).toBe(true)
+    expect(document.documentElement.classList.contains("dark")).toBe(true)
+    expect(localStorage.getItem("appearance")).toBeNull()
+  })
+
+  it("keeps a stored pick when the OS changes later", () => {
+    localStorage.setItem("appearance", "light")
+    renderShell()
+    setOs(true)
+    expect(isOn("浅色")).toBe(true)
+    expect(document.documentElement.classList.contains("dark")).toBe(false)
   })
 
   it("remembers a pick that differs from the OS, and hands back to the OS when the pick matches it", () => {

@@ -122,7 +122,9 @@ function GitHubMark({ className }: { className?: string }) {
 /**
  * Two choices, light and dark; with nothing picked the site follows the OS.
  * Picking whatever the OS is showing right now hands the choice back to the OS,
- * so "follow the system" stays reachable without a third button.
+ * so "follow the system" stays reachable without a third button. A stored pick
+ * outlives later OS switches; while it happens to match the OS, getting back
+ * to "follow" takes the other option first, then this one again.
  */
 function AppearanceToggle() {
   const { resolved, setAppearance } = useAppearance()
