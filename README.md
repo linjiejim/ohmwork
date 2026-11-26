@@ -48,7 +48,8 @@ npm test           # 课程冒烟测试 + 设计守卫
 线上地址 https://ohmwork.linjiejim.com ，托管在 GitHub Pages。推送到 `main` 后，`.github/workflows/deploy.yml` 会先跑测试、打包，再发布；拉取请求只跑检查，不发布。
 
 - **域名**：在仓库的 Pages 设置里绑定。DNS 在腾讯云 DNSPod，记录为 `CNAME ohmwork → linjiejim.github.io.`
-- **页面路由**：用的是路径式路由。打包时把 `index.html` 复制一份成 `404.html`，这样直接打开深层链接也能进站。
+- **页面路由**：用的是路径式路由。打包时给每个页面（课程、章节、工具、速查）各写一份 HTML，带它自己的标题、描述和分享卡片，深层链接直接返回 200；另写 `404.html`（不进搜索）兜住其余地址，和 `sitemap.xml`。页面清单和文案在 `src/site/seo.ts`，加课不用另外登记。
+- **分享图**：`public/og.png`（1200 × 630）和 `public/apple-touch-icon.png` 由 `scripts/og-image.mjs` 生成，改了首页或品牌标记后开着开发服务器重跑一次。
 
 ## 内容
 

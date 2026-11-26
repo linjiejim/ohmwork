@@ -27,9 +27,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      # the build writes one HTML file per page plus 404.html and sitemap.xml (vite.config.ts → sitePages)
       - run: npm run build
-      # history-mode router: deep links like /learn/basics/voltage fall back to the app
-      - run: cp dist/index.html dist/404.html
       - if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:

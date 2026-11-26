@@ -10,6 +10,7 @@ import { LESSONS, STAGES, chapterPath, lessonPath } from "@/curriculum/curriculu
 import { useProgress } from "@/curriculum/progress"
 import { GLOSSARY } from "@/site/glossary-data"
 import { preloadWhenIdle } from "@/site/lesson-modules"
+import { NOT_FOUND_TITLE, pageMeta } from "@/site/seo"
 import { TOOLS, toolPath } from "@/site/tools"
 
 export function BrandMark({ className }: { className?: string }) {
@@ -214,6 +215,16 @@ export function Shell() {
   React.useEffect(() => {
     content.current?.parentElement?.scrollTo(0, 0)
   }, [pathname])
+  // the tab, history and bookmarks name the page you are on (same titles the build writes into each page's HTML)
+  React.useEffect(() => {
+    document.title = pageMeta(pathname)?.title ?? NOT_FOUND_TITLE
+  }, [pathname])
+  // the browser chrome matches the page, also when the sidebar toggle overrides the OS
+  const { resolved } = useAppearance()
+  React.useEffect(() => {
+    const bg = getComputedStyle(document.documentElement).getPropertyValue("--background").trim()
+    if (bg) document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => (m.content = bg))
+  }, [resolved])
   return (
     <>
       <AppShell brand={<Brand />} sidebar={<SideNav onSearch={() => setOpen(true)} />} footer={<SidebarFooter />}>
