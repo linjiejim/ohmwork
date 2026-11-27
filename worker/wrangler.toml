@@ -1,0 +1,37 @@
+# Ohmwork 云同步后端（Cloudflare Worker + D1），部署在 Jim 个人 Cloudflare 账号，API 域名 ohmwork-api.jimlin.me。
+# 为什么不用 *.workers.dev：这个域名在中国大陆基本打不开；linjiejim.com 的 DNS 在 DNSPod，Worker 挂不上去；
+# jimlin.me 的 DNS 在 Cloudflare 上；Worker 必须部署在 jimlin.me 这个 zone 所在的账户里，首次部署时自动建记录和证书。
+#
+# 1. 登录个人账号（本机默认登录的是另一个账号，别切换）：npx wrangler auth create personal，
+#    再 npx wrangler auth activate personal <仓库根目录>；或用只授权个人账户的 API token，见 README → 部署
+# 2. 创建 D1 数据库：npx wrangler d1 create ohmwork，把返回的 database_id 填到下面
+# 3. 建表：npx wrangler d1 migrations apply ohmwork --remote
+# 4. GitHub OAuth（可选，不配则只有用户名密码登录）：在 GitHub 建 OAuth App，
+#    回调地址填 https://ohmwork-api.jimlin.me/auth/github/callback，然后
+#    npx wrangler secret put GITHUB_CLIENT_ID
+#    npx wrangler secret put GITHUB_CLIENT_SECRET
+# 5. 部署：npx wrangler deploy
+# 6. GitHub 仓库 Settings → Variables → Actions 新增 VITE_API_BASE = https://ohmwork-api.jimlin.me，
+#    再部署一次站点，登录入口才会出现。
+
+name = "ohmwork-api"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+# 账号下有多个 Cloudflare 账户时填个人账户的 ID（npx wrangler whoami 可查），否则 wrangler 会让你选
+# account_id = ""
+
+workers_dev = false
+routes = [
+  { pattern = "ohmwork-api.jimlin.me", custom_domain = true },
+]
+
+[vars]
+PUBLIC_BASE_URL = "https://ohmwork-api.jimlin.me"
+# localhost 两项留给上线前的联调（本地前端指向线上 Worker）；站点正式开启登录后删掉再部署一次
+ALLOWED_ORIGINS = "https://ohmwork.linjiejim.com,http://localhost:5273,http://127.0.0.1:5273"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ohmwork"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "migrations"

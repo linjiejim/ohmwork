@@ -4,6 +4,7 @@
   "description": "Ohmwork · 交互式电子电路学堂",
   "scripts": {
     "dev": "vite",
+    "dev:worker": "node worker/dev-server.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",

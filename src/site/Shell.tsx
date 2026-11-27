@@ -1,10 +1,14 @@
 import * as React from "react"
 import { Outlet, useLocation, useNavigate } from "react-router-dom"
-import { BookA, Calculator, Circle, CircleCheck, Home, Moon, Search, Shapes, Sun } from "lucide-react"
+import { BookA, Calculator, Circle, CircleCheck, CloudOff, Home, Moon, Search, Shapes, Sun, User } from "lucide-react"
 import { AppShell, NavGroup, NavItem } from "@/components/ui/app-shell"
 import { CommandGroup, CommandItem, CommandPalette, useCommandPalette } from "@/components/ui/command-palette"
 import { Kbd } from "@/components/ui/kbd"
 import { Segmented } from "@/components/ui/segmented"
+import { AccountDialog } from "@/auth/AccountDialog"
+import { AuthDialog } from "@/auth/AuthDialog"
+import { GitHubMark } from "@/auth/GitHubMark"
+import { displayName, initAuth, openAccountDialog, openAuthDialog, useAuth } from "@/auth/store"
 import { resolveAppearance, useAppearance } from "@/lib/appearance"
 import { LESSONS, STAGES, chapterPath, lessonPath } from "@/curriculum/curriculum"
 import { useProgress } from "@/curriculum/progress"
@@ -108,15 +112,37 @@ function SideNav({ onSearch }: { onSearch: () => void }) {
 export const REPO_URL = "https://github.com/linjiejim/ohmwork"
 export const AUTHOR = { name: "Jim Lin", url: "https://jimlin.me" }
 
-/** lucide dropped brand icons, so the GitHub mark is drawn here. */
-function GitHubMark({ className }: { className?: string }) {
+/** Optional account entry in the corner of the sidebar; hidden when cloud sync is unconfigured. */
+function AccountFooterEntry() {
+  const auth = useAuth()
+  if (auth.status === "disabled") return null
+  if (auth.status === "authenticated" && auth.user) {
+    const label = displayName(auth.user)
+    return (
+      <button
+        type="button"
+        onClick={openAccountDialog}
+        className="flex h-(--nav-item-h) w-full items-center gap-2 rounded-md px-2 text-body text-foreground transition-colors duration-(--duration-fast) hover:bg-accent"
+      >
+        {auth.user.github?.avatarUrl ? (
+          <img src={auth.user.github.avatarUrl} alt="" className="size-4 shrink-0 rounded-full object-cover" />
+        ) : (
+          <User className="size-4 shrink-0 text-muted-foreground" />
+        )}
+        <span className="min-w-0 flex-1 truncate text-left">{label}</span>
+        {auth.syncState === "offline" && <CloudOff className="size-3.5 shrink-0 text-warning" aria-label="离线" />}
+      </button>
+    )
+  }
   return (
-    <svg viewBox="0 0 16 16" aria-hidden className={className}>
-      <path
-        fill="currentColor"
-        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-      />
-    </svg>
+    <button
+      type="button"
+      onClick={() => openAuthDialog("login")}
+      className="flex h-(--nav-item-h) w-full items-center gap-2 rounded-md px-2 text-body text-muted-foreground transition-colors duration-(--duration-fast) hover:bg-accent hover:text-foreground"
+    >
+      <User className="size-4 shrink-0" />
+      <span className="truncate">登录同步进度</span>
+    </button>
   )
 }
 
@@ -144,10 +170,11 @@ function AppearanceToggle() {
   )
 }
 
-/** Bottom of the sidebar: where the code lives, who made it, light or dark. */
+/** Bottom of the sidebar: optional account sync, where the code lives, who made it, light or dark. */
 function SidebarFooter() {
   return (
     <div className="flex flex-col gap-0.5">
+      <AccountFooterEntry />
       <div className="flex items-center justify-between gap-2">
         <a
           href={REPO_URL}
@@ -225,6 +252,10 @@ export function Shell() {
     const bg = getComputedStyle(document.documentElement).getPropertyValue("--background").trim()
     if (bg) document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => (m.content = bg))
   }, [resolved])
+  // bootstrap optional cloud-sync session & handle OAuth return hashes once
+  React.useEffect(() => {
+    void initAuth()
+  }, [])
   return (
     <>
       <AppShell brand={<Brand />} sidebar={<SideNav onSearch={() => setOpen(true)} />} footer={<SidebarFooter />}>
@@ -234,6 +265,8 @@ export function Shell() {
         </div>
       </AppShell>
       <SearchPalette open={open} onOpenChange={setOpen} />
+      <AuthDialog />
+      <AccountDialog />
     </>
   )
 }

@@ -1,11 +1,12 @@
 import * as React from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { MDXProvider } from "@mdx-js/react"
-import { ArrowLeft, ArrowRight, Check, Clock } from "lucide-react"
+import { ArrowLeft, ArrowRight, Check, Clock, Cloud, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, IconButton } from "@/components/ui/button"
 import { Page } from "@/components/ui/page"
 import { StateView } from "@/components/ui/state"
+import { dismissLoginPrompt, isLoginPromptDismissed, openAuthDialog, useAuth } from "@/auth/store"
 import { LESSONS, chapterPath, findLesson, lessonPath, type Level } from "@/curriculum/curriculum"
 import { setLessonDone, useProgress } from "@/curriculum/progress"
 import { TocContext, mdxComponents } from "@/mdx/components"
@@ -56,8 +57,10 @@ export function LessonPage() {
   const { chapterId, lessonSlug } = useParams()
   const navigate = useNavigate()
   const progress = useProgress()
+  const auth = useAuth()
   const ref = findLesson(chapterId, lessonSlug)
   const [toc, setToc] = React.useState<TocItem[]>([])
+  const [showLoginPrompt, setShowLoginPrompt] = React.useState(false)
   const tocApi = React.useMemo(
     () => ({
       register: (id: string, text: string) => {
@@ -67,6 +70,11 @@ export function LessonPage() {
     }),
     [],
   )
+
+  const lessonKey = ref?.key
+  React.useEffect(() => {
+    setShowLoginPrompt(false)
+  }, [lessonKey])
 
   // the lessons either side are the likely next clicks: fetch them while the reader reads
   const at = ref?.index
@@ -149,7 +157,15 @@ export function LessonPage() {
               标记为未学
             </Button>
           ) : (
-            <Button variant="primary" onClick={() => setLessonDone(key, true)}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                setLessonDone(key, true)
+                if (auth.status === "guest" && !isLoginPromptDismissed()) {
+                  setShowLoginPrompt(true)
+                }
+              }}
+            >
               <Check />
               完成本课
             </Button>
@@ -173,6 +189,37 @@ export function LessonPage() {
             )}
           </div>
         </footer>
+
+        {showLoginPrompt && auth.status === "guest" && (
+          <div
+            role="region"
+            aria-label="登录同步提示"
+            className="mt-4 flex max-w-[680px] flex-wrap items-center gap-3 rounded-lg border bg-sunken px-4 py-3 text-small"
+          >
+            <Cloud className="size-4 shrink-0 text-muted-foreground" />
+            <p className="min-w-0 flex-1 text-muted-foreground">
+              进度已保存在本地。登录账号后，换设备或清缓存也不会丢。
+            </p>
+            <div className="flex items-center gap-1.5">
+              <Button size="sm" variant="secondary" onClick={() => openAuthDialog("login")}>
+                登录保存进度
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  dismissLoginPrompt()
+                  setShowLoginPrompt(false)
+                }}
+              >
+                不再提示
+              </Button>
+              <IconButton label="关闭提示" size="icon-sm" tooltip={false} onClick={() => setShowLoginPrompt(false)}>
+                <X />
+              </IconButton>
+            </div>
+          </div>
+        )}
       </Page>
 
       {toc.length > 1 && (

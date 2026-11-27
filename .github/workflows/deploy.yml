@@ -29,6 +29,8 @@ jobs:
       - run: npm test
       # the build writes one HTML file per page plus 404.html and sitemap.xml (vite.config.ts → sitePages)
       - run: npm run build
+        env:
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
       # without them every deep link is a bare 404: fail here, not in production
       - run: test -f dist/404.html && test -f dist/learn/basics/ohms-law.html && test -f dist/learn/basics/index.html && test -f dist/sitemap.xml
       - if: github.event_name != 'pull_request'

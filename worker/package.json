@@ -1,0 +1,17 @@
+{
+  "name": "ohmwork-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "dev:local": "node dev-server.mjs",
+    "db:migrate:local": "wrangler d1 migrations apply ohmwork --local",
+    "db:migrate:remote": "wrangler d1 migrations apply ohmwork --remote",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "wrangler": "^4.0.0"
+  }
+}
