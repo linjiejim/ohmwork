@@ -28,7 +28,7 @@ export interface Env {
   DB: D1DatabaseLike
   /** Comma-separated frontend origins allowed for CORS & OAuth redirects. */
   ALLOWED_ORIGINS?: string
-  /** Public base URL of this worker, e.g. https://api.ohmwork.linjiejim.com */
+  /** Public base URL of this worker, e.g. https://ohmwork-api.jimlin.me */
   PUBLIC_BASE_URL?: string
   GITHUB_CLIENT_ID?: string
   GITHUB_CLIENT_SECRET?: string

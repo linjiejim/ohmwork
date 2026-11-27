@@ -71,12 +71,13 @@ node scripts/pr-assets.mjs 5 login.png account.png   # 5 是 PR 号；还没开 
 - **域名**：在仓库的 Pages 设置里绑定。DNS 在腾讯云 DNSPod，记录为 `CNAME ohmwork → linjiejim.github.io.`
 - **页面路由**：用的是路径式路由。打包时给每个页面（课程、章节、工具、速查）各写一份 HTML，带它自己的标题、描述和分享卡片，深层链接直接返回 200；另写 `404.html`（不进搜索）兜住其余地址，和 `sitemap.xml`。页面清单和文案在 `src/site/seo.ts`，加课不用另外登记。
 - **分享图**：`public/og.png`（1200 × 630）和 `public/apple-touch-icon.png` 由 `scripts/og-image.mjs` 生成，改了首页或品牌标记后开着开发服务器重跑一次。
-- **可选的账号与云端进度同步（Cloudflare Worker + D1）**：后端在 `worker/`，不部署时站点保持纯本地模式。要开启时：
-  1. 在 `worker/` 下创建 D1 数据库并把 `database_id` 填进 `worker/wrangler.toml`：`cd worker && npm install && npx wrangler d1 create ohmwork`。
-  2. 执行建表迁移：`npx wrangler d1 migrations apply ohmwork --remote`。
-  3. 如需开启 GitHub OAuth，在 GitHub 创建一个 OAuth App（回调地址填 `<你的 Worker 域名>/auth/github/callback`），再写入密钥：`npx wrangler secret put GITHUB_CLIENT_ID` 和 `npx wrangler secret put GITHUB_CLIENT_SECRET`（不配时仍可用用户名和密码登录）。
-  4. 部署 Worker：`npx wrangler deploy`。
-  5. 在 GitHub 仓库的 **Settings → Variables → Actions** 新增 `VITE_API_BASE`（填 Worker 地址，如 `https://api.ohmwork.linjiejim.com`），重新触发一次 Pages 部署即可。
+- **可选的账号与云端进度同步（Cloudflare Worker + D1）**：后端在 `worker/`，部署在 Jim 个人 Cloudflare 账号，API 域名 `ohmwork-api.jimlin.me`。没配 `VITE_API_BASE` 时站点保持纯本地模式，不显示登录入口。不用 `*.workers.dev`：它在中国大陆基本打不开；`linjiejim.com` 的 DNS 在 DNSPod，Worker 也挂不上去，所以用 Cloudflare 上的 `jimlin.me`。要开启时（命令都在 `worker/` 下跑，步骤也写在 `worker/wrangler.toml` 开头）：
+  1. 登录个人账号。本机 wrangler 默认登录的是另一个账号，别切换它，给个人账号建一个命名登录并绑到仓库目录（wrangler 4.169 起支持，仍是实验功能）：`npx wrangler auth create personal`，再 `npx wrangler auth activate personal <仓库根目录>`；之后在仓库里（含 `.claude/worktrees/` 下的工作树）跑 wrangler 都用这个账号，`npx wrangler whoami` 可核对。不想用实验功能时，改用只授权个人账户的 API token（Workers Scripts、D1、Workers Routes 编辑，jimlin.me 的 Zone 读取），写进 `worker/.env` 的 `CLOUDFLARE_API_TOKEN`（已忽略，不进 git，wrangler 会自动读）。
+  2. 创建 D1 数据库并把 `database_id` 填进 `worker/wrangler.toml`：`npm install && npx wrangler d1 create ohmwork`。
+  3. 执行建表迁移：`npx wrangler d1 migrations apply ohmwork --remote`。
+  4. 如需开启 GitHub OAuth，在 GitHub 创建一个 OAuth App（回调地址填 `https://ohmwork-api.jimlin.me/auth/github/callback`），再写入密钥：`npx wrangler secret put GITHUB_CLIENT_ID` 和 `npx wrangler secret put GITHUB_CLIENT_SECRET`（不配时仍可用用户名和密码登录）。
+  5. 部署 Worker：`npx wrangler deploy`，首次部署会自动在 `jimlin.me` 下建好 `ohmwork-api` 的记录和证书。
+  6. 在 GitHub 仓库的 **Settings → Variables → Actions** 新增 `VITE_API_BASE` = `https://ohmwork-api.jimlin.me`，重新触发一次 Pages 部署即可。
 
 ## 内容
 
