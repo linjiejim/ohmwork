@@ -1,13 +1,14 @@
 import { DUMMY_PASSWORD_HASH, hashPassword, randomHex, sha256Hex, verifyPassword } from "./crypto.ts"
 import {
+  rowToUser,
   toPublicUser,
+  type D1DatabaseLike,
+  type D1PreparedStatementLike,
   type Env,
-  type ExchangeTicket,
   type GitHubIdentity,
-  type OAuthState,
   type ProgressDoc,
-  type SessionRecord,
   type StoredUser,
+  type UserRow,
 } from "./types.ts"
 import {
   sanitizeAvatarUrl,
@@ -24,11 +25,14 @@ const DEFAULT_ORIGINS = [
   "http://127.0.0.1:5273",
 ]
 
-const SESSION_TTL_SEC = 60 * 60 * 24 * 30 // 30 days
-const OAUTH_STATE_TTL_SEC = 60 * 10 // 10 minutes
-const TICKET_TTL_SEC = 60 // 1 minute
+const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30 // 30 days
+const OAUTH_STATE_TTL_MS = 1000 * 60 * 10 // 10 minutes
+const TICKET_TTL_MS = 1000 * 60 // 1 minute
 const MAX_BODY_BYTES = 16 * 1024
 const MAX_PROGRESS_KEYS = 200
+
+const USER_COLUMNS =
+  "id, username, password_hash, github_id, github_login, github_name, github_avatar_url, created_at, updated_at"
 
 export interface RequestOptions {
   fetchImpl?: typeof fetch
@@ -105,7 +109,14 @@ function clientIp(request: Request): string {
   )
 }
 
-async function readJsonBody(request: Request): Promise<{ ok: true; value: Record<string, unknown> } | { ok: false; status: number; error: string }> {
+function isUniqueConstraintError(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err)
+  return /UNIQUE constraint failed|SQLITE_CONSTRAINT/i.test(msg)
+}
+
+async function readJsonBody(
+  request: Request,
+): Promise<{ ok: true; value: Record<string, unknown> } | { ok: false; status: number; error: string }> {
   const len = Number(request.headers.get("Content-Length") ?? "0")
   if (Number.isFinite(len) && len > MAX_BODY_BYTES) {
     return { ok: false, status: 413, error: "请求体过大" }
@@ -126,31 +137,26 @@ async function readJsonBody(request: Request): Promise<{ ok: true; value: Record
   }
 }
 
-async function getJson<T>(env: Env, key: string): Promise<T | null> {
-  const raw = await env.KV.get(key)
-  if (!raw) return null
-  try {
-    return JSON.parse(raw) as T
-  } catch {
-    return null
-  }
-}
-
-async function putJson(env: Env, key: string, value: unknown, ttl?: number): Promise<void> {
-  await env.KV.put(key, JSON.stringify(value), ttl ? { expirationTtl: ttl } : undefined)
-}
-
-async function checkRateLimit(env: Env, bucket: string, limit: number, ttlSec: number, now: number): Promise<boolean> {
-  const key = `rl:${bucket}`
-  const existing = await getJson<{ count: number; resetAt: number }>(env, key)
-  if (!existing || existing.resetAt <= now) {
-    await putJson(env, key, { count: 1, resetAt: now + ttlSec * 1000 }, ttlSec)
-    return true
-  }
-  if (existing.count >= limit) return false
-  const remaining = Math.max(60, Math.ceil((existing.resetAt - now) / 1000))
-  await putJson(env, key, { count: existing.count + 1, resetAt: existing.resetAt }, remaining)
-  return true
+async function checkRateLimit(
+  db: D1DatabaseLike,
+  bucket: string,
+  limit: number,
+  ttlSec: number,
+  now: number,
+): Promise<boolean> {
+  const resetAt = now + ttlSec * 1000
+  const row = await db
+    .prepare(
+      `INSERT INTO rate_limits (bucket, count, reset_at)
+       VALUES (?, 1, ?)
+       ON CONFLICT(bucket) DO UPDATE SET
+         count = CASE WHEN reset_at <= ? THEN 1 ELSE count + 1 END,
+         reset_at = CASE WHEN reset_at <= ? THEN excluded.reset_at ELSE reset_at END
+       RETURNING count`,
+    )
+    .bind(bucket, resetAt, now, now)
+    .first<{ count: number }>()
+  return (row?.count ?? 1) <= limit
 }
 
 function bearerToken(request: Request): string | null {
@@ -160,28 +166,58 @@ function bearerToken(request: Request): string | null {
   return match ? match[1] : null
 }
 
-async function createSession(env: Env, userId: string, now: number): Promise<string> {
+async function createSession(db: D1DatabaseLike, userId: string, now: number): Promise<string> {
   const rawToken = randomHex(32)
   const hash = await sha256Hex(rawToken)
-  const record: SessionRecord = { userId, createdAt: now }
-  await putJson(env, `session:${hash}`, record, SESSION_TTL_SEC)
+  const expiresAt = now + SESSION_TTL_MS
+  await db.batch([
+    db.prepare("DELETE FROM sessions WHERE expires_at <= ?").bind(now),
+    db
+      .prepare("INSERT INTO sessions (token_hash, user_id, created_at, expires_at) VALUES (?, ?, ?, ?)")
+      .bind(hash, userId, now, expiresAt),
+  ])
   return rawToken
 }
 
-async function authenticate(request: Request, env: Env): Promise<{ tokenHash: string; user: StoredUser } | null> {
+async function authenticate(
+  request: Request,
+  db: D1DatabaseLike,
+  now: number,
+): Promise<{ tokenHash: string; user: StoredUser } | null> {
   const raw = bearerToken(request)
   if (!raw) return null
   const tokenHash = await sha256Hex(raw)
-  const session = await getJson<SessionRecord>(env, `session:${tokenHash}`)
-  if (!session) return null
-  const user = await getJson<StoredUser>(env, `user:${session.userId}`)
-  if (!user) return null
-  return { tokenHash, user }
+  const row = await db
+    .prepare(
+      `SELECT u.id, u.username, u.password_hash, u.github_id, u.github_login,
+              u.github_name, u.github_avatar_url, u.created_at, u.updated_at
+       FROM sessions s
+       JOIN users u ON u.id = s.user_id
+       WHERE s.token_hash = ? AND s.expires_at > ?`,
+    )
+    .bind(tokenHash, now)
+    .first<UserRow>()
+  if (!row) return null
+  return { tokenHash, user: rowToUser(row) }
 }
 
-async function readProgress(env: Env, userId: string): Promise<ProgressDoc> {
-  const doc = await getJson<ProgressDoc>(env, `progress:${userId}`)
-  return doc ?? { done: {}, updatedAt: 0 }
+async function findUserById(db: D1DatabaseLike, id: string): Promise<StoredUser | null> {
+  const row = await db.prepare(`SELECT ${USER_COLUMNS} FROM users WHERE id = ?`).bind(id).first<UserRow>()
+  return row ? rowToUser(row) : null
+}
+
+async function readProgress(db: D1DatabaseLike, userId: string): Promise<ProgressDoc> {
+  const res = await db
+    .prepare("SELECT lesson_key, completed_at FROM progress WHERE user_id = ?")
+    .bind(userId)
+    .all<{ lesson_key: string; completed_at: number }>()
+  const done: Record<string, number> = {}
+  let updatedAt = 0
+  for (const r of res.results) {
+    done[r.lesson_key] = r.completed_at
+    if (r.completed_at > updatedAt) updatedAt = r.completed_at
+  }
+  return { done, updatedAt }
 }
 
 function githubConfigured(env: Env): boolean {
@@ -265,6 +301,7 @@ function redirectWithHash(origin: string, returnTo: string, params: Record<strin
 export async function handleRequest(request: Request, env: Env, opts: RequestOptions = {}): Promise<Response> {
   const fetchImpl = opts.fetchImpl ?? fetch
   const now = opts.now ?? (() => Date.now())
+  const db = env.DB
   const allowed = parseAllowedOrigins(env)
   const cors = corsHeaders(request, allowed)
   const url = new URL(request.url)
@@ -281,7 +318,8 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
 
   // ---------- register with username & password ----------
   if (request.method === "POST" && path === "/auth/register") {
-    const okRate = await checkRateLimit(env, `reg:${clientIp(request)}`, 10, 600, now())
+    const ts = now()
+    const okRate = await checkRateLimit(db, `reg:${clientIp(request)}`, 10, 600, ts)
     if (!okRate) return jsonResponse({ error: "操作过于频繁，请稍后再试" }, 429, cors)
 
     const body = await readJsonBody(request)
@@ -292,10 +330,6 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     const p = validatePassword(body.value.password)
     if (!p.ok) return jsonResponse({ error: p.error }, 400, cors)
 
-    const existing = await env.KV.get(`uname:${u.key}`)
-    if (existing) return jsonResponse({ error: "这个用户名已经被注册了" }, 409, cors)
-
-    const ts = now()
     const user: StoredUser = {
       id: crypto.randomUUID(),
       username: u.display,
@@ -304,11 +338,23 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       createdAt: ts,
       updatedAt: ts,
     }
-    // Write user record before index so index never points to a missing user.
-    await putJson(env, `user:${user.id}`, user)
-    await env.KV.put(`uname:${u.key}`, user.id)
 
-    const token = await createSession(env, user.id, ts)
+    try {
+      await db
+        .prepare(
+          `INSERT INTO users (id, username, username_lower, password_hash, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?)`,
+        )
+        .bind(user.id, user.username, u.key, user.passwordHash, ts, ts)
+        .run()
+    } catch (err) {
+      if (isUniqueConstraintError(err)) {
+        return jsonResponse({ error: "这个用户名已经被注册了" }, 409, cors)
+      }
+      throw err
+    }
+
+    const token = await createSession(db, user.id, ts)
     return jsonResponse({ token, user: toPublicUser(user), progress: { done: {}, updatedAt: 0 } }, 201, cors)
   }
 
@@ -323,12 +369,16 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       return jsonResponse({ error: "请输入用户名和密码" }, 400, cors)
     }
 
+    const ts = now()
     const unameKey = rawUser.toLowerCase()
-    const okRate = await checkRateLimit(env, `login:${clientIp(request)}:${unameKey}`, 10, 300, now())
+    const okRate = await checkRateLimit(db, `login:${clientIp(request)}:${unameKey}`, 10, 300, ts)
     if (!okRate) return jsonResponse({ error: "登录尝试过于频繁，请稍后再试" }, 429, cors)
 
-    const userId = await env.KV.get(`uname:${unameKey}`)
-    const user = userId ? await getJson<StoredUser>(env, `user:${userId}`) : null
+    const row = await db
+      .prepare(`SELECT ${USER_COLUMNS} FROM users WHERE username_lower = ?`)
+      .bind(unameKey)
+      .first<UserRow>()
+    const user = row ? rowToUser(row) : null
 
     if (!user || !user.passwordHash) {
       // Uniform PBKDF2 work so missing usernames do not stand out by latency.
@@ -341,8 +391,8 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       return jsonResponse({ error: "用户名或密码不正确" }, 401, cors)
     }
 
-    const token = await createSession(env, user.id, now())
-    const progress = await readProgress(env, user.id)
+    const token = await createSession(db, user.id, ts)
+    const progress = await readProgress(db, user.id)
     return jsonResponse({ token, user: toPublicUser(user), progress }, 200, cors)
   }
 
@@ -351,16 +401,16 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     const raw = bearerToken(request)
     if (raw) {
       const hash = await sha256Hex(raw)
-      await env.KV.delete(`session:${hash}`)
+      await db.prepare("DELETE FROM sessions WHERE token_hash = ?").bind(hash).run()
     }
     return jsonResponse({ ok: true }, 200, cors)
   }
 
   // ---------- current session + progress ----------
   if (request.method === "GET" && path === "/auth/me") {
-    const auth = await authenticate(request, env)
+    const auth = await authenticate(request, db, now())
     if (!auth) return jsonResponse({ error: "未登录或登录已过期" }, 401, cors)
-    const progress = await readProgress(env, auth.user.id)
+    const progress = await readProgress(db, auth.user.id)
     return jsonResponse({ user: toPublicUser(auth.user), progress }, 200, cors)
   }
 
@@ -373,16 +423,28 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       return jsonResponse({ error: "无效的登录凭证" }, 400, cors)
     }
 
-    const ticket = await getJson<ExchangeTicket>(env, `ticket:${code}`)
+    const ts = now()
+    const ticket = await db
+      .prepare("DELETE FROM exchange_tickets WHERE code = ? AND expires_at > ? RETURNING token, event")
+      .bind(code, ts)
+      .first<{ token: string; event: string }>()
     if (!ticket) return jsonResponse({ error: "登录凭证已过期，请重新登录" }, 401, cors)
-    await env.KV.delete(`ticket:${code}`)
 
     const tokenHash = await sha256Hex(ticket.token)
-    const session = await getJson<SessionRecord>(env, `session:${tokenHash}`)
-    const user = session ? await getJson<StoredUser>(env, `user:${session.userId}`) : null
-    if (!user) return jsonResponse({ error: "账号状态异常，请重新登录" }, 401, cors)
+    const row = await db
+      .prepare(
+        `SELECT u.id, u.username, u.password_hash, u.github_id, u.github_login,
+                u.github_name, u.github_avatar_url, u.created_at, u.updated_at
+         FROM sessions s
+         JOIN users u ON u.id = s.user_id
+         WHERE s.token_hash = ? AND s.expires_at > ?`,
+      )
+      .bind(tokenHash, ts)
+      .first<UserRow>()
+    if (!row) return jsonResponse({ error: "账号状态异常，请重新登录" }, 401, cors)
 
-    const progress = await readProgress(env, user.id)
+    const user = rowToUser(row)
+    const progress = await readProgress(db, user.id)
     return jsonResponse({ token: ticket.token, user: toPublicUser(user), progress }, 200, cors)
   }
 
@@ -393,15 +455,23 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     if (!githubConfigured(env)) {
       return redirectWithHash(origin, returnTo, { auth_error: "github_unconfigured" })
     }
+    const ts = now()
     const state = randomHex(24)
-    const record: OAuthState = { mode: "login", returnTo, origin }
-    await putJson(env, `oauth_state:${state}`, record, OAUTH_STATE_TTL_SEC)
+    await db.batch([
+      db.prepare("DELETE FROM oauth_states WHERE expires_at <= ?").bind(ts),
+      db
+        .prepare(
+          "INSERT INTO oauth_states (state, mode, user_id, return_to, origin, expires_at) VALUES (?, 'login', NULL, ?, ?, ?)",
+        )
+        .bind(state, returnTo, origin, ts + OAUTH_STATE_TTL_MS),
+    ])
     return redirectResponse(buildGithubAuthorizeUrl(env, request, state))
   }
 
   // ---------- GitHub OAuth start (link to existing account) ----------
   if (request.method === "POST" && path === "/auth/github/link-start") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
     if (!githubConfigured(env)) {
       return jsonResponse({ error: "服务未配置 GitHub OAuth" }, 503, cors)
@@ -420,20 +490,29 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     )
 
     const state = randomHex(24)
-    const record: OAuthState = { mode: "link", userId: auth.user.id, returnTo, origin }
-    await putJson(env, `oauth_state:${state}`, record, OAUTH_STATE_TTL_SEC)
+    await db.batch([
+      db.prepare("DELETE FROM oauth_states WHERE expires_at <= ?").bind(ts),
+      db
+        .prepare(
+          "INSERT INTO oauth_states (state, mode, user_id, return_to, origin, expires_at) VALUES (?, 'link', ?, ?, ?, ?)",
+        )
+        .bind(state, auth.user.id, returnTo, origin, ts + OAUTH_STATE_TTL_MS),
+    ])
     return jsonResponse({ url: buildGithubAuthorizeUrl(env, request, state) }, 200, cors)
   }
 
   // ---------- GitHub OAuth callback ----------
   if (request.method === "GET" && path === "/auth/github/callback") {
+    const ts = now()
     const stateParam = url.searchParams.get("state") ?? ""
     const state = /^[a-f0-9]{16,128}$/.test(stateParam)
-      ? await getJson<OAuthState>(env, `oauth_state:${stateParam}`)
+      ? await db
+          .prepare(
+            "DELETE FROM oauth_states WHERE state = ? AND expires_at > ? RETURNING mode, user_id, return_to, origin",
+          )
+          .bind(stateParam, ts)
+          .first<{ mode: "login" | "link"; user_id: string | null; return_to: string; origin: string }>()
       : null
-    if (state) {
-      await env.KV.delete(`oauth_state:${stateParam}`)
-    }
 
     const fallbackOrigin = allowed[0]
     if (!state) {
@@ -442,14 +521,14 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
 
     const ghError = url.searchParams.get("error")
     if (ghError) {
-      return redirectWithHash(state.origin, state.returnTo, {
+      return redirectWithHash(state.origin, state.return_to, {
         auth_error: ghError === "access_denied" ? "github_cancelled" : "github_failed",
       })
     }
 
     const code = url.searchParams.get("code")
     if (!code || !githubConfigured(env)) {
-      return redirectWithHash(state.origin, state.returnTo, { auth_error: "github_failed" })
+      return redirectWithHash(state.origin, state.return_to, { auth_error: "github_failed" })
     }
 
     let ghUser: GitHubIdentity | null = null
@@ -459,65 +538,84 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       ghUser = null
     }
     if (!ghUser) {
-      return redirectWithHash(state.origin, state.returnTo, { auth_error: "github_failed" })
+      return redirectWithHash(state.origin, state.return_to, { auth_error: "github_failed" })
     }
 
-    const ts = now()
-
     if (state.mode === "link") {
-      const targetUser = state.userId ? await getJson<StoredUser>(env, `user:${state.userId}`) : null
+      const targetUser = state.user_id ? await findUserById(db, state.user_id) : null
       if (!targetUser) {
-        return redirectWithHash(state.origin, state.returnTo, { auth_error: "invalid_state" })
+        return redirectWithHash(state.origin, state.return_to, { auth_error: "invalid_state" })
       }
       if (targetUser.github && targetUser.github.id !== ghUser.id) {
-        return redirectWithHash(state.origin, state.returnTo, { auth_error: "github_already_linked" })
+        return redirectWithHash(state.origin, state.return_to, { auth_error: "github_already_linked" })
       }
-      const existingOwner = await env.KV.get(`gh:${ghUser.id}`)
-      if (existingOwner && existingOwner !== targetUser.id) {
-        return redirectWithHash(state.origin, state.returnTo, { auth_error: "github_already_bound" })
+      try {
+        await db
+          .prepare(
+            `UPDATE users
+             SET github_id = ?, github_login = ?, github_name = ?, github_avatar_url = ?, updated_at = ?
+             WHERE id = ?`,
+          )
+          .bind(ghUser.id, ghUser.login, ghUser.name, ghUser.avatarUrl, ts, targetUser.id)
+          .run()
+      } catch (err) {
+        if (isUniqueConstraintError(err)) {
+          return redirectWithHash(state.origin, state.return_to, { auth_error: "github_already_bound" })
+        }
+        throw err
       }
-      const updated: StoredUser = { ...targetUser, github: ghUser, updatedAt: ts }
-      await putJson(env, `user:${updated.id}`, updated)
-      await env.KV.put(`gh:${ghUser.id}`, updated.id)
-      return redirectWithHash(state.origin, state.returnTo, { auth_event: "github_linked" })
+      return redirectWithHash(state.origin, state.return_to, { auth_event: "github_linked" })
     }
 
     // mode === "login"
-    const existingId = await env.KV.get(`gh:${ghUser.id}`)
-    let user = existingId ? await getJson<StoredUser>(env, `user:${existingId}`) : null
-    if (user) {
-      // Keep display handle / avatar fresh when changed on GitHub
+    const existingRow = await db
+      .prepare(`SELECT ${USER_COLUMNS} FROM users WHERE github_id = ?`)
+      .bind(ghUser.id)
+      .first<UserRow>()
+
+    let userId: string
+    if (existingRow) {
+      userId = existingRow.id
       if (
-        user.github?.login !== ghUser.login ||
-        user.github?.name !== ghUser.name ||
-        user.github?.avatarUrl !== ghUser.avatarUrl
+        existingRow.github_login !== ghUser.login ||
+        existingRow.github_name !== ghUser.name ||
+        existingRow.github_avatar_url !== ghUser.avatarUrl
       ) {
-        user = { ...user, github: ghUser, updatedAt: ts }
-        await putJson(env, `user:${user.id}`, user)
+        await db
+          .prepare(
+            `UPDATE users
+             SET github_login = ?, github_name = ?, github_avatar_url = ?, updated_at = ?
+             WHERE id = ?`,
+          )
+          .bind(ghUser.login, ghUser.name, ghUser.avatarUrl, ts, userId)
+          .run()
       }
     } else {
-      user = {
-        id: crypto.randomUUID(),
-        username: null,
-        passwordHash: null,
-        github: ghUser,
-        createdAt: ts,
-        updatedAt: ts,
-      }
-      await putJson(env, `user:${user.id}`, user)
-      await env.KV.put(`gh:${ghUser.id}`, user.id)
+      userId = crypto.randomUUID()
+      await db
+        .prepare(
+          `INSERT INTO users (id, github_id, github_login, github_name, github_avatar_url, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        )
+        .bind(userId, ghUser.id, ghUser.login, ghUser.name, ghUser.avatarUrl, ts, ts)
+        .run()
     }
 
-    const token = await createSession(env, user.id, ts)
+    const token = await createSession(db, userId, ts)
     const ticket = randomHex(24)
-    const ticketData: ExchangeTicket = { token, event: "github_login" }
-    await putJson(env, `ticket:${ticket}`, ticketData, TICKET_TTL_SEC)
-    return redirectWithHash(state.origin, state.returnTo, { auth_code: ticket })
+    await db.batch([
+      db.prepare("DELETE FROM exchange_tickets WHERE expires_at <= ?").bind(ts),
+      db
+        .prepare("INSERT INTO exchange_tickets (code, token, event, expires_at) VALUES (?, ?, 'github_login', ?)")
+        .bind(ticket, token, ts + TICKET_TTL_MS),
+    ])
+    return redirectWithHash(state.origin, state.return_to, { auth_code: ticket })
   }
 
   // ---------- bind username + password to an existing (e.g. GitHub) account ----------
   if (request.method === "POST" && path === "/account/bind-password") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
 
     if (auth.user.username || auth.user.passwordHash) {
@@ -532,23 +630,34 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     const p = validatePassword(body.value.password)
     if (!p.ok) return jsonResponse({ error: p.error }, 400, cors)
 
-    const taken = await env.KV.get(`uname:${u.key}`)
-    if (taken) return jsonResponse({ error: "这个用户名已经被注册了" }, 409, cors)
-
-    const updated: StoredUser = {
-      ...auth.user,
-      username: u.display,
-      passwordHash: await hashPassword(p.value),
-      updatedAt: now(),
+    const passwordHash = await hashPassword(p.value)
+    try {
+      const res = await db
+        .prepare(
+          `UPDATE users
+           SET username = ?, username_lower = ?, password_hash = ?, updated_at = ?
+           WHERE id = ? AND username_lower IS NULL AND password_hash IS NULL`,
+        )
+        .bind(u.display, u.key, passwordHash, ts, auth.user.id)
+        .run()
+      if ((res.meta.changes ?? 0) === 0) {
+        return jsonResponse({ error: "当前账号已经设置过用户名和密码" }, 409, cors)
+      }
+    } catch (err) {
+      if (isUniqueConstraintError(err)) {
+        return jsonResponse({ error: "这个用户名已经被注册了" }, 409, cors)
+      }
+      throw err
     }
-    await putJson(env, `user:${updated.id}`, updated)
-    await env.KV.put(`uname:${u.key}`, updated.id)
-    return jsonResponse({ user: toPublicUser(updated) }, 200, cors)
+
+    const updated = await findUserById(db, auth.user.id)
+    return jsonResponse({ user: toPublicUser(updated!) }, 200, cors)
   }
 
   // ---------- change password ----------
   if (request.method === "POST" && path === "/account/password") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
     if (!auth.user.passwordHash) {
       return jsonResponse({ error: "当前账号尚未设置密码" }, 400, cors)
@@ -565,18 +674,17 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     const ok = await verifyPassword(current, auth.user.passwordHash)
     if (!ok) return jsonResponse({ error: "当前密码不正确" }, 401, cors)
 
-    const updated: StoredUser = {
-      ...auth.user,
-      passwordHash: await hashPassword(next.value),
-      updatedAt: now(),
-    }
-    await putJson(env, `user:${updated.id}`, updated)
+    await db
+      .prepare("UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?")
+      .bind(await hashPassword(next.value), ts, auth.user.id)
+      .run()
     return jsonResponse({ ok: true }, 200, cors)
   }
 
   // ---------- unbind GitHub (only if password login is already configured) ----------
   if (request.method === "POST" && path === "/account/unbind-github") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
     if (!auth.user.github) {
       return jsonResponse({ error: "当前账号未绑定 GitHub" }, 400, cors)
@@ -585,89 +693,107 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
       return jsonResponse({ error: "请先绑定用户名和密码，再解绑 GitHub，以免无法登录" }, 400, cors)
     }
 
-    const oldGithubId = auth.user.github.id
-    const updated: StoredUser = {
-      ...auth.user,
-      github: null,
-      updatedAt: now(),
-    }
-    await putJson(env, `user:${updated.id}`, updated)
-    await env.KV.delete(`gh:${oldGithubId}`)
-    return jsonResponse({ user: toPublicUser(updated) }, 200, cors)
+    await db
+      .prepare(
+        `UPDATE users
+         SET github_id = NULL, github_login = NULL, github_name = NULL, github_avatar_url = NULL, updated_at = ?
+         WHERE id = ?`,
+      )
+      .bind(ts, auth.user.id)
+      .run()
+    const updated = await findUserById(db, auth.user.id)
+    return jsonResponse({ user: toPublicUser(updated!) }, 200, cors)
   }
 
   // ---------- progress: get ----------
   if (request.method === "GET" && path === "/progress") {
-    const auth = await authenticate(request, env)
+    const auth = await authenticate(request, db, now())
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
-    const progress = await readProgress(env, auth.user.id)
+    const progress = await readProgress(db, auth.user.id)
     return jsonResponse(progress, 200, cors)
   }
 
   // ---------- progress: union merge (used on first login from local device) ----------
   if (request.method === "POST" && path === "/progress/merge") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
     const body = await readJsonBody(request)
     if (!body.ok) return jsonResponse({ error: body.error }, body.status, cors)
 
-    const ts = now()
     const incoming = sanitizeDoneMap(body.value.done, ts)
-    const current = await readProgress(env, auth.user.id)
-    const merged: Record<string, number> = { ...current.done }
-    let changed = false
+    const current = await readProgress(db, auth.user.id)
+    let count = Object.keys(current.done).length
+    const stmts: D1PreparedStatementLike[] = []
 
     for (const [k, v] of Object.entries(incoming)) {
-      if (!(k in merged)) {
-        if (Object.keys(merged).length >= MAX_PROGRESS_KEYS) break
-        merged[k] = v
-        changed = true
-      } else if (v < merged[k]) {
-        merged[k] = v
-        changed = true
+      if (!(k in current.done)) {
+        if (count >= MAX_PROGRESS_KEYS) break
+        count++
+        stmts.push(
+          db
+            .prepare(
+              `INSERT INTO progress (user_id, lesson_key, completed_at) VALUES (?, ?, ?)
+               ON CONFLICT(user_id, lesson_key) DO UPDATE SET completed_at = MIN(completed_at, excluded.completed_at)`,
+            )
+            .bind(auth.user.id, k, v),
+        )
+      } else if (v < current.done[k]) {
+        stmts.push(
+          db
+            .prepare("UPDATE progress SET completed_at = ? WHERE user_id = ? AND lesson_key = ? AND completed_at > ?")
+            .bind(v, auth.user.id, k, v),
+        )
       }
     }
 
-    if (changed) {
-      const next: ProgressDoc = { done: merged, updatedAt: ts }
-      await putJson(env, `progress:${auth.user.id}`, next)
-      return jsonResponse(next, 200, cors)
+    if (stmts.length > 0) {
+      await db.batch(stmts)
+      return jsonResponse(await readProgress(db, auth.user.id), 200, cors)
     }
     return jsonResponse(current, 200, cors)
   }
 
   // ---------- progress: explicit delta patch (set / remove individual lessons) ----------
   if (request.method === "PATCH" && path === "/progress") {
-    const auth = await authenticate(request, env)
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
     const body = await readJsonBody(request)
     if (!body.ok) return jsonResponse({ error: body.error }, body.status, cors)
 
-    const ts = now()
     const changes = sanitizeProgressChanges(body.value.changes, ts)
     if (!changes) return jsonResponse({ error: "缺少有效的进度变更" }, 400, cors)
 
-    const current = await readProgress(env, auth.user.id)
-    const nextDone: Record<string, number> = { ...current.done }
-    let changed = false
+    const current = await readProgress(db, auth.user.id)
+    let count = Object.keys(current.done).length
+    const stmts: D1PreparedStatementLike[] = []
 
     for (const [k, v] of Object.entries(changes)) {
       if (v === null) {
-        if (k in nextDone) {
-          delete nextDone[k]
-          changed = true
+        if (k in current.done) {
+          count--
+          stmts.push(db.prepare("DELETE FROM progress WHERE user_id = ? AND lesson_key = ?").bind(auth.user.id, k))
         }
-      } else if (nextDone[k] !== v) {
-        if (!(k in nextDone) && Object.keys(nextDone).length >= MAX_PROGRESS_KEYS) continue
-        nextDone[k] = v
-        changed = true
+      } else if (current.done[k] !== v) {
+        if (!(k in current.done)) {
+          if (count >= MAX_PROGRESS_KEYS) continue
+          count++
+        }
+        stmts.push(
+          db
+            .prepare(
+              `INSERT INTO progress (user_id, lesson_key, completed_at) VALUES (?, ?, ?)
+               ON CONFLICT(user_id, lesson_key) DO UPDATE SET completed_at = excluded.completed_at`,
+            )
+            .bind(auth.user.id, k, v),
+        )
       }
     }
 
-    if (changed) {
-      const next: ProgressDoc = { done: nextDone, updatedAt: ts }
-      await putJson(env, `progress:${auth.user.id}`, next)
-      return jsonResponse(next, 200, cors)
+    if (stmts.length > 0) {
+      await db.batch(stmts)
+      return jsonResponse(await readProgress(db, auth.user.id), 200, cors)
     }
     return jsonResponse(current, 200, cors)
   }

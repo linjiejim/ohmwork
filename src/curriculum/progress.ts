@@ -3,7 +3,7 @@ import { LESSONS, type Chapter } from "./curriculum"
 
 /*
  * Which lessons the learner has finished. Kept in localStorage on this device;
- * when signed in, src/auth/store.ts mirrors changes to Cloudflare KV and merges
+ * when signed in, src/auth/store.ts mirrors changes to Cloudflare D1 and merges
  * across devices without delaying local interaction.
  */
 const KEY = "ohmwork:done"

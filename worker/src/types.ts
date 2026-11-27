@@ -1,15 +1,31 @@
 /**
- * Minimal subset of Cloudflare Workers KVNamespace used by this worker.
- * Kept self-contained so tests and local Node dev servers need no runtime deps.
+ * Minimal subset of Cloudflare D1Database used by this worker.
+ * Kept self-contained so tests and local Node SQLite servers need no runtime deps.
  */
-export interface KVNamespaceLike {
-  get(key: string): Promise<string | null>
-  put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>
-  delete(key: string): Promise<void>
+export interface D1Meta {
+  changes?: number
+}
+
+export interface D1Result<T = Record<string, unknown>> {
+  results: T[]
+  success: boolean
+  meta: D1Meta
+}
+
+export interface D1PreparedStatementLike {
+  bind(...values: unknown[]): D1PreparedStatementLike
+  first<T = Record<string, unknown>>(): Promise<T | null>
+  all<T = Record<string, unknown>>(): Promise<D1Result<T>>
+  run(): Promise<D1Result<never>>
+}
+
+export interface D1DatabaseLike {
+  prepare(query: string): D1PreparedStatementLike
+  batch<T = Record<string, unknown>>(statements: D1PreparedStatementLike[]): Promise<D1Result<T>[]>
 }
 
 export interface Env {
-  KV: KVNamespaceLike
+  DB: D1DatabaseLike
   /** Comma-separated frontend origins allowed for CORS & OAuth redirects. */
   ALLOWED_ORIGINS?: string
   /** Public base URL of this worker, e.g. https://api.ohmwork.linjiejim.com */
@@ -37,6 +53,18 @@ export interface StoredUser {
   updatedAt: number
 }
 
+export interface UserRow {
+  id: string
+  username: string | null
+  password_hash: string | null
+  github_id: string | null
+  github_login: string | null
+  github_name: string | null
+  github_avatar_url: string | null
+  created_at: number
+  updated_at: number
+}
+
 export interface PublicUser {
   id: string
   username: string | null
@@ -45,26 +73,28 @@ export interface PublicUser {
   createdAt: number
 }
 
-export interface SessionRecord {
-  userId: string
-  createdAt: number
-}
-
 export interface ProgressDoc {
   done: Record<string, number>
   updatedAt: number
 }
 
-export interface OAuthState {
-  mode: "login" | "link"
-  userId?: string
-  returnTo: string
-  origin: string
-}
-
-export interface ExchangeTicket {
-  token: string
-  event: "github_login"
+export function rowToUser(row: UserRow): StoredUser {
+  return {
+    id: row.id,
+    username: row.username,
+    passwordHash: row.password_hash,
+    github:
+      row.github_id && row.github_login
+        ? {
+            id: row.github_id,
+            login: row.github_login,
+            name: row.github_name,
+            avatarUrl: row.github_avatar_url,
+          }
+        : null,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
 }
 
 export function toPublicUser(user: StoredUser): PublicUser {

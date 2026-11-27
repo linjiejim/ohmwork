@@ -1,5 +1,5 @@
 /**
- * End-to-end frontend + worker integration tests:
+ * End-to-end frontend + D1 worker integration tests:
  * optional login button, lesson completion prompt with "不再提示",
  * register/login, progress merge & unmark sync, account binding, and account switch isolation.
  */
@@ -13,28 +13,18 @@ import { resetAuthForTest, setExternalNavigatorForTest } from "@/auth/store"
 import { setLessonDone } from "@/curriculum/progress"
 import { LessonPage } from "@/site/LessonPage"
 import { Shell } from "@/site/Shell"
+import { createSqliteD1 } from "../../worker/sqlite-d1.mjs"
 import { handleRequest } from "../../worker/src/app"
-import type { Env, KVNamespaceLike } from "../../worker/src/types"
-
-class MemoryKV implements KVNamespaceLike {
-  map = new Map<string, string>()
-  async get(key: string) {
-    return this.map.get(key) ?? null
-  }
-  async put(key: string, value: string) {
-    this.map.set(key, value)
-  }
-  async delete(key: string) {
-    this.map.delete(key)
-  }
-}
+import type { Env } from "../../worker/src/types"
 
 const API_ORIGIN = "https://api.ohmwork.test"
+const closers: (() => void)[] = []
 
 function installWorkerFetch(opts: { withGithub?: boolean } = {}) {
-  const kv = new MemoryKV()
+  const { db, close } = createSqliteD1(":memory:")
+  closers.push(close)
   const env: Env = {
-    KV: kv,
+    DB: db,
     ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:5273,https://ohmwork.linjiejim.com",
     PUBLIC_BASE_URL: API_ORIGIN,
     GITHUB_CLIENT_ID: opts.withGithub === false ? "" : "test-client",
@@ -65,7 +55,7 @@ function installWorkerFetch(opts: { withGithub?: boolean } = {}) {
   vi.stubGlobal("fetch", fetchMock)
   setApiBaseForTest(API_ORIGIN)
 
-  return { kv, env, ghFetch, fetchMock }
+  return { db, env, ghFetch, fetchMock }
 }
 
 function renderApp(initialUrl = "/learn/basics/ohms-law") {
@@ -98,6 +88,7 @@ afterEach(() => {
   setApiBaseForTest(null)
   setExternalNavigatorForTest(null)
   resetAuthForTest()
+  while (closers.length > 0) closers.pop()?.()
 })
 
 describe("optional login & cloud sync", () => {
@@ -119,19 +110,16 @@ describe("optional login & cloud sync", () => {
     const banner = await screen.findByRole("region", { name: "登录同步提示" })
     expect(banner.textContent).toContain("进度已保存在本地")
 
-    // Dismiss permanently
     fireEvent.click(within(banner).getByRole("button", { name: "不再提示" }))
     expect(screen.queryByRole("region", { name: "登录同步提示" })).toBeNull()
 
-    // Marking undone and completing again must not prompt again
     fireEvent.click(screen.getByRole("button", { name: "标记为未学" }))
     fireEvent.click(screen.getByRole("button", { name: "完成本课" }))
     expect(screen.queryByRole("region", { name: "登录同步提示" })).toBeNull()
   })
 
   it("registers with username/password, merges local progress, syncs toggles, and isolates accounts on switch", async () => {
-    const { kv } = installWorkerFetch({ withGithub: true })
-    // Complete one lesson locally before signing up
+    const { db } = installWorkerFetch({ withGithub: true })
     setLessonDone("basics/voltage-current-resistance", true)
 
     renderApp("/learn/basics/ohms-law")
@@ -141,34 +129,39 @@ describe("optional login & cloud sync", () => {
     const dialog = await screen.findByRole("dialog")
     expect(within(dialog).getByRole("button", { name: /使用 GitHub 登录/ })).toBeTruthy()
 
-    // Switch to 注册
     fireEvent.click(within(dialog).getByRole("radio", { name: "注册" }))
     fireEvent.change(within(dialog).getByLabelText("用户名"), { target: { value: "alice_ee" } })
     fireEvent.change(within(dialog).getByLabelText("密码"), { target: { value: "pass123456" } })
     fireEvent.change(within(dialog).getByLabelText("确认密码"), { target: { value: "pass123456" } })
     fireEvent.click(within(dialog).getByRole("button", { name: "创建账号" }))
 
-    // Signed in: sidebar shows username, local progress merged into KV
     await waitFor(() => expect(screen.getByRole("button", { name: "alice_ee" })).toBeTruthy())
-    const aliceId = await kv.get("uname:alice_ee")
-    expect(aliceId).toBeTruthy()
+    const alice = await db
+      .prepare("SELECT id FROM users WHERE username_lower = ?")
+      .bind("alice_ee")
+      .first<{ id: string }>()
+    expect(alice?.id).toBeTruthy()
+
+    const listKeys = async (userId: string) => {
+      const r = await db
+        .prepare("SELECT lesson_key FROM progress WHERE user_id = ? ORDER BY lesson_key")
+        .bind(userId)
+        .all<{ lesson_key: string }>()
+      return r.results.map((x) => x.lesson_key)
+    }
+
     await waitFor(async () => {
-      const saved = JSON.parse((await kv.get(`progress:${aliceId}`)) ?? "{}") as { done?: Record<string, number> }
-      expect(saved.done).toHaveProperty("basics/voltage-current-resistance")
+      expect(await listKeys(alice!.id)).toContain("basics/voltage-current-resistance")
     })
 
-    // Complete another lesson while signed in → synced to KV
     fireEvent.click(screen.getByRole("button", { name: "完成本课" }))
     await waitFor(async () => {
-      const saved = JSON.parse((await kv.get(`progress:${aliceId}`)) ?? "{}") as { done?: Record<string, number> }
-      expect(saved.done).toHaveProperty("basics/ohms-law")
+      expect(await listKeys(alice!.id)).toContain("basics/ohms-law")
     })
 
-    // Unmark it → removed from KV
     fireEvent.click(screen.getByRole("button", { name: "标记为未学" }))
     await waitFor(async () => {
-      const saved = JSON.parse((await kv.get(`progress:${aliceId}`)) ?? "{}") as { done?: Record<string, number> }
-      expect(saved.done).not.toHaveProperty("basics/ohms-law")
+      expect(await listKeys(alice!.id)).not.toContain("basics/ohms-law")
     })
 
     // Open Account dialog → initiate GitHub binding
@@ -194,14 +187,16 @@ describe("optional login & cloud sync", () => {
     fireEvent.click(within(dialogB).getByRole("button", { name: "创建账号" }))
 
     await waitFor(() => expect(screen.getByRole("button", { name: "bob_ee" })).toBeTruthy())
-    const bobId = await kv.get("uname:bob_ee")
-    expect(await kv.get(`progress:${bobId}`)).toBeNull()
+    const bob = await db
+      .prepare("SELECT id FROM users WHERE username_lower = ?")
+      .bind("bob_ee")
+      .first<{ id: string }>()
+    expect(await listKeys(bob!.id)).toEqual([])
   })
 
   it("completes GitHub OAuth return hash, binds username/password, and preserves normal section anchors", async () => {
     const { env, ghFetch } = installWorkerFetch({ withGithub: true })
 
-    // Simulate worker OAuth callback issuing an auth_code
     const start = await handleRequest(
       new Request(`${API_ORIGIN}/auth/github/start?returnTo=/&origin=http://localhost:3000`),
       env,
@@ -215,15 +210,12 @@ describe("optional login & cloud sync", () => {
     )
     const hash = new URL(cb.headers.get("Location")!).hash
 
-    // Put #auth_code=... on window.location before mounting Shell
     window.history.replaceState(null, "", `/${hash}`)
     renderApp("/")
 
     await waitFor(() => expect(screen.getByRole("button", { name: "Octo" })).toBeTruthy())
-    // Auth hash must be stripped cleanly from the URL
     expect(window.location.hash).toBe("")
 
-    // GitHub user binds a username + password in AccountDialog
     fireEvent.click(screen.getByRole("button", { name: "Octo" }))
     const dlg = await screen.findByRole("dialog")
     expect(dlg.textContent).toContain("@octo-ee")
@@ -238,7 +230,7 @@ describe("optional login & cloud sync", () => {
     await waitFor(() => expect(within(dlg).getByText("用户名：octo_local")).toBeTruthy())
     expect(within(dlg).getByRole("button", { name: "解绑 GitHub" })).toBeTruthy()
 
-    // Now test normal hash preservation on fresh mount
+    // Normal section hash must stay untouched on startup
     cleanup()
     resetAuthForTest()
     localStorage.clear()

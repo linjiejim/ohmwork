@@ -5,6 +5,6 @@ dist
 *.local
 .cache
 .claude/worktrees/
-.worker-kv.json
+.worker.sqlite*
 worker/.wrangler/
 worker/.dev.vars

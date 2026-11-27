@@ -35,7 +35,7 @@ npm install
 npm run dev        # http://localhost:5273
 ```
 
-需要本地联调账号登录与云端同步时，另开一个终端启动本地 Worker（Node 22 直接运行，数据存在 `.worker-kv.json`）：
+需要本地联调账号登录与云端同步时，另开一个终端启动本地 Worker（Node 22 内置 SQLite 直接运行，自动执行 `worker/migrations/` 建表，数据存在 `.worker.sqlite`）：
 
 ```bash
 MOCK_GITHUB=1 npm run dev:worker   # http://127.0.0.1:8787，Vite 自动代理 /api
@@ -49,6 +49,21 @@ npm test           # 课程冒烟测试 + 设计守卫 + 同步后端测试
 版面检查（文字重叠、出界、横向溢出）在浏览器里跑：开着开发服务器，在控制台执行
 `(await import("/scripts/audit-layout.js")).audit()`，桌面和手机宽度各跑一次。
 
+### PR 里的截图和录屏
+
+```bash
+node scripts/pr-assets.mjs 5 login.png account.png   # 5 是 PR 号；还没开 PR 就写 draft
+```
+
+脚本把文件提交到本仓库的 `refs/pr-assets/pr-5`，在标准输出打印一段 markdown，直接贴进 PR 描述：竖图 240 宽每行三张，横图 460 宽每行两张，文件名当图注。链接钉在提交 SHA 上，之后再传也不会失效。
+
+- 这个 ref 不在 `refs/heads` 下，`git clone`、`git fetch` 默认都不拉，仓库不会因为截图变大（`git clone --mirror` 会拉）。工作区和暂存区不受影响。
+- 支持 png / jpg / webp / gif / mp4 / mov，单个文件不超过 50 MB。视频会用 ffmpeg 转成 GIF 内嵌（`brew install ffmpeg`），另附原片链接；没装 ffmpeg 就只有链接。
+- **传上去就永久公开**：任何人拿到链接都能打开，旧的 ref 不清理，删掉也不保证马上打不开。截图里不能有真实用户的数据、密钥、token、本机路径。
+- 要有本仓库的推送权限。从 fork 提 PR 的外部贡献者用不了，照旧把图拖进 GitHub 网页的输入框就行。
+- Claude 云端会话只能推 `refs/heads/*`：脚本被拒后会自动改推临时分支 `pr-assets-inbox/<PR号>-<随机>`，[PR assets inbox](.github/workflows/pr-assets-inbox.yml) 工作流把素材搬进 `refs/pr-assets/pr-<PR号>`，再删掉这个分支。打印出的链接推上去就能用，搬完以后也一直能用。
+- 想看一个 PR 传过哪些文件：`git fetch origin refs/pr-assets/pr-5 && git ls-tree -r --name-only FETCH_HEAD`。
+
 ## 部署
 
 线上地址 https://ohmwork.linjiejim.com ，托管在 GitHub Pages。推送到 `main` 后，`.github/workflows/deploy.yml` 会先跑测试、打包，再发布；拉取请求只跑检查，不发布。
@@ -56,11 +71,12 @@ npm test           # 课程冒烟测试 + 设计守卫 + 同步后端测试
 - **域名**：在仓库的 Pages 设置里绑定。DNS 在腾讯云 DNSPod，记录为 `CNAME ohmwork → linjiejim.github.io.`
 - **页面路由**：用的是路径式路由。打包时给每个页面（课程、章节、工具、速查）各写一份 HTML，带它自己的标题、描述和分享卡片，深层链接直接返回 200；另写 `404.html`（不进搜索）兜住其余地址，和 `sitemap.xml`。页面清单和文案在 `src/site/seo.ts`，加课不用另外登记。
 - **分享图**：`public/og.png`（1200 × 630）和 `public/apple-touch-icon.png` 由 `scripts/og-image.mjs` 生成，改了首页或品牌标记后开着开发服务器重跑一次。
-- **可选的账号与云端进度同步（Cloudflare Worker + KV）**：后端在 `worker/`，不部署时站点保持纯本地模式。要开启时：
-  1. 在 `worker/` 下创建 KV 并把 `id` 填进 `worker/wrangler.toml`：`cd worker && npm install && npx wrangler kv namespace create KV`。
-  2. 如需开启 GitHub OAuth，在 GitHub 创建一个 OAuth App（回调地址填 `<你的 Worker 域名>/auth/github/callback`），再写入密钥：`npx wrangler secret put GITHUB_CLIENT_ID` 和 `npx wrangler secret put GITHUB_CLIENT_SECRET`（不配时仍可用用户名和密码登录）。
-  3. 部署 Worker：`npx wrangler deploy`。
-  4. 在 GitHub 仓库的 **Settings → Variables → Actions** 新增 `VITE_API_BASE`（填 Worker 地址，如 `https://api.ohmwork.linjiejim.com`），重新触发一次 Pages 部署即可。
+- **可选的账号与云端进度同步（Cloudflare Worker + D1）**：后端在 `worker/`，不部署时站点保持纯本地模式。要开启时：
+  1. 在 `worker/` 下创建 D1 数据库并把 `database_id` 填进 `worker/wrangler.toml`：`cd worker && npm install && npx wrangler d1 create ohmwork`。
+  2. 执行建表迁移：`npx wrangler d1 migrations apply ohmwork --remote`。
+  3. 如需开启 GitHub OAuth，在 GitHub 创建一个 OAuth App（回调地址填 `<你的 Worker 域名>/auth/github/callback`），再写入密钥：`npx wrangler secret put GITHUB_CLIENT_ID` 和 `npx wrangler secret put GITHUB_CLIENT_SECRET`（不配时仍可用用户名和密码登录）。
+  4. 部署 Worker：`npx wrangler deploy`。
+  5. 在 GitHub 仓库的 **Settings → Variables → Actions** 新增 `VITE_API_BASE`（填 Worker 地址，如 `https://api.ohmwork.linjiejim.com`），重新触发一次 Pages 部署即可。
 
 ## 内容
 
@@ -86,7 +102,7 @@ src/
   site/          站点外壳和页面（首页、章节页、课程页、工具箱、符号速查、术语表）
   components/ui/ jim-uiux 设计系统组件
   tests/         课程冒烟测试、设计守卫、账号与同步测试
-worker/          可选的 Cloudflare Worker + KV 云同步后端
+worker/          可选的 Cloudflare Worker + D1 云同步后端（含 migrations/ 建表脚本）
 docs/
   AUTHORING.md   怎么写一节课、怎么写交互组件
   DESIGN.md      设计系统的用法和例外

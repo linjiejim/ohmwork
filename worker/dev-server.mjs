@@ -1,63 +1,28 @@
 /**
  * Zero-dependency local dev server for the Cloudflare Worker (Node 22+).
- * Persists KV entries in .worker-kv.json at the repo root so you can test
- * the full frontend + worker flow locally without a Cloudflare account.
+ * Uses Node's built-in SQLite (node:sqlite) with the exact D1 migrations in
+ * worker/migrations/, persisting to .worker.sqlite at the repo root so you can
+ * test the full frontend + D1 worker flow locally without a Cloudflare account.
  *
  * Optional env vars:
  *   PORT=8787
+ *   DB_FILE=/path/to/local.sqlite
  *   GITHUB_CLIENT_ID=...
  *   GITHUB_CLIENT_SECRET=...
  *   MOCK_GITHUB=1   # Enables a built-in mock GitHub OAuth page for local testing
  */
-import fs from "node:fs"
 import http from "node:http"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { createSqliteD1 } from "./sqlite-d1.mjs"
 import { handleRequest } from "./src/app.ts"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const kvFile = process.env.KV_FILE || path.resolve(__dirname, "../.worker-kv.json")
+const dbFile = process.env.DB_FILE || path.resolve(__dirname, "../.worker.sqlite")
 const port = Number(process.env.PORT || 8787)
 const mockGithub = process.env.MOCK_GITHUB === "1"
 
-function loadStore() {
-  try {
-    return JSON.parse(fs.readFileSync(kvFile, "utf8"))
-  } catch {
-    return {}
-  }
-}
-
-let store = loadStore()
-function saveStore() {
-  fs.writeFileSync(kvFile, JSON.stringify(store, null, 2))
-}
-
-const KV = {
-  async get(key) {
-    const entry = store[key]
-    if (!entry) return null
-    if (entry.expiresAt && entry.expiresAt <= Date.now()) {
-      delete store[key]
-      saveStore()
-      return null
-    }
-    return entry.value
-  },
-  async put(key, value, options) {
-    store[key] = {
-      value,
-      expiresAt: options?.expirationTtl ? Date.now() + options.expirationTtl * 1000 : null,
-    }
-    saveStore()
-  },
-  async delete(key) {
-    if (key in store) {
-      delete store[key]
-      saveStore()
-    }
-  },
-}
+const { db: DB, close: closeDb } = createSqliteD1(dbFile)
 
 const baseUrl = `http://127.0.0.1:${port}`
 const mockAccounts = new Map([
@@ -66,8 +31,9 @@ const mockAccounts = new Map([
 ])
 
 const env = {
-  KV,
-  ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || "http://localhost:5273,http://127.0.0.1:5273,https://ohmwork.linjiejim.com",
+  DB,
+  ALLOWED_ORIGINS:
+    process.env.ALLOWED_ORIGINS || "http://localhost:5273,http://127.0.0.1:5273,https://ohmwork.linjiejim.com",
   PUBLIC_BASE_URL: process.env.PUBLIC_BASE_URL || baseUrl,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID || (mockGithub ? "mock-client-id" : ""),
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET || (mockGithub ? "mock-client-secret" : ""),
@@ -154,5 +120,12 @@ const server = http.createServer(async (req, res) => {
 })
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`[ohmwork-worker] listening on ${baseUrl} (kv: ${kvFile}${mockGithub ? ", mock GitHub OAuth ON" : ""})`)
+  console.log(`[ohmwork-worker] listening on ${baseUrl} (sqlite: ${dbFile}${mockGithub ? ", mock GitHub OAuth ON" : ""})`)
+})
+
+process.on("SIGTERM", () => {
+  server.close(() => {
+    closeDb()
+    process.exit(0)
+  })
 })
