@@ -145,18 +145,21 @@ async function checkRateLimit(
   now: number,
 ): Promise<boolean> {
   const resetAt = now + ttlSec * 1000
-  const row = await db
-    .prepare(
-      `INSERT INTO rate_limits (bucket, count, reset_at)
-       VALUES (?, 1, ?)
-       ON CONFLICT(bucket) DO UPDATE SET
-         count = CASE WHEN reset_at <= ? THEN 1 ELSE count + 1 END,
-         reset_at = CASE WHEN reset_at <= ? THEN excluded.reset_at ELSE reset_at END
-       RETURNING count`,
-    )
-    .bind(bucket, resetAt, now, now)
-    .first<{ count: number }>()
-  return (row?.count ?? 1) <= limit
+  // expired buckets are dropped as we go, so one row per IP + username does not pile up forever
+  const [, upsert] = await db.batch<{ count: number }>([
+    db.prepare("DELETE FROM rate_limits WHERE reset_at <= ?").bind(now),
+    db
+      .prepare(
+        `INSERT INTO rate_limits (bucket, count, reset_at)
+         VALUES (?, 1, ?)
+         ON CONFLICT(bucket) DO UPDATE SET
+           count = CASE WHEN reset_at <= ? THEN 1 ELSE count + 1 END,
+           reset_at = CASE WHEN reset_at <= ? THEN excluded.reset_at ELSE reset_at END
+         RETURNING count`,
+      )
+      .bind(bucket, resetAt, now, now),
+  ])
+  return (upsert?.results[0]?.count ?? 1) <= limit
 }
 
 function bearerToken(request: Request): string | null {
@@ -408,8 +411,15 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
 
   // ---------- current session + progress ----------
   if (request.method === "GET" && path === "/auth/me") {
-    const auth = await authenticate(request, db, now())
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
     if (!auth) return jsonResponse({ error: "未登录或登录已过期" }, 401, cors)
+    // Every page load calls /auth/me: once half the lifetime is used, start a fresh 30 days, so an
+    // active learner is never logged out. At most one write per session per 15 days.
+    await db
+      .prepare("UPDATE sessions SET expires_at = ? WHERE token_hash = ? AND expires_at < ?")
+      .bind(ts + SESSION_TTL_MS, auth.tokenHash, ts + SESSION_TTL_MS / 2)
+      .run()
     const progress = await readProgress(db, auth.user.id)
     return jsonResponse({ user: toPublicUser(auth.user), progress }, 200, cors)
   }
@@ -542,29 +552,25 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     }
 
     if (state.mode === "link") {
-      const targetUser = state.user_id ? await findUserById(db, state.user_id) : null
-      if (!targetUser) {
+      if (!state.user_id) {
         return redirectWithHash(state.origin, state.return_to, { auth_error: "invalid_state" })
       }
-      if (targetUser.github && targetUser.github.id !== ghUser.id) {
-        return redirectWithHash(state.origin, state.return_to, { auth_error: "github_already_linked" })
-      }
-      try {
-        await db
+      // Do not bind here. Whoever opens the GitHub authorize URL lands on this callback, so binding now
+      // would let anyone who forwards their own binding link attach the recipient's GitHub to their
+      // account. Park the identity under a one-time code; /account/github/link-confirm binds it, and only
+      // for the session of the account that started the flow.
+      const code = randomHex(24)
+      await db.batch([
+        db.prepare("DELETE FROM github_link_tickets WHERE expires_at <= ?").bind(ts),
+        db
           .prepare(
-            `UPDATE users
-             SET github_id = ?, github_login = ?, github_name = ?, github_avatar_url = ?, updated_at = ?
-             WHERE id = ?`,
+            `INSERT INTO github_link_tickets
+               (code, user_id, github_id, github_login, github_name, github_avatar_url, expires_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
           )
-          .bind(ghUser.id, ghUser.login, ghUser.name, ghUser.avatarUrl, ts, targetUser.id)
-          .run()
-      } catch (err) {
-        if (isUniqueConstraintError(err)) {
-          return redirectWithHash(state.origin, state.return_to, { auth_error: "github_already_bound" })
-        }
-        throw err
-      }
-      return redirectWithHash(state.origin, state.return_to, { auth_event: "github_linked" })
+          .bind(code, state.user_id, ghUser.id, ghUser.login, ghUser.name, ghUser.avatarUrl, ts + TICKET_TTL_MS),
+      ])
+      return redirectWithHash(state.origin, state.return_to, { link_code: code })
     }
 
     // mode === "login"
@@ -610,6 +616,62 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
         .bind(ticket, token, ts + TICKET_TTL_MS),
     ])
     return redirectWithHash(state.origin, state.return_to, { auth_code: ticket })
+  }
+
+  // ---------- GitHub binding: confirm with the session that started it ----------
+  if (request.method === "POST" && path === "/account/github/link-confirm") {
+    const ts = now()
+    const auth = await authenticate(request, db, ts)
+    if (!auth) return jsonResponse({ error: "请先登录" }, 401, cors)
+    const body = await readJsonBody(request)
+    if (!body.ok) return jsonResponse({ error: body.error }, body.status, cors)
+    const code = typeof body.value.code === "string" ? body.value.code.trim() : ""
+    if (!/^[a-f0-9]{32,128}$/.test(code)) {
+      return jsonResponse({ error: "无效的绑定凭证" }, 400, cors)
+    }
+
+    // consumed whatever happens next, so a code that reached the wrong browser cannot be retried
+    const ticket = await db
+      .prepare(
+        `DELETE FROM github_link_tickets WHERE code = ? AND expires_at > ?
+         RETURNING user_id, github_id, github_login, github_name, github_avatar_url`,
+      )
+      .bind(code, ts)
+      .first<{
+        user_id: string
+        github_id: string
+        github_login: string
+        github_name: string | null
+        github_avatar_url: string | null
+      }>()
+    if (!ticket) return jsonResponse({ error: "绑定已过期，请重新绑定 GitHub" }, 400, cors)
+    if (ticket.user_id !== auth.user.id) {
+      return jsonResponse({ error: "这次绑定不是从当前账号发起的，已取消" }, 403, cors)
+    }
+    if (auth.user.github) {
+      if (auth.user.github.id === ticket.github_id) {
+        return jsonResponse({ user: toPublicUser(auth.user) }, 200, cors)
+      }
+      return jsonResponse({ error: "当前账号已经绑定了其他 GitHub 账号，请先解绑" }, 409, cors)
+    }
+
+    try {
+      await db
+        .prepare(
+          `UPDATE users
+           SET github_id = ?, github_login = ?, github_name = ?, github_avatar_url = ?, updated_at = ?
+           WHERE id = ? AND github_id IS NULL`,
+        )
+        .bind(ticket.github_id, ticket.github_login, ticket.github_name, ticket.github_avatar_url, ts, auth.user.id)
+        .run()
+    } catch (err) {
+      if (isUniqueConstraintError(err)) {
+        return jsonResponse({ error: "这个 GitHub 账号已经绑定到其他账户了" }, 409, cors)
+      }
+      throw err
+    }
+    const updated = await findUserById(db, auth.user.id)
+    return jsonResponse({ user: toPublicUser(updated!) }, 200, cors)
   }
 
   // ---------- bind username + password to an existing (e.g. GitHub) account ----------
@@ -674,10 +736,13 @@ export async function handleRequest(request: Request, env: Env, opts: RequestOpt
     const ok = await verifyPassword(current, auth.user.passwordHash)
     if (!ok) return jsonResponse({ error: "当前密码不正确" }, 401, cors)
 
-    await db
-      .prepare("UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?")
-      .bind(await hashPassword(next.value), ts, auth.user.id)
-      .run()
+    // other devices are signed out: a changed password is often a reaction to a leaked one
+    await db.batch([
+      db
+        .prepare("UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?")
+        .bind(await hashPassword(next.value), ts, auth.user.id),
+      db.prepare("DELETE FROM sessions WHERE user_id = ? AND token_hash != ?").bind(auth.user.id, auth.tokenHash),
+    ])
     return jsonResponse({ ok: true }, 200, cors)
   }
 

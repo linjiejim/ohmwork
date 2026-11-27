@@ -20,7 +20,7 @@ import type { Env } from "../../worker/src/types"
 const API_ORIGIN = "https://api.ohmwork.test"
 const closers: (() => void)[] = []
 
-function installWorkerFetch(opts: { withGithub?: boolean } = {}) {
+function installWorkerFetch(opts: { withGithub?: boolean; patchDelayMs?: number } = {}) {
   const { db, close } = createSqliteD1(":memory:")
   closers.push(close)
   const env: Env = {
@@ -48,14 +48,63 @@ function installWorkerFetch(opts: { withGithub?: boolean } = {}) {
     throw new Error(`Unexpected upstream fetch: ${url} (${init?.method ?? "GET"})`)
   }
 
+  // paths listed here fail like a dropped connection; PATCH /progress can be slowed down to overlap requests
+  const offline = new Set<string>()
+  const patches = { inFlight: 0, maxInFlight: 0, count: 0 }
   const fetchMock = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
     const req = input instanceof Request ? input : new Request(input, init)
+    if (offline.has(new URL(req.url).pathname)) throw new TypeError("Failed to fetch")
+    if (req.method === "PATCH") {
+      patches.count++
+      patches.inFlight++
+      patches.maxInFlight = Math.max(patches.maxInFlight, patches.inFlight)
+      try {
+        if (opts.patchDelayMs) await new Promise((r) => setTimeout(r, opts.patchDelayMs))
+        return await handleRequest(req, env, { fetchImpl: ghFetch })
+      } finally {
+        patches.inFlight--
+      }
+    }
     return handleRequest(req, env, { fetchImpl: ghFetch })
   })
   vi.stubGlobal("fetch", fetchMock)
   setApiBaseForTest(API_ORIGIN)
 
-  return { db, env, ghFetch, fetchMock }
+  return { db, env, ghFetch, fetchMock, offline, patches }
+}
+
+async function apiCall(env: Env, path: string, init: { method?: string; token?: string; body?: unknown } = {}) {
+  const headers: Record<string, string> = {}
+  if (init.token) headers.Authorization = `Bearer ${init.token}`
+  if (init.body !== undefined) headers["Content-Type"] = "application/json"
+  return handleRequest(
+    new Request(`${API_ORIGIN}${path}`, {
+      method: init.method ?? "GET",
+      headers,
+      body: init.body !== undefined ? JSON.stringify(init.body) : undefined,
+    }),
+    env,
+  )
+}
+
+const localDoneKeys = () => Object.keys(JSON.parse(localStorage.getItem("ohmwork:done") ?? "{}")).sort()
+
+async function serverDoneKeys(db: ReturnType<typeof createSqliteD1>["db"], username: string) {
+  const r = await db
+    .prepare(
+      `SELECT p.lesson_key FROM progress p JOIN users u ON u.id = p.user_id
+       WHERE u.username_lower = ? ORDER BY p.lesson_key`,
+    )
+    .bind(username)
+    .all<{ lesson_key: string }>()
+  return r.results.map((x) => x.lesson_key)
+}
+
+/** A page reload: same localStorage, fresh app state. */
+function reload(initialUrl = "/learn/basics/ohms-law") {
+  cleanup()
+  resetAuthForTest()
+  return renderApp(initialUrl)
 }
 
 function renderApp(initialUrl = "/learn/basics/ohms-law") {
@@ -192,6 +241,104 @@ describe("optional login & cloud sync", () => {
       .bind("bob_ee")
       .first<{ id: string }>()
     expect(await listKeys(bob!.id)).toEqual([])
+  })
+
+  it("keeps guest progress when the first merge fails, and uploads it on the next load", async () => {
+    const { db, offline } = installWorkerFetch()
+    setLessonDone("basics/voltage-current-resistance", true)
+    setLessonDone("basics/power-energy", true)
+
+    renderApp("/learn/basics/ohms-law")
+    fireEvent.click(await screen.findByRole("button", { name: "登录同步进度" }))
+    const dialog = await screen.findByRole("dialog")
+    fireEvent.click(within(dialog).getByRole("radio", { name: "注册" }))
+    fireEvent.change(within(dialog).getByLabelText("用户名"), { target: { value: "flaky_net" } })
+    fireEvent.change(within(dialog).getByLabelText("密码"), { target: { value: "pass123456" } })
+    fireEvent.change(within(dialog).getByLabelText("确认密码"), { target: { value: "pass123456" } })
+
+    // the account is created, then the connection drops before the local progress is merged
+    offline.add("/progress/merge")
+    fireEvent.click(within(dialog).getByRole("button", { name: "创建账号" }))
+    await waitFor(() => expect(screen.getByRole("button", { name: /flaky_net/ })).toBeTruthy())
+    expect(await serverDoneKeys(db, "flaky_net")).toEqual([])
+    expect(localDoneKeys()).toEqual(["basics/power-energy", "basics/voltage-current-resistance"])
+
+    // next visit, connection back: the queued lessons go up instead of being overwritten by the empty server copy
+    offline.clear()
+    reload()
+    await waitFor(async () =>
+      expect(await serverDoneKeys(db, "flaky_net")).toEqual(["basics/power-energy", "basics/voltage-current-resistance"]),
+    )
+    expect(localDoneKeys()).toEqual(["basics/power-energy", "basics/voltage-current-resistance"])
+    expect(localStorage.getItem("ohmwork:progress-pending")).toBeNull()
+  })
+
+  it("sends one progress update at a time and ends with the server matching the last click", async () => {
+    const { db, env, patches } = installWorkerFetch({ patchDelayMs: 40 })
+    const reg = (await (
+      await apiCall(env, "/auth/register", { method: "POST", body: { username: "fast_clicker", password: "pass123456" } })
+    ).json()) as { token: string; user: unknown }
+    localStorage.setItem("ohmwork:token", reg.token)
+    localStorage.setItem("ohmwork:user", JSON.stringify(reg.user))
+
+    renderApp("/learn/basics/ohms-law")
+    await waitFor(() => expect(screen.getByRole("button", { name: "fast_clicker" })).toBeTruthy())
+
+    // done, undone, done, undone, done: each click lands while the previous update is still on the wire
+    for (let i = 0; i < 5; i++) {
+      act(() => setLessonDone("basics/ohms-law", i % 2 === 0))
+      await new Promise((r) => setTimeout(r, 15))
+    }
+    await waitFor(() => expect(localStorage.getItem("ohmwork:progress-pending")).toBeNull(), { timeout: 2000 })
+    expect(patches.maxInFlight).toBe(1)
+    expect(await serverDoneKeys(db, "fast_clicker")).toEqual(["basics/ohms-law"])
+    expect(localDoneKeys()).toEqual(["basics/ohms-law"])
+  })
+
+  it("binds GitHub from the return link only for the account that started it", async () => {
+    const { db, env, ghFetch } = installWorkerFetch()
+    const register = async (username: string) =>
+      (await (
+        await apiCall(env, "/auth/register", { method: "POST", body: { username, password: "pass123456" } })
+      ).json()) as { token: string; user: unknown }
+    const linkReturnHash = async (token: string) => {
+      const r = await apiCall(env, "/auth/github/link-start", { method: "POST", token, body: { origin: "http://localhost:3000" } })
+      const state = new URL(((await r.json()) as { url: string }).url).searchParams.get("state")!
+      const cb = await handleRequest(new Request(`${API_ORIGIN}/auth/github/callback?code=c1&state=${state}`), env, {
+        fetchImpl: ghFetch,
+      })
+      return new URL(cb.headers.get("Location")!).hash
+    }
+    const githubOf = async (username: string) =>
+      (
+        await db
+          .prepare("SELECT github_login FROM users WHERE username_lower = ?")
+          .bind(username)
+          .first<{ github_login: string | null }>()
+      )?.github_login ?? null
+    const signInBrowserAs = (acc: { token: string; user: unknown }) => {
+      localStorage.setItem("ohmwork:token", acc.token)
+      localStorage.setItem("ohmwork:user", JSON.stringify(acc.user))
+    }
+
+    const owner = await register("link_owner")
+    const other = await register("someone_else")
+
+    // A binding link started by someone_else reaches link_owner's browser: refused, nothing bound
+    signInBrowserAs(owner)
+    window.history.replaceState(null, "", `/${await linkReturnHash(other.token)}`)
+    renderApp("/")
+    await screen.findByText("这次绑定不是从当前账号发起的，已取消")
+    expect(window.location.hash).toBe("")
+    expect(await githubOf("link_owner")).toBeNull()
+    expect(await githubOf("someone_else")).toBeNull()
+
+    // link_owner's own binding completes on return and opens the account dialog
+    window.history.replaceState(null, "", `/${await linkReturnHash(owner.token)}`)
+    reload("/")
+    const dlg = await screen.findByRole("dialog")
+    await waitFor(() => expect(dlg.textContent).toContain("@octo-ee"))
+    expect(await githubOf("link_owner")).toBe("octo-ee")
   })
 
   it("completes GitHub OAuth return hash, binds username/password, and preserves normal section anchors", async () => {

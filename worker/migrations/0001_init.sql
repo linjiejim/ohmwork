@@ -47,8 +47,21 @@ CREATE TABLE IF NOT EXISTS exchange_tickets (
   expires_at INTEGER NOT NULL
 );
 
+-- A GitHub account waiting to be bound. The OAuth callback only writes this row; the account that
+-- started the binding confirms it with its own session (POST /account/github/link-confirm).
+CREATE TABLE IF NOT EXISTS github_link_tickets (
+  code TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  github_id TEXT NOT NULL,
+  github_login TEXT NOT NULL,
+  github_name TEXT,
+  github_avatar_url TEXT,
+  expires_at INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS rate_limits (
   bucket TEXT PRIMARY KEY,
   count INTEGER NOT NULL,
   reset_at INTEGER NOT NULL
 );
+CREATE INDEX IF NOT EXISTS idx_rate_limits_reset_at ON rate_limits(reset_at);

@@ -314,10 +314,23 @@ describe("worker auth and sync (D1)", () => {
       const { url } = (await linkStart.json()) as { url: string }
       const stateA = new URL(url).searchParams.get("state")!
 
-      // Callback binds bob-gh to User A
+      // Callback does not bind yet: it hands back a one-time link code
       const cbA = await call(`/auth/github/callback?code=code-bob&state=${stateA}`)
       expect(cbA.status).toBe(302)
-      expect(cbA.headers.get("Location")).toBe("http://localhost:5273/learn/digital/pwm#auth_event=github_linked")
+      const destA = new URL(cbA.headers.get("Location")!)
+      expect(`${destA.origin}${destA.pathname}`).toBe("http://localhost:5273/learn/digital/pwm")
+      const linkCodeA = new URLSearchParams(destA.hash.slice(1)).get("link_code")!
+      expect(linkCodeA).toMatch(/^[a-f0-9]{48}$/)
+      const notYet = (await (await call("/auth/me", { token: a.token })).json()) as { user: { github: unknown } }
+      expect(notYet.user.github).toBeNull()
+
+      // User A confirms with its own session → bob-gh bound to User A; the code is single-use
+      const confirmA = await call("/account/github/link-confirm", { method: "POST", token: a.token, body: { code: linkCodeA } })
+      expect(confirmA.status).toBe(200)
+      expect(((await confirmA.json()) as { user: { github: { login: string } } }).user.github.login).toBe("bob-gh")
+      expect(
+        (await call("/account/github/link-confirm", { method: "POST", token: a.token, body: { code: linkCodeA } })).status,
+      ).toBe(400)
 
       // Logging in with bob-gh now lands on User A with User A's progress
       const ghStart = await call("/auth/github/start?returnTo=/")
@@ -326,6 +339,7 @@ describe("worker auth and sync (D1)", () => {
       const ticket = new URLSearchParams(new URL(ghCb.headers.get("Location")!).hash.slice(1)).get("auth_code")!
       const ex = await call("/auth/exchange", { method: "POST", body: { code: ticket } })
       const exData = (await ex.json()) as {
+        token: string
         user: { id: string; username: string }
         progress: { done: Record<string, number> }
       }
@@ -344,7 +358,9 @@ describe("worker auth and sync (D1)", () => {
       })
       const stateB = new URL(((await linkB.json()) as { url: string }).url).searchParams.get("state")!
       const cbB = await call(`/auth/github/callback?code=code-bob&state=${stateB}`)
-      expect(cbB.headers.get("Location")).toBe("http://localhost:5273/#auth_error=github_already_bound")
+      const linkCodeB = new URLSearchParams(new URL(cbB.headers.get("Location")!).hash.slice(1)).get("link_code")!
+      const confirmB = await call("/account/github/link-confirm", { method: "POST", token: b.token, body: { code: linkCodeB } })
+      expect(confirmB.status).toBe(409)
 
       // Password change verifies old password
       expect(
@@ -367,13 +383,86 @@ describe("worker auth and sync (D1)", () => {
       ).toBe(200)
       expect((await call("/auth/login", { method: "POST", body: { username: "user_a", password: "password-aaaa" } })).status).toBe(401)
       expect((await call("/auth/login", { method: "POST", body: { username: "user_a", password: "new-password-1" } })).status).toBe(200)
+
+      // Changing the password signs out User A's other sessions (the GitHub login above), not this one
+      expect((await call("/auth/me", { token: a.token })).status).toBe(200)
+      expect((await call("/auth/me", { token: exData.token })).status).toBe(401)
+    } finally {
+      close()
+    }
+  })
+
+  it("binds GitHub only for the session that started it, so a forwarded binding link cannot attach someone else's GitHub", async () => {
+    const { call, db, advanceMs, close } = createHarness()
+    try {
+      const reg = async (username: string) =>
+        (await (await call("/auth/register", { method: "POST", body: { username, password: "password-1234" } })).json()) as {
+          token: string
+          user: { id: string }
+        }
+      const attacker = await reg("attacker")
+      const victim = await reg("victim_1")
+
+      const startLink = async (token: string) => {
+        const r = await call("/auth/github/link-start", { method: "POST", token, origin: "http://localhost:5273", body: {} })
+        return new URL(((await r.json()) as { url: string }).url).searchParams.get("state")!
+      }
+      const linkCodeFor = async (state: string, ghCode: string) => {
+        const cb = await call(`/auth/github/callback?code=${ghCode}&state=${state}`)
+        return new URLSearchParams(new URL(cb.headers.get("Location")!).hash.slice(1)).get("link_code")!
+      }
+      const githubOf = async (userId: string) =>
+        (await db.prepare("SELECT github_login FROM users WHERE id = ?").bind(userId).first<{ github_login: string | null }>())
+          ?.github_login ?? null
+
+      // The attacker starts a binding and gets the victim to authorize it: the code lands in the victim's browser
+      const forwarded = await linkCodeFor(await startLink(attacker.token), "code-alice")
+
+      // Without a session nothing happens; the code stays unconsumed for the right session
+      expect((await call("/account/github/link-confirm", { method: "POST", body: { code: forwarded } })).status).toBe(401)
+      // The victim's session is refused and the code is burnt
+      const refused = await call("/account/github/link-confirm", { method: "POST", token: victim.token, body: { code: forwarded } })
+      expect(refused.status).toBe(403)
+      expect(await githubOf(attacker.user.id)).toBeNull()
+      expect(await githubOf(victim.user.id)).toBeNull()
+      expect(
+        (await call("/account/github/link-confirm", { method: "POST", token: attacker.token, body: { code: forwarded } })).status,
+      ).toBe(400)
+
+      // Link codes expire after a minute
+      const late = await linkCodeFor(await startLink(victim.token), "code-alice")
+      advanceMs(61_000)
+      expect((await call("/account/github/link-confirm", { method: "POST", token: victim.token, body: { code: late } })).status).toBe(400)
+      expect(await githubOf(victim.user.id)).toBeNull()
+
+      // Malformed codes are rejected before touching the database
+      expect((await call("/account/github/link-confirm", { method: "POST", token: victim.token, body: { code: "nope" } })).status).toBe(400)
+    } finally {
+      close()
+    }
+  })
+
+  it("keeps an active session alive: /auth/me renews it once half of its 30 days are used", async () => {
+    const { call, advanceMs, close } = createHarness()
+    const DAY = 1000 * 60 * 60 * 24
+    try {
+      const { token } = (await (
+        await call("/auth/register", { method: "POST", body: { username: "regular", password: "password-1234" } })
+      ).json()) as { token: string }
+
+      advanceMs(20 * DAY)
+      expect((await call("/auth/me", { token })).status).toBe(200) // renewed: expires at day 50
+      advanceMs(20 * DAY)
+      expect((await call("/auth/me", { token })).status).toBe(200) // day 40, renewed again: day 70
+      advanceMs(31 * DAY)
+      expect((await call("/auth/me", { token })).status).toBe(401) // day 71: a month without visits
     } finally {
       close()
     }
   })
 
   it("rate limits repeated failed logins and resets after the window expires", async () => {
-    const { call, advanceMs, close } = createHarness()
+    const { call, db, advanceMs, close } = createHarness()
     try {
       await call("/auth/register", { method: "POST", body: { username: "victim", password: "real-password-1" } })
 
@@ -400,6 +489,12 @@ describe("worker auth and sync (D1)", () => {
         body: { username: "victim", password: "real-password-1" },
       })
       expect(unblocked.status).toBe(200)
+
+      // Expired buckets are cleaned up instead of piling up: after another window only the newest one is left
+      advanceMs(1000 * 601)
+      await call("/auth/login", { method: "POST", ip: "198.51.100.7", body: { username: "victim", password: "x" } })
+      const buckets = await db.prepare("SELECT bucket FROM rate_limits").all<{ bucket: string }>()
+      expect(buckets.results.map((r) => r.bucket)).toEqual(["login:198.51.100.7:victim"])
     } finally {
       close()
     }

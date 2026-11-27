@@ -7,11 +7,13 @@ import {
   readProgressOwner,
   replaceProgress,
   writePendingChanges,
+  type PendingChanges,
 } from "@/curriculum/progress"
 import {
   ApiError,
   bindPassword,
   changePassword,
+  confirmGithubLink,
   exchangeCode,
   fetchConfig,
   fetchMe,
@@ -57,7 +59,6 @@ let state: AuthState = initialState()
 const listeners = new Set<() => void>()
 let initialized = false
 let teardownListeners: (() => void) | null = null
-let flushing = false
 
 function emit(patch: Partial<AuthState>) {
   state = { ...state, ...patch }
@@ -115,29 +116,28 @@ export function displayName(user: PublicUser): string {
 }
 
 /** Parse only OAuth callback hashes so regular section anchors (#heading) stay untouched. */
-function parseAuthHash(hash: string): { code?: string; event?: string; error?: string } | null {
+function parseAuthHash(hash: string): { code?: string; linkCode?: string; error?: string } | null {
   const raw = hash.startsWith("#") ? hash.slice(1) : hash
-  if (!raw || (!raw.includes("auth_code=") && !raw.includes("auth_event=") && !raw.includes("auth_error="))) {
+  if (!raw || (!raw.includes("auth_code=") && !raw.includes("link_code=") && !raw.includes("auth_error="))) {
     return null
   }
   const params = new URLSearchParams(raw)
   const code = params.get("auth_code") ?? undefined
-  const event = params.get("auth_event") ?? undefined
+  const linkCode = params.get("link_code") ?? undefined
   const error = params.get("auth_error") ?? undefined
-  if (!code && !event && !error) return null
-  return { code, event, error }
+  if (!code && !linkCode && !error) return null
+  return { code, linkCode, error }
 }
 
 const AUTH_ERROR_MESSAGES: Record<string, string> = {
   github_cancelled: "已取消 GitHub 授权",
-  github_already_bound: "这个 GitHub 账号已经绑定到其他账户了",
-  github_already_linked: "当前账号已经绑定了其他 GitHub 账号，请先解绑",
   invalid_state: "登录状态已过期，请重试",
   github_unconfigured: "当前服务尚未开启 GitHub 登录",
   github_failed: "GitHub 授权失败，请稍后重试",
 }
 
-async function applySignedIn(token: string, user: PublicUser, serverProgress: ProgressPayload) {
+/** Returns false when local progress could not be merged yet and is queued for the next flush. */
+async function applySignedIn(token: string, user: PublicUser, serverProgress: ProgressPayload): Promise<boolean> {
   writeSession(token, user)
   const localDone = readDoneSnapshot()
   const owner = readProgressOwner()
@@ -145,49 +145,71 @@ async function applySignedIn(token: string, user: PublicUser, serverProgress: Pr
     Object.keys(localDone).length > 0 && (owner === null || owner === "guest" || owner === user.id)
 
   let finalProgress = serverProgress
+  const unsynced: PendingChanges = {}
   if (shouldMergeLocal) {
     try {
       finalProgress = await mergeProgress(token, localDone)
     } catch {
-      // Keep local + server union locally and retry on next sync
+      // Keep the union locally and queue what the server lacks. Without the queue the next
+      // /auth/me would replace local progress with the server's and the lessons would be gone.
+      for (const [k, v] of Object.entries(localDone)) {
+        if (!(k in serverProgress.done)) unsynced[k] = v
+      }
       finalProgress = {
         done: { ...serverProgress.done, ...localDone },
         updatedAt: Date.now(),
       }
     }
   }
-  writePendingChanges({})
+  writePendingChanges(unsynced)
   replaceProgress(finalProgress.done, user.id)
-  emit({ status: "authenticated", user, syncState: "synced", dialog: "none" })
+  const synced = Object.keys(unsynced).length === 0
+  emit({ status: "authenticated", user, syncState: synced ? "synced" : "offline", dialog: "none" })
+  return synced
 }
 
-async function flushPending(): Promise<boolean> {
-  if (flushing) return true
+function signedInMessage(synced: boolean, done = "已登录") {
+  return synced ? `${done}，学习进度已同步` : `${done}，本地进度稍后自动上传`
+}
+
+let flushPromise: Promise<boolean> | null = null
+
+/** One flush at a time: callers during a flush share it, and its loop picks up changes made meanwhile. */
+function flushPending(): Promise<boolean> {
+  flushPromise ??= runFlush().finally(() => {
+    flushPromise = null
+  })
+  return flushPromise
+}
+
+async function runFlush(): Promise<boolean> {
   const token = readToken()
   if (!token || state.status !== "authenticated") return false
-  const pending = readPendingChanges()
-  const keys = Object.keys(pending)
-  if (keys.length === 0) return true
-
-  flushing = true
-  emit({ syncState: "syncing" })
   try {
-    const res = await patchProgress(token, pending)
-    // Remove only keys whose values didn't change again while the request was in flight
-    const latest = readPendingChanges()
-    for (const k of keys) {
-      if (latest[k] === pending[k]) delete latest[k]
+    for (;;) {
+      const pending = readPendingChanges()
+      const keys = Object.keys(pending)
+      if (keys.length === 0) return true
+
+      emit({ syncState: "syncing" })
+      const res = await patchProgress(token, pending)
+      // signed out or switched account while the request was in flight: its result is not ours to apply
+      if (readToken() !== token) return false
+
+      // Remove only keys whose values didn't change again while the request was in flight
+      const latest = readPendingChanges()
+      for (const k of keys) {
+        if (latest[k] === pending[k]) delete latest[k]
+      }
+      writePendingChanges(latest)
+      if (Object.keys(latest).length === 0) {
+        if (state.user) replaceProgress(res.done, state.user.id)
+        emit({ syncState: "synced" })
+        return true
+      }
     }
-    writePendingChanges(latest)
-    if (Object.keys(latest).length === 0 && state.user) {
-      replaceProgress(res.done, state.user.id)
-      emit({ syncState: "synced" })
-    } else if (Object.keys(latest).length > 0) {
-      flushing = false
-      return flushPending()
-    }
-    return true
   } catch (err) {
+    if (readToken() !== token) return false
     if (err instanceof ApiError && err.status === 401) {
       writeSession(null, null)
       writePendingChanges({})
@@ -197,8 +219,6 @@ async function flushPending(): Promise<boolean> {
     }
     emit({ syncState: "offline" })
     return false
-  } finally {
-    flushing = false
   }
 }
 
@@ -248,8 +268,7 @@ export async function initAuth() {
     } else if (hashAction.code) {
       try {
         const res = await exchangeCode(hashAction.code)
-        await applySignedIn(res.token, res.user, res.progress)
-        notify.success("已登录，学习进度已同步")
+        notify.success(signedInMessage(await applySignedIn(res.token, res.user, res.progress)))
         await configPromise
         return
       } catch (err) {
@@ -260,6 +279,7 @@ export async function initAuth() {
 
   const token = readToken()
   if (!token) {
+    if (hashAction?.linkCode) notify.error("登录已失效，请登录后重新绑定 GitHub")
     emit({ status: "guest", user: null, syncState: "idle" })
     await configPromise
     return
@@ -283,10 +303,7 @@ export async function initAuth() {
       emit({ syncState: "synced" })
     }
 
-    if (hashAction?.event === "github_linked") {
-      notify.success("已绑定 GitHub 账号")
-      emit({ dialog: "account" })
-    }
+    if (hashAction?.linkCode) await finishGithubLink(token, hashAction.linkCode)
   } catch (err) {
     if (err instanceof ApiError && err.status === 401) {
       writeSession(null, null)
@@ -300,6 +317,21 @@ export async function initAuth() {
   }
 
   await configPromise
+}
+
+/**
+ * The OAuth callback only hands back a one-time link code; binding happens here, with the session that
+ * started it. A link code that reaches someone else's browser (a forwarded GitHub link) is refused.
+ */
+async function finishGithubLink(token: string, code: string) {
+  try {
+    const { user } = await confirmGithubLink(token, code)
+    writeSession(token, user)
+    emit({ user, dialog: "account" })
+    notify.success("已绑定 GitHub 账号")
+  } catch (err) {
+    notify.error(err instanceof Error ? err.message : "绑定 GitHub 失败，请重试")
+  }
 }
 
 export function openAuthDialog(tab: "login" | "register" = "login") {
@@ -320,14 +352,12 @@ export function setAuthTab(tab: "login" | "register") {
 
 export async function loginWithPassword(username: string, password: string) {
   const res = await login(username, password)
-  await applySignedIn(res.token, res.user, res.progress)
-  notify.success("已登录，学习进度已同步")
+  notify.success(signedInMessage(await applySignedIn(res.token, res.user, res.progress)))
 }
 
 export async function registerWithPassword(username: string, password: string) {
   const res = await register(username, password)
-  await applySignedIn(res.token, res.user, res.progress)
-  notify.success("账号已创建，学习进度已同步")
+  notify.success(signedInMessage(await applySignedIn(res.token, res.user, res.progress), "账号已创建"))
 }
 
 let navigateExternal: (url: string) => void = (url) => {
@@ -365,7 +395,7 @@ export async function updatePassword(currentPassword: string, newPassword: strin
   const token = readToken()
   if (!token) throw new ApiError(401, "请先登录")
   await changePassword(token, currentPassword, newPassword)
-  notify.success("密码已更新")
+  notify.success("密码已更新，其他设备需要重新登录")
 }
 
 export async function unlinkGithubAccount() {
@@ -419,7 +449,7 @@ export function resetAuthForTest() {
   teardownListeners?.()
   teardownListeners = null
   initialized = false
-  flushing = false
+  flushPromise = null
   state = initialState()
   listeners.forEach((l) => l())
 }

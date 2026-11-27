@@ -141,6 +141,11 @@ export function startGithubLink(token: string, returnTo: string, origin: string)
   })
 }
 
+/** Completes a GitHub binding with the session that started it (see worker /account/github/link-confirm). */
+export function confirmGithubLink(token: string, code: string): Promise<{ user: PublicUser }> {
+  return requestJson<{ user: PublicUser }>("/account/github/link-confirm", { method: "POST", token, body: { code } })
+}
+
 export function bindPassword(token: string, username: string, password: string): Promise<{ user: PublicUser }> {
   return requestJson<{ user: PublicUser }>("/account/bind-password", {
     method: "POST",
