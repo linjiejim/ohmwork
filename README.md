@@ -35,9 +35,15 @@ npm install
 npm run dev        # http://localhost:5273
 ```
 
+需要本地联调账号登录与云端同步时，另开一个终端启动本地 Worker（Node 22 直接运行，数据存在 `.worker-kv.json`）：
+
+```bash
+MOCK_GITHUB=1 npm run dev:worker   # http://127.0.0.1:8787，Vite 自动代理 /api
+```
+
 ```bash
 npm run build      # 类型检查 + 打包到 dist/
-npm test           # 课程冒烟测试 + 设计守卫
+npm test           # 课程冒烟测试 + 设计守卫 + 同步后端测试
 ```
 
 版面检查（文字重叠、出界、横向溢出）在浏览器里跑：开着开发服务器，在控制台执行
@@ -50,6 +56,11 @@ npm test           # 课程冒烟测试 + 设计守卫
 - **域名**：在仓库的 Pages 设置里绑定。DNS 在腾讯云 DNSPod，记录为 `CNAME ohmwork → linjiejim.github.io.`
 - **页面路由**：用的是路径式路由。打包时给每个页面（课程、章节、工具、速查）各写一份 HTML，带它自己的标题、描述和分享卡片，深层链接直接返回 200；另写 `404.html`（不进搜索）兜住其余地址，和 `sitemap.xml`。页面清单和文案在 `src/site/seo.ts`，加课不用另外登记。
 - **分享图**：`public/og.png`（1200 × 630）和 `public/apple-touch-icon.png` 由 `scripts/og-image.mjs` 生成，改了首页或品牌标记后开着开发服务器重跑一次。
+- **可选的账号与云端进度同步（Cloudflare Worker + KV）**：后端在 `worker/`，不部署时站点保持纯本地模式。要开启时：
+  1. 在 `worker/` 下创建 KV 并把 `id` 填进 `worker/wrangler.toml`：`cd worker && npm install && npx wrangler kv namespace create KV`。
+  2. 如需开启 GitHub OAuth，在 GitHub 创建一个 OAuth App（回调地址填 `<你的 Worker 域名>/auth/github/callback`），再写入密钥：`npx wrangler secret put GITHUB_CLIENT_ID` 和 `npx wrangler secret put GITHUB_CLIENT_SECRET`（不配时仍可用用户名和密码登录）。
+  3. 部署 Worker：`npx wrangler deploy`。
+  4. 在 GitHub 仓库的 **Settings → Variables → Actions** 新增 `VITE_API_BASE`（填 Worker 地址，如 `https://api.ohmwork.linjiejim.com`），重新触发一次 Pages 部署即可。
 
 ## 内容
 
@@ -60,12 +71,13 @@ npm test           # 课程冒烟测试 + 设计守卫
 3. **数字、单片机与传感器**：数字电路、单片机与通信接口、传感器
 4. **无线与设计实战**：射频与无线、读懂原理图、电路与 PCB 设计
 
-另有三个随手查的页面：工具箱（常用计算器）、符号速查、术语表。⌘K 搜索全站。学习进度存在浏览器本地。
+另有三个随手查的页面：工具箱（常用计算器）、符号速查、术语表。⌘K 搜索全站。学习进度默认存在浏览器本地，也可以可选登录（GitHub OAuth 或用户名密码，支持互相绑定）同步到云端。
 
 ## 结构
 
 ```
 src/
+  auth/          可选账号登录、绑定与进度同步客户端
   curriculum/    课程目录和学习进度
   content/       课程正文，<章>/<课>.mdx
   widgets/       各章的交互组件，<章>/<组件>.tsx
@@ -73,7 +85,8 @@ src/
   mdx/           课程里能直接用的组件（Note、Tip、Warn、Figure、Quiz）
   site/          站点外壳和页面（首页、章节页、课程页、工具箱、符号速查、术语表）
   components/ui/ jim-uiux 设计系统组件
-  tests/         课程冒烟测试、设计守卫
+  tests/         课程冒烟测试、设计守卫、账号与同步测试
+worker/          可选的 Cloudflare Worker + KV 云同步后端
 docs/
   AUTHORING.md   怎么写一节课、怎么写交互组件
   DESIGN.md      设计系统的用法和例外

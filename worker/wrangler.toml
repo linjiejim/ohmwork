@@ -1,0 +1,22 @@
+# Ohmwork 云同步后端（Cloudflare Worker + KV）
+# 1. 创建 KV 命名空间：npx wrangler kv namespace create KV
+#    把返回的 id 填到下面 [[kv_namespaces]] 的 id 里。
+# 2. 配置 GitHub OAuth 密钥（可选，不配则仅开启用户名密码登录）：
+#    npx wrangler secret put GITHUB_CLIENT_ID
+#    npx wrangler secret put GITHUB_CLIENT_SECRET
+# 3. 部署：npx wrangler deploy
+# 4. 在 GitHub 仓库 Settings → Variables → Actions 里新增 VITE_API_BASE，
+#    填上 Worker 地址（如 https://api.ohmwork.linjiejim.com）。
+
+name = "ohmwork-api"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://ohmwork.linjiejim.com,http://localhost:5273,http://127.0.0.1:5273"
+# 如绑定了自定义域名，取消注释并改成你的 API 域名（用于拼接 GitHub OAuth 回调地址）
+# PUBLIC_BASE_URL = "https://api.ohmwork.linjiejim.com"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"

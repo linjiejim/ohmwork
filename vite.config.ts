@@ -59,7 +59,16 @@ export default defineConfig({
     sitePages(),
   ],
   resolve: { alias: { "@": path.resolve(import.meta.dirname, "src") } },
-  server: { port: 5273 },
+  server: {
+    port: 5273,
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8787",
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, ""),
+      },
+    },
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["src/tests/setup.ts"],
